@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../../componets/Navbar/Navbar';
 import book from '../../Images/book.jpg';
+import Footer from '../../componets/Footer/Footer';
 
 const About = () => {
     return (
@@ -31,6 +32,8 @@ const About = () => {
                     </div>
                 </div>
             </div>
+            <br></br>
+            <Footer/>
         </>
     );
 }
