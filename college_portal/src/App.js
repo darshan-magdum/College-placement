@@ -8,7 +8,6 @@ function App() {
   return (
     <div className="App">
      <RouterProvider router={router}>
-<NavBar/>
 <Footer/>
      </RouterProvider>
     </div>
