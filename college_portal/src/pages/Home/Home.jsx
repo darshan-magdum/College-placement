@@ -47,15 +47,26 @@ function Home() {
             <hr />
             <p>
               Designed to empower students in their career journey, our platform serves as a comprehensive hub for all things related to professional development and job placement.
-            </p>
-            <p>
               Through our portal, students gain access to a wide range of resources, including job listings from top recruiters, career guidance materials, skill-building workshops, and networking opportunities with industry professionals.
+
             </p>
+        
+            
             <p>
               Our user-friendly interface makes it easy for students to explore job opportunities, submit applications, and track their progress throughout the recruitment process. Additionally, personalized recommendations help students discover roles that align with their interests and qualifications.
+          
+
+              With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
+            
+            </p>
+
+            <p>
+
+Our college placement portal is designed to empower students in their career journey, serving as a comprehensive hub for professional development and job placement. It offers a wide range of resources, including exclusive job listings from top recruiters, career guidance materials, skill-building workshops, and networking opportunities with industry professionals. The user-friendly interface makes it easy for students to explore job opportunities, submit applications, and track their progress throughout the recruitment process. Personalized recommendations help students discover roles that align with their interests and qualifications. Additionally, the portal features a comprehensive resource library with resume templates, cover letter guides, interview tips, and career planning articles. Students can participate in online workshops and webinars to develop essential skills such as communication, leadership, and technical proficiency, all led by experienced professionals and industry experts.
             </p>
             <p>
-              With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
+            The application tracking system allows students to manage their job search efficiently, with updates on application statuses and deadlines. Networking opportunities within the portal enable students to connect with industry professionals, enhancing their career prospects. With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
+
             </p>
           </div>
           <hr />

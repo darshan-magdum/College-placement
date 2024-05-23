@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../src/Styles/Navbar.css'; 
 import '../src/Styles/Footer.css'; 
 import "../src/Styles/Form.css";
+import "../src/Styles/Studentplaced.css";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

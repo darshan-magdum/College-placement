@@ -28,7 +28,7 @@ const Stdsplace_Info = () => {
 
   return (
     <div className="container">
-         <h2 className="text-center mb-4 Form-Heading" ><b>Our Recent Placed Students</b></h2>
+         <h2 className="text-center mb-4 Form-Heading"><b>Our Recent Placed Students</b></h2>
          <h1 className="text-center custom-cursive">Congratulations to All of you</h1>
       <div className="row row-cols-1 row-cols-md-4 g-4">
         {currentStudents.map(student => (
@@ -37,10 +37,10 @@ const Stdsplace_Info = () => {
               <img src={student.photo} className="card-img-top img-fluid" alt={student.name} style={{ height: '200px', objectFit: 'cover' }} /> {/* Added inline style to set image height and width */}
               <div className="card-body">
                 <h5 className="card-title">{student.name}</h5>
-                <p className="card-text">Branch: {student.branch}</p>
-                <p className="card-text">Selected Company: {student.company}</p>
-                <p className="card-text">Package: {student.package}</p>
-                <p className="card-text">Year: {student.year}</p>
+                <p className="text-dark"><b>Branch:</b> {student.branch}</p>
+                <p className="text-dark"><b>Selected Company:</b> {student.company}</p>
+                <p className="text-dark"><b>Package:</b> {student.package}</p>
+                <p className="text-dark"><b>Year:</b> {student.year}</p>
               </div>
             </div>
           </div>
