@@ -1,0 +1,48 @@
+/* NavBar.css */
+
+.navbar {
+    background-color: #294a70;
+  }
+  
+  .navbar-brand {
+    color: white;
+  }
+  
+  .navbar-nav .nav-link {
+    color: white;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: white;
+  }
+  
+  .login-button {
+    background-color: #fe6500;
+    border-radius: 7px;
+  }
+  
+  .signup-button {
+    background-color: grey;
+    border-radius: 7px;
+  }
+  
+  /* icons.css */
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
+    color: white;
+    font-size: 2em;
+    margin-right: 0.3em;
+  }
+  
+ 
+.navbar-nav .nav-link.active {
+   font-weight: 1000;
+  }
+
+  .custom-carousel .carousel-item img {
+    height: 550px; /* Adjust the height as needed */
+  }
+  
+  
+  
