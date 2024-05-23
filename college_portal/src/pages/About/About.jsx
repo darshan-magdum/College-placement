@@ -8,7 +8,7 @@ const About = () => {
             <NavBar />
             <div className="container mt-5">
                 <div className="row">
-                <h2 className="text-center mb-4">About Us</h2>
+                <h2 className="text-center mb-4 Form-Heading" ><b>About Us</b></h2>
                 <hr></hr>
                     <div className="col-lg-6">
                       

@@ -31,6 +31,7 @@ const NavBar = () => {
           <li className="nav-item">
             <Link className={`nav-link signup-button ${window.location.pathname === '/Signup' ? 'active' : ''}`} to={SIGNUP}>Signup</Link>
           </li>
+          &nbsp;   &nbsp;
         </ul>
       </div>
     </nav>

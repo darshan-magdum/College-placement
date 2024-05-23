@@ -44,5 +44,10 @@
     height: 550px; /* Adjust the height as needed */
   }
   
+  .custom-cursive {
+    font-family: "Fantasy";
+   font-size: 22px;
+   margin-top:-18px;
+  }
   
   

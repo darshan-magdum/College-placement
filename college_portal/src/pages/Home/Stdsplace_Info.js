@@ -28,6 +28,8 @@ const Stdsplace_Info = () => {
 
   return (
     <div className="container">
+         <h2 className="text-center mb-4 Form-Heading" ><b>Our Recent Placed Students</b></h2>
+         <h1 className="text-center custom-cursive">Congratulations to All of you</h1>
       <div className="row row-cols-1 row-cols-md-4 g-4">
         {currentStudents.map(student => (
           <div key={student.id} className="col">

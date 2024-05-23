@@ -43,7 +43,7 @@ function Home() {
       <div className="row">
         <div className="col-md-12 ">
           <div className="mt-4 mb-4">
-            <h2 className="text-center mb-4">Welcome to our college placement portal!</h2>
+            <h2 className="text-center mb-4"><b>Welcome to our college placement portal!</b></h2>
             <hr />
             <p>
               Designed to empower students in their career journey, our platform serves as a comprehensive hub for all things related to professional development and job placement.
