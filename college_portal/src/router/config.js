@@ -1,6 +1,11 @@
 import {createBrowserRouter} from "react-router-dom";
 import { About, Home } from "../pages";
-import { ABOUT, DEFAULT } from "./keys";
+import { ABOUT, DEFAULT ,LOGIN, SIGNUP  } from "./keys";
+import { Login } from "../pages/Account/Login";
+import { Signup } from "../pages/Account/Signup";
+
+
+
 
   const router = createBrowserRouter([
     {
@@ -10,7 +15,16 @@ import { ABOUT, DEFAULT } from "./keys";
     {
         path:ABOUT,
         element:<About/>
-    }
+    },
+    {
+      path:LOGIN,
+      element:<Login/>
+  },
+    {
+      path:SIGNUP,
+      element:<Signup/>
+  },
+
   ]);
 
   export default router;

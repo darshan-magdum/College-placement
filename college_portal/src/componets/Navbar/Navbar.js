@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DEFAULT, ABOUT } from '../../router/keys'; // Import your route constants
+import { DEFAULT, ABOUT, LOGIN, SIGNUP } from '../../router/keys'; // Import your route constants
 
 const NavBar = () => {
   return (
@@ -25,11 +25,11 @@ const NavBar = () => {
         </ul>
         <ul className="navbar-nav ms-auto"> 
           <li className="nav-item">
-            <Link className={`nav-link login-button ${window.location.pathname === '/login' ? 'active' : ''}`} to={ABOUT}>Login</Link>
+            <Link className={`nav-link login-button ${window.location.pathname === '/login' ? 'active' : ''}`} to={LOGIN}>Login</Link>
           </li>
           &nbsp;
           <li className="nav-item">
-            <Link className={`nav-link signup-button ${window.location.pathname === '/signup' ? 'active' : ''}`} to={ABOUT}>Signup</Link>
+            <Link className={`nav-link signup-button ${window.location.pathname === '/Signup' ? 'active' : ''}`} to={SIGNUP}>Signup</Link>
           </li>
         </ul>
       </div>
