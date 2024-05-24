@@ -3,6 +3,7 @@ import { Carousel } from 'react-bootstrap';
 import Corousel1 from "../../Images/Corousel1.png";
 import Footer from "../../componets/Footer/Footer";
 import Stdsplace_Info from "./Stdsplace_Info";
+import NewSletters from "../../Images/NewSletters.png";
 
 function Home() {
     return (
@@ -75,6 +76,25 @@ Our college placement portal is designed to empower students in their career jou
    
     </div>
             <Stdsplace_Info/>
+
+
+       
+
+        <section class="newsletter">
+<div class="container">
+
+	
+		
+        <img
+                className="img-fluid w-100"
+                src={NewSletters}
+                alt="First slide"
+
+            />
+
+</div>
+</section>
+
             <Footer/>
         </>
     );

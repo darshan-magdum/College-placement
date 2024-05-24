@@ -8,6 +8,7 @@ import '../src/Styles/Navbar.css';
 import '../src/Styles/Footer.css'; 
 import "../src/Styles/Form.css";
 import "../src/Styles/Studentplaced.css";
+import "../src/Styles/Home.css";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
