@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import NavBar from '../../componets/Navbar/Navbar';
-import Footer from '../../componets/Footer/Footer';
 import University from "../../Images/University.png";
+import Stdsplace_Info from '../Home/Stdsplace_Info';
+
 
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
   const [JobUpdates,setJobUpdates] = useState(false); 
   const [OtherInfo,setToOtherInfo] = useState(false); 
+  const [profile, setProfile] = useState(false);
     
   const GoToHome = () =>{
     setHome(true);
     setToOtherInfo(false);
     setJobUpdates(false);
+    setProfile(false);
       }
 
       const GoToJobUpdates = () =>{
         setHome(false);
         setJobUpdates(true);
         setToOtherInfo(false);
+        setProfile(false);
       }
 
 
@@ -27,12 +31,23 @@ const ProfileUser = () => {
         setHome(false);
         setJobUpdates(false);
         setToOtherInfo(true);
+        setProfile(false);
       }
+
+      console.log("setProfile",profile)
+
+  
+      
       
 
     return (
         <>
-            <NavBar />
+            <NavBar  profile={profile} setProfile={setProfile} 
+             setHome={setHome} 
+             setJobUpdates={setJobUpdates} 
+             setToOtherInfo={setToOtherInfo} 
+           
+            />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3">
@@ -128,151 +143,7 @@ style={{backgroundColor:"white"}}/>
              </div>
          </div>
 
-         <div className="row">
-             <div className="col-lg-4">
-                 <div className="card mb-4">
-                     <div className="card-body text-center">
-                         <img
-                             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                             alt="avatar"
-                             className="rounded-circle img-fluid"
-                             style={{ width: '150px' }}
-                         />
-                         <h5 className="my-3">John Smith</h5>
-                         <p className="text-muted mb-1">Full Stack Developer</p>
-                         <p className="text-muted mb-4">Second Year - CSE</p>
-                         {/* <div className="d-flex justify-content-center mb-2">
-                             <button type="button" className="btn btn-primary">Follow</button>
-                             <button type="button" className="btn btn-outline-primary ms-1">Message</button>
-                         </div> */}
-                     </div>
-                 </div>
-               
-             </div>
-             <div className="col-lg-8">
-                 <div className="card mb-4">
-                     <div className="card-body">
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Full Name</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">Johnatan Smith</p>
-                             </div>
-                         </div>
-                         <hr />
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Email</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">example@example.com</p>
-                             </div>
-                         </div>
-                         <hr />
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Contact Number</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">(097) 234-5678</p>
-                             </div>
-                         </div>
-                         <hr />
-                      
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Address</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                             </div>
-                         </div>
-                         <hr/>
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Resume</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-
-                         </div>
-                         <hr />
-
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Marks - 10th</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">12th /Diploma</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Engineering First Year</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Engineering Second Year</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Engineering Third Year</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-
-                         <div className="row">
-                             <div className="col-sm-3">
-                                 <p className="mb-0">Engineering Last Year</p>
-                             </div>
-                             <div className="col-sm-9">
-                                 <p className="text-muted mb-0">80%</p>
-                             </div>
-                             
-                         </div>
-                         <hr />
-                     </div>
-                 </div>
-
-               
-                
-
-                
-             </div>
-         </div>
+       <Stdsplace_Info/>
          <br></br>
      
     
@@ -382,6 +253,199 @@ style={{backgroundColor:"white"}}/>
                                                
                                             </div>
                                         </div>
+</>
+: profile ?
+<>
+<div className="row">
+<h3 className="mb-2"><b>Your Profile</b></h3>
+    <div className="col">
+        <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+      
+      
+        <div class="container">
+<div class="row">
+<div class="col-md-4">
+
+<select class="form-select border-secondary text-muted" aria-label="Filter">
+<option selected>Filter By : Department</option>
+<optgroup label="Engineering Departments">
+<option value="civil_engineering">Civil Engineering</option>
+<option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
+<option value="information_technology">Information Technology</option>
+<option value="computer_science">Computer Science</option>
+<option value="mechanical_engineering">Mechanical Engineering</option>
+<option value="artificial_intelligence">Artificial Intelligence</option>
+</optgroup>
+</select>
+
+</div>
+<div class="col-md-4">
+
+</div>
+
+<div class="col-md-4">
+
+<div class="input-group">
+<input type="text" class="form-control border border-secondary" placeholder="Search by Student name"
+style={{backgroundColor:"white"}}/>
+</div>
+</div>
+</div>
+</div>
+        </nav>
+    </div>
+</div>
+
+<div className="row">
+    <div className="col-lg-4">
+        <div className="card mb-4">
+            <div className="card-body text-center">
+                <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                    alt="avatar"
+                    className="rounded-circle img-fluid"
+                    style={{ width: '150px' }}
+                />
+                <h5 className="my-3">John Smith</h5>
+                <p className="text-muted mb-1">Full Stack Developer</p>
+                <p className="text-muted mb-4">Second Year - CSE</p>
+                {/* <div className="d-flex justify-content-center mb-2">
+                    <button type="button" className="btn btn-primary">Follow</button>
+                    <button type="button" className="btn btn-outline-primary ms-1">Message</button>
+                </div> */}
+            </div>
+        </div>
+      
+    </div>
+    <div className="col-lg-8">
+        <div className="card mb-4">
+            <div className="card-body">
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Full Name</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">Johnatan Smith</p>
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Email</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">example@example.com</p>
+                    </div>
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Contact Number</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">(097) 234-5678</p>
+                    </div>
+                </div>
+                <hr />
+             
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Address</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                    </div>
+                </div>
+                <hr/>
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Resume</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+
+                </div>
+                <hr />
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Marks - 10th</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">12th /Diploma</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Engineering First Year</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Engineering Second Year</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Engineering Third Year</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+
+                <div className="row">
+                    <div className="col-sm-3">
+                        <p className="mb-0">Engineering Last Year</p>
+                    </div>
+                    <div className="col-sm-9">
+                        <p className="text-muted mb-0">80%</p>
+                    </div>
+                    
+                </div>
+                <hr />
+            </div>
+        </div>
+
+      
+       
+
+       
+    </div>
+</div>
+<br></br>
+
+
+
+
 </>
 :
 

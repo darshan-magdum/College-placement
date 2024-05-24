@@ -1,8 +1,18 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT, ABOUT, LOGIN, SIGNUP } from '../../router/keys'; // Import your route constants
 
-const NavBar = () => {
+const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo }) => {
+
+  const GoToProfile = () => {
+    setProfile(true);
+
+
+    setHome(false);
+    setToOtherInfo(false);
+    setJobUpdates(false);
+
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <span className="material-symbols-outlined">
@@ -37,7 +47,7 @@ const NavBar = () => {
           <strong>mdo</strong>
         </a>
         <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a className="dropdown-item" href="#">Profile</a></li>
+          <li><a className="dropdown-item" onClick={GoToProfile}>Profile</a></li>
           <li><hr className="dropdown-divider" /></li>
           <li><a className="dropdown-item" href="#">Sign out</a></li>
         </ul>
