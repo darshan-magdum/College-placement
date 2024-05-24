@@ -46,11 +46,30 @@ const ProfileUser = () => {
                                 <div className="row">
                                     <div className="col">
                                         <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-                                            <ol className="breadcrumb mb-0">
-                                                <li className="breadcrumb-item"><a href="#">Home</a></li>
-                                                <li className="breadcrumb-item"><a href="#">User</a></li>
-                                                <li className="breadcrumb-item active" aria-current="page">User Profile</li>
-                                            </ol>
+                                        <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+               
+                <select class="form-select border-secondary text-muted" aria-label="Filter">
+                    <option selected>Filter</option>
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                    <option value="option3">Option 3</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+               
+                </div>
+ 
+            <div class="col-md-4">
+               
+                <div class="input-group">
+                    <input type="text" class="form-control border border-secondary" placeholder="Search by name"
+                    style={{backgroundColor:"white"}}/>
+                </div>
+            </div>
+        </div>
+    </div>
                                         </nav>
                                     </div>
                                 </div>
