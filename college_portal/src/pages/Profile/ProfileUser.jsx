@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import NavBar from '../../componets/Navbar/Navbar';
 import University from "../../Images/University.png";
 import Stdsplace_Info from '../Home/Stdsplace_Info';
-
-
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
   const [JobUpdates,setJobUpdates] = useState(false); 
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
+  const [showModal, setShowModal] = useState(false);
     
   const GoToHome = () =>{
     setHome(true);
@@ -34,8 +35,20 @@ const ProfileUser = () => {
         setProfile(false);
       }
 
-      console.log("setProfile",profile)
 
+      const handleUpdateButtonClick = () => {
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    
+    const handleUpdateSubmit = () => {
+        // Handle form submission logic here
+    }
+    
   
       
       
@@ -294,8 +307,13 @@ style={{backgroundColor:"white"}}/>
 </div>
         </nav>
     </div>
+    
 </div>
 
+<div className="d-flex justify-content-end">
+    <button type="button" className="btn btn-success" onClick={handleUpdateButtonClick}>Update</button> 
+    </div>
+    <br></br>
 <div className="row">
     <div className="col-lg-4">
         <div className="card mb-4">
@@ -461,6 +479,90 @@ style={{backgroundColor:"white"}}/>
             </div>
 
             
+            {/* Modal for Update */}
+            <Modal show={showModal} onHide={handleCloseModal}  size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Information</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <form>
+                        <div className="mb-3">
+                            <label htmlFor="fullName" className="form-label">Full Name</label>
+                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
+                        </div>
+                       
+                        <div className="mb-3">
+                            <label htmlFor="contactNumber" className="form-label">Contact Number</label>
+                            <input type="tel" className="form-control" id="contactNumber" defaultValue="(097) 234-5678" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="address" className="form-label">Address</label>
+                            <input type="text" className="form-control" id="address" defaultValue="Bay Area, San Francisco, CA" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="fullName" className="form-label">Department</label>
+                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
+                        </div>
+                        <div className="mb-3">
+    <label htmlFor="currentYear" className="form-label">Current year</label>
+    <select className="form-select" style={{backgroundColor:"#f3f4f6"}} id="currentYear">
+        <option value="first">First year</option>
+        <option value="second">Second year</option>
+        <option value="third">Third year</option>
+        <option value="fourth">Fourth year</option>
+    </select>
+</div>
+
+                        <div className="mb-3">
+                            <label htmlFor="resume" className="form-label">Resume</label>
+                            <input type="file" className="form-control" id="resume" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Marks - 10th</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Marks - 12th</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Marks - Diploma</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Engineering First Year</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Engineering Second Year</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Engineering Third Year</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Engineering Last Year</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="marks10th" className="form-label">Interest</label>
+                            <input type="text" className="form-control" id="marks10th" defaultValue="" placeholder='Web Development , Data Scientist' />
+                        </div>
+                    </form>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleUpdateSubmit}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
        
         </>
     );
