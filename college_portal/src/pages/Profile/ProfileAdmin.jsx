@@ -3,6 +3,7 @@ import NavBar from '../../componets/Navbar/Navbar';
 import Footer from '../../componets/Footer/Footer';
 import University from "../../Images/University.png";
 
+
 const ProfileAdmin = () => {
     return (
         <>
@@ -18,10 +19,12 @@ const ProfileAdmin = () => {
                             <hr />
                             <ul className="nav nav-pills flex-column mb-auto">
                                 <li className="nav-item">
+                                    
                                     <a href="#" className="nav-link active" aria-current="page">
                                         <svg className="bi me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
                                         Home
                                     </a>
+
                                 </li>
                                 <li>
                                     <a href="#" className="nav-link link-dark">
@@ -50,12 +53,17 @@ const ProfileAdmin = () => {
         <div class="row">
             <div class="col-md-4">
                
-                <select class="form-select border-secondary text-muted" aria-label="Filter">
-                    <option selected>Filter</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
-                </select>
+            <select class="form-select border-secondary text-muted" aria-label="Filter">
+    <option selected>Filter By :</option>
+    <optgroup label="Engineering Departments">
+        <option value="civil_engineering">Civil Engineering</option>
+        <option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
+        <option value="information_technology">Information Technology</option>
+        <option value="computer_science">Computer Science</option>
+        <option value="mechanical_engineering">Mechanical Engineering</option>
+        <option value="artificial_intelligence">Artificial Intelligence</option>
+    </optgroup>
+</select>
             </div>
             <div class="col-md-4">
                
@@ -64,7 +72,7 @@ const ProfileAdmin = () => {
             <div class="col-md-4">
                
                 <div class="input-group">
-                    <input type="text" class="form-control border border-secondary" placeholder="Search by name"
+                    <input type="text" class="form-control border border-secondary" placeholder="Search by Student name"
                     style={{backgroundColor:"white"}}/>
                 </div>
             </div>
