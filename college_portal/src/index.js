@@ -9,6 +9,7 @@ import '../src/Styles/Footer.css';
 import "../src/Styles/Form.css";
 import "../src/Styles/Studentplaced.css";
 import "../src/Styles/Home.css";
+import "../src/Styles/carousel.css";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

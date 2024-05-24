@@ -5,7 +5,9 @@
   }
   
   .navbar-brand {
-    color: white;
+    color: rgb(255, 172, 104);
+    font-weight: bolder;
+
   }
   
   .navbar-nav .nav-link {
@@ -33,6 +35,7 @@
     color: white;
     font-size: 2em;
     margin-right: 0.3em;
+    
   }
   
  

@@ -1,9 +1,12 @@
 import NavBar from "../../componets/Navbar/Navbar";
 import { Carousel } from 'react-bootstrap';
 import Corousel1 from "../../Images/Corousel1.png";
+import carousel2 from "../../Images/carousel-2.jpg";
+import newImage from "../../Images/new.jpg";
 import Footer from "../../componets/Footer/Footer";
 import Stdsplace_Info from "./Stdsplace_Info";
 import NewSletters from "../../Images/NewSletters.png";
+import { Link } from "react-router-dom";
 
 function Home() {
     return (
@@ -19,24 +22,27 @@ function Home() {
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
-                        className="d-block mx-auto img-fluid" // Add img-fluid class for responsiveness
-                        src={Corousel1}
+                        className="d-block ms-auto mx-auto img-fluid" // Add img-fluid class for responsiveness
+                        src={carousel2}
                         alt="Second slide"
                     />
                     <Carousel.Caption>
-                        <h3>Second slide label</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <h3>We will help you.</h3>
+                        <p className="bg-light text-dark"> Our user-friendly interface makes it easy for students to explore job opportunities</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
                         className="d-block mx-auto img-fluid" // Add img-fluid class for responsiveness
-                        src={Corousel1} // Adjust the height here
+                        src={newImage} // Adjust the height here
                         alt="Third slide"
                     />
                     <Carousel.Caption>
-                        <h3>Third slide label</h3>
-                        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                        <h3 className="text-dark bg-light">Designed to empower students in their career journey.</h3>
+                        {/* <p className="bg-dark text-light">
+                        our platform serves as a comprehensive hub for all things.
+
+                        </p> */}
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
@@ -85,12 +91,16 @@ Our college placement portal is designed to empower students in their career jou
 
 	
 		
-        <img
-                className="img-fluid w-100"
-                src={NewSletters}
-                alt="First slide"
 
-            />
+<Link to="/signup">
+  <img
+    className="img-fluid w-100"
+    src={NewSletters}
+    alt="First slide"
+  />
+</Link>
+
+
 
 </div>
 </section>
