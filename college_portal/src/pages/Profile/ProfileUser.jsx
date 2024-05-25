@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../../componets/Navbar/Navbar';
 import University from "../../Images/University.png";
 import Stdsplace_Info from '../Home/Stdsplace_Info';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
-import UserDetails from './UserDetails';
+import { useLocation, useParams } from 'react-router-dom';
+import axios from 'axios';
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
@@ -57,6 +58,28 @@ const ProfileUser = () => {
     }
     
   
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState(null);
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const userId = searchParams.get("userId");
+
+    console.log("userId",userId)
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/users/${userId}`); // Use userId in the API URL
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+                setError('Error fetching user details');
+            }
+        };
+    
+        fetchUser();
+    }, [userId]);
+
     
 
     return (
@@ -573,7 +596,21 @@ style={{backgroundColor:"white"}}/>
                     </Button>
                 </Modal.Footer>
             </Modal>
-<UserDetails />
+            <div className="container-fluid">
+              
+                {user ? (
+                    <div>
+                        <h2>User Details</h2>
+                        <p>Name: {user.name}</p>
+                        <p>Email: {user.email}</p>
+                   
+                    </div>
+                ) : error ? (
+                    <div>Error: {error}</div>
+                ) : (
+                    <div>Loading...</div>
+                )}
+            </div>
        
         </>
     );
