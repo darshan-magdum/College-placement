@@ -11,32 +11,32 @@ import { Reset } from './pages/Account/Reset';
 import { Forget } from './pages/Account/Forget';
 
 function App() {
-  const handleKeyPress = (event) => {
-    switch (event.key) {
-      case 'h':
-        window.location.href = '/';
-        break;
-      case 'a':
-        window.location.href = '/about';
-        break;
-      case 'l':
-        window.location.href = '/Login';
-        break;
-      case 's':
-        window.location.href = '/Signup';
-        break;
-      default:
-        break;
-    }
-  };
+  // const handleKeyPress = (event) => {
+  //   switch (event.key) {
+  //     case 'h':
+  //       window.location.href = '/';
+  //       break;
+  //     case 'a':
+  //       window.location.href = '/about';
+  //       break;
+  //     case 'l':
+  //       window.location.href = '/Login';
+  //       break;
+  //     case 's':
+  //       window.location.href = '/Signup';
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
+  // useEffect(() => {
+  //   window.addEventListener('keydown', handleKeyPress);
 
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyPress);
+  //   };
+  // }, []);
 
   return (
     <Router>
@@ -49,7 +49,7 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Forget" element={<Forget />} />
           <Route path="/Reset" element={<Reset />} />
-          <Route path="/profile/:id" element={<ProfileUser />} />
+          <Route path="/profile" element={<ProfileUser />} />
           <Route path="/profile/admin" element={<ProfileAdmin />} />
         </Routes>
   

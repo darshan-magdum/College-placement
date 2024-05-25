@@ -55,8 +55,7 @@ const ProfileUser = () => {
     }
     
   
-      
-      
+    
 
     return (
         <>

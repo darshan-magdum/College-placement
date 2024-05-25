@@ -15,6 +15,31 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
     setViewinfo(false);
 
   };
+
+  console.log("localStorage",localStorage)
+       
+  const UserName = localStorage.getItem("Name");   
+  console.log("UserName",UserName)
+
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for login status
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token from local storage
+    setIsLoggedIn(false); // Update the login status
+    window.location = "/"; // Redirect to the home page or any other desired page
+  };
+
+  
+
+
+  // Check if the user is logged in based on the token
+  const token = localStorage.getItem("token");
+  console.log("token",token)
+  if (token && !isLoggedIn) {
+    setIsLoggedIn(true);
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark">
       <span className="material-symbols-outlined">
@@ -25,9 +50,12 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#basic-navbar-nav" aria-controls="basic-navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-      
       <div className="collapse navbar-collapse" id="basic-navbar-nav">
         <ul className="navbar-nav ms-auto"> 
+      {!isLoggedIn ? (
+                <>
+                 
+              
         <li className="nav-item">
             <Link className={`nav-link ${window.location.pathname === '/' ? 'active' : ''}`} to={DEFAULT}>Home</Link>
           </li>
@@ -42,22 +70,35 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
           <li className="nav-item">
             <Link className={`nav-link signup-button ${window.location.pathname === '/Signup' ? 'active' : ''}`} to={SIGNUP}>Signup</Link>
           </li>
-          &nbsp;  
-          <div className="dropdown">
-        <a href="#" className="d-flex align-items-center link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-          <strong>mdo</strong>
-        </a>
-        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a className="dropdown-item" onClick={GoToProfile}>Profile</a></li>
-          <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
+      &nbsp;
+      &nbsp;
 
-           &nbsp;
+       
+                </>
+              ) : (
+      
 
-        </ul>
+<>
+
+
+ <div className="navbar-nav float-right">
+            <div className="dropdown">
+              <a href="#" className="d-flex align-items-center link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
+                <strong>{UserName}</strong>
+              </a>
+              <ul className="dropdown-menu text-small shadow dropdown-menu-end" aria-labelledby="dropdownUser2">
+                <li><a className="dropdown-item" onClick={GoToProfile}>Profile</a></li>
+                <li><hr className="dropdown-divider" /></li>
+                <li><a className="dropdown-item" onClick={handleLogout}>Sign out</a></li>
+              </ul>
+            </div>
+          </div>
+          &nbsp;  &nbsp;
+
+</>
+             )}
+      </ul>
       </div>
     </nav>
   );
