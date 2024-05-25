@@ -16,10 +16,10 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
 
   };
 
-  console.log("localStorage",localStorage)
+
        
   const UserName = localStorage.getItem("Name");   
-  console.log("UserName",UserName)
+
 
 
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for login status
@@ -29,6 +29,7 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
     localStorage.removeItem("token"); // Remove the token from local storage
     setIsLoggedIn(false); // Update the login status
     window.location = "/"; // Redirect to the home page or any other desired page
+    localStorage.removeItem("Name");
   };
 
   

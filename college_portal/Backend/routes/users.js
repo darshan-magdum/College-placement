@@ -20,7 +20,9 @@ router.post("/", async (req, res) => {
 
         user = new User({ ...req.body, password: hashPassword, confirmPassword: hashConfirmPassword });
         await user.save();
-        res.status(201).send({ message: "User created successfully" });
+      
+            // Return user ID upon successful signup
+            res.status(201).send({ message: "User created successfully", userId: user._id });
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Internal Server Error" });
