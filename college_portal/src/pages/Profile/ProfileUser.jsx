@@ -65,10 +65,10 @@ const ProfileUser = () => {
                 <div className="row">
                     <div className="col-lg-3">
                         <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '100%' ,height:"100%"}}>
-                            <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                            <p className="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
                                 <svg className="bi me-2" width="40" height="32"><use xlinkHref="#bootstrap"></use></svg>
                                 <span className="fs-6">Student Dashboard</span>
-                            </a>
+                            </p>
                             <hr />
                             <ul className="nav nav-pills flex-column mb-auto">
                             <li className="nav-item" onClick={GoToHome}>
