@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import NavBar from "../../componets/Navbar/Navbar";
 import Footer from "../../componets/Footer/Footer";
-import { Forget } from "./Forget";
+//import { Forget } from "./Forget";
 
 
 export const Login = () => {
@@ -17,7 +17,7 @@ export const Login = () => {
               <h1>Login to your account</h1>
               <p>Enter Below details</p>
             </div>
-            <form>
+            <form method="post">
               <div className="input">
                 <i className="fa-solid fa-envelope"></i>
                 <input type="email" placeholder="Email" name="email" />
