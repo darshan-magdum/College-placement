@@ -4,6 +4,7 @@ import University from "../../Images/University.png";
 import Stdsplace_Info from '../Home/Stdsplace_Info';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
+import UserDetails from './UserDetails';
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
@@ -570,7 +571,7 @@ style={{backgroundColor:"white"}}/>
                     </Button>
                 </Modal.Footer>
             </Modal>
-
+<UserDetails />
        
         </>
     );

@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { User, validateUser } = require("../models/user");
 const bcrypt = require("bcrypt");
 
+// POST route for creating a new user
 router.post("/", async (req, res) => {
     try {
         const { error } = validateUser(req.body);
@@ -10,9 +11,7 @@ router.post("/", async (req, res) => {
 
         let user = await User.findOne({ email: req.body.email });
         if (user)
-            return res
-                .status(409)
-                .send({ message: "User with given email already exists!" });
+            return res.status(409).send({ message: "User with given email already exists!" });
 
         const salt = await bcrypt.genSalt(Number(process.env.SALT));
         const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -21,8 +20,22 @@ router.post("/", async (req, res) => {
         user = new User({ ...req.body, password: hashPassword, confirmPassword: hashConfirmPassword });
         await user.save();
       
-            // Return user ID upon successful signup
-            res.status(201).send({ message: "User created successfully", userId: user._id });
+        // Return user ID upon successful signup
+        res.status(201).send({ message: "User created successfully", userId: user._id });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: "Internal Server Error" });
+    }
+});
+
+// GET route for getting a user by ID
+router.get("/:userId", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user)
+            return res.status(404).send({ message: "User not found" });
+        
+        res.status(200).send(user);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Internal Server Error" });

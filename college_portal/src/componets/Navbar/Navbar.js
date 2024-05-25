@@ -1,6 +1,6 @@
 import React , {useState} from 'react';
 import { Link } from 'react-router-dom';
-import { DEFAULT, ABOUT, LOGIN, SIGNUP } from '../../router/keys'; // Import your route constants
+import { DEFAULT, ABOUT, LOGIN, SIGNUP } from '../../router/keys'; 
 
 const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,setViewJobs ,setViewinfo}) => {
 
@@ -22,20 +22,17 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
 
 
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add state for login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   
 
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove the token from local storage
-    setIsLoggedIn(false); // Update the login status
-    window.location = "/"; // Redirect to the home page or any other desired page
+    localStorage.removeItem("token"); 
+    setIsLoggedIn(false); 
+    window.location = "/"; 
     localStorage.removeItem("Name");
   };
 
   
-
-
-  // Check if the user is logged in based on the token
   const token = localStorage.getItem("token");
   console.log("token",token)
   if (token && !isLoggedIn) {

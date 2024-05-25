@@ -15,7 +15,6 @@ router.post("/", async (req, res) => {
       return res.status(400).send({ message: error.details[0].message });
     }
 
-    // Allow a specific email and password combination as admin login
     if (
       req.body.email === "admin123@gmail.com" &&
       req.body.password === "12345678"
@@ -23,7 +22,7 @@ router.post("/", async (req, res) => {
       return res.status(200).send({
         data: "admin-auth-token", // Use a proper admin token here
         message: "Logged in successfully as admin",
-        role: "admin", // You can include the role in the response
+        role: "admin", 
       });
     }
 
@@ -42,9 +41,9 @@ router.post("/", async (req, res) => {
       return res.status(401).send({ message: "Invalid Email or Password" });
     }
 
-    // Check the role of the user and redirect accordingly
+   
     if (user.role === "admin") {
-      // Redirect to admin dashboard or perform admin-specific logic
+      
       return res.status(200).send({
         data: user.generateAuthToken(),
         
@@ -52,11 +51,11 @@ router.post("/", async (req, res) => {
         role: "admin",
       });
     } else {
-      // Redirect to user dashboard or perform user-specific logic
+     
       return res.status(200).send({
         data: user.generateAuthToken(),
         message: "Logged in successfully as user",
-        Name: user.Name, // Include firstName here
+        Name: user.Name, 
         role: "user",
       });
     }

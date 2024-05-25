@@ -14,10 +14,10 @@ connection();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Allow CORS
-app.use(cors());
-// routes
 
+app.use(cors());
+
+// routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
