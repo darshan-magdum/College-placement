@@ -276,6 +276,45 @@ style={{backgroundColor:"white"}}/>
                 name="applyTill"
               />
             </div>
+            <div className="form-group mb-3">
+              <label htmlFor="companyName">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="companyName"
+                required
+                placeholder="10TH Marks"
+                name="companyName"
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="companyName">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="companyName"
+                required
+                placeholder="12TH  /Diploma Marks"
+                name="companyName"
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="companyName">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="companyName"
+                required
+                placeholder="Engineering Marks"
+                name="companyName"
+              />
+            </div>
             <div className="form-group mb-4">
               <label htmlFor="description">Job Description</label>
               <textarea
