@@ -22,7 +22,7 @@ function App() {
       case 'l':
         window.location.href = '/Login';
         break;
-      case 'S':
+      case 's':
         window.location.href = '/Signup';
         break;
       default:
