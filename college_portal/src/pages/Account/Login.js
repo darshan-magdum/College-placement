@@ -25,15 +25,21 @@ export const Login = () => {
       localStorage.setItem("token", res.data);
       localStorage.setItem("Name", res.Name); 
       localStorage.setItem("role", res.role); 
+      localStorage.setItem("userId", res.data.userId);
+      localStorage.setItem("AdminId", res.userId);
+
+
       if (res.role === "admin") {
         toast.success("Login successful!", { autoClose: 3000 }); 
         setTimeout(() => {
-          window.location = "/profile/admin";
+          // window.location = "/profile/admin";
+          window.location = `/profile/admin?AdminId=${res.userId}`;
         }, 3000); 
       }  else {
         toast.success("Login successful!", { autoClose: 3000 }); 
         setTimeout(() => {
-          window.location = "/profile";
+          // window.location = "/profile";
+          window.location = `/profile?userId=${res.data.userId}`;
         }, 3000); 
       }
     } catch (error) {

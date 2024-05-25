@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 
 
+const ADMIN_ID = "17878111433232";
 
 router.post("/", async (req, res) => {
   try {
@@ -23,6 +24,7 @@ router.post("/", async (req, res) => {
         data: "admin-auth-token", // Use a proper admin token here
         message: "Logged in successfully as admin",
         role: "admin", 
+        userId: ADMIN_ID,
       });
     }
 
@@ -41,7 +43,10 @@ router.post("/", async (req, res) => {
       return res.status(401).send({ message: "Invalid Email or Password" });
     }
 
-   
+
+    const userId = user._id;
+ 
+
     if (user.role === "admin") {
       
       return res.status(200).send({
@@ -49,14 +54,16 @@ router.post("/", async (req, res) => {
         
         message: "Logged in successfully as admin",
         role: "admin",
+        userId: ADMIN_ID,
       });
     } else {
      
       return res.status(200).send({
-        data: user.generateAuthToken(),
+        data: { authToken: user.generateAuthToken(), userId },
         message: "Logged in successfully as user",
         Name: user.Name, 
         role: "user",
+        userId: user._id,
       });
     }
   } catch (error) {
