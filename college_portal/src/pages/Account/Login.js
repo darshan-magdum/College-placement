@@ -23,8 +23,8 @@ export const Login = () => {
       const url = "http://localhost:8080/api/auth";
       const { data: res } = await axios.post(url, data);
       localStorage.setItem("token", res.data);
-      localStorage.setItem("Name", res.Name);
-
+      localStorage.setItem("Name", res.Name); 
+      localStorage.setItem("role", res.role); 
       if (res.role === "admin") {
         toast.success("Login successful!", { autoClose: 3000 }); 
         setTimeout(() => {

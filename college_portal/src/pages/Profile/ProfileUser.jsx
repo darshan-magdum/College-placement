@@ -9,10 +9,11 @@ const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
   const [JobUpdates,setJobUpdates] = useState(false); 
-  const [ViewJobs,setViewJobs] = useState(false); 
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [ViewJobs,setViewJobs] = useState(false); 
+  const [Viewinfo,setViewinfo] = useState(false); 
     
   const GoToHome = () =>{
     setHome(true);
@@ -64,7 +65,8 @@ const ProfileUser = () => {
              setHome={setHome} 
              setJobUpdates={setJobUpdates} 
              setToOtherInfo={setToOtherInfo} 
-           
+             setViewJobs={setViewJobs}
+             setViewinfo={setViewinfo}
             />
             <div className="container-fluid">
                 <div className="row">

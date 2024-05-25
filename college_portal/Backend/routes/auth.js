@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     }
 
     if (
-      req.body.email === "admin123@gmail.com" &&
+      req.body.email === "tpo123@gmail.com" &&
       req.body.password === "12345678"
     ) {
       return res.status(200).send({
@@ -63,9 +63,6 @@ router.post("/", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
-
-
-
 
 
 const validate = (data) => {

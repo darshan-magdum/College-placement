@@ -19,6 +19,7 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
 
        
   const UserName = localStorage.getItem("Name");   
+  const UserRole = localStorage.getItem("role");
 
 
 
@@ -30,6 +31,7 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
     setIsLoggedIn(false); 
     window.location = "/"; 
     localStorage.removeItem("Name");
+    localStorage.removeItem("role");
   };
 
   
@@ -83,7 +85,7 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,se
             <div className="dropdown">
               <a href="#" className="d-flex align-items-center link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-                <strong>{UserName}</strong>
+                <strong>{UserRole === "admin" ? "Admin" :UserName}</strong>
               </a>
               <ul className="dropdown-menu text-small shadow dropdown-menu-end" aria-labelledby="dropdownUser2">
                 <li><a className="dropdown-item" onClick={GoToProfile}>Profile</a></li>
