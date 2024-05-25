@@ -491,7 +491,10 @@ style={{backgroundColor:"white"}}/>
                             <label htmlFor="fullName" className="form-label">Full Name</label>
                             <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
                         </div>
-                       
+                        <div className="mb-3">
+                            <label htmlFor="fullName" className="form-label">Email</label>
+                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
+                        </div>
                         <div className="mb-3">
                             <label htmlFor="contactNumber" className="form-label">Contact Number</label>
                             <input type="tel" className="form-control" id="contactNumber" defaultValue="(097) 234-5678" />
