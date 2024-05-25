@@ -15,7 +15,7 @@ export const Signup = () => {
               <h1>Create an account</h1>
               <p>Get started for free!</p>
             </div>
-            <form>
+            <form method="post">
               <div className="input">
                 <i className="fa-solid fa-user"></i>
                 <input type="text" required placeholder="Enter Full Name" name="Name" />

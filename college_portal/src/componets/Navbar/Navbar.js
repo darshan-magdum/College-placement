@@ -26,7 +26,26 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo })
       
       <div className="collapse navbar-collapse" id="basic-navbar-nav">
         <ul className="navbar-nav ms-auto"> 
-        <li className="nav-item">
+        {
+          window.location.pathname.match(/\/profile\/(.*)/)? <>
+                   <div className="dropdown">
+        <a href="#" className={`d-flex align-items-center link-light text-decoration-none dropdown-toggle ${window.location.pathname.match(/\/profile\/(.*)/)  ? '' :'d-none'}`} id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
+          <strong>mdo</strong>
+        </a>
+        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+          <li><a className="dropdown-item"  onClick={GoToProfile}>Profile</a></li>
+          <li><hr className="dropdown-divider" /></li>
+          <li><a className="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+
+           &nbsp;
+       </> :<>
+
+           
+           
+           <li className="nav-item">
             <Link className={`nav-link ${window.location.pathname === '/' ? 'active' : ''}`} to={DEFAULT}>Home</Link>
           </li>
           <li className="nav-item">
@@ -40,20 +59,9 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo })
           <li className="nav-item">
             <Link className={`nav-link signup-button ${window.location.pathname === '/Signup' ? 'active' : ''}`} to={SIGNUP}>Signup</Link>
           </li>
-          &nbsp;  
-          <div className="dropdown">
-        <a href="#" className="d-flex align-items-center link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="https://github.com/mdo.png" alt="" width="32" height="32" className="rounded-circle me-2" />
-          <strong>mdo</strong>
-        </a>
-        <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a className="dropdown-item" onClick={GoToProfile}>Profile</a></li>
-          <li><hr className="dropdown-divider" /></li>
-          <li><a className="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
-
-           &nbsp;
+          &nbsp; </>
+        }
+          
 
         </ul>
       </div>
