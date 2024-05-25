@@ -11,12 +11,16 @@ const ProfileAdmin = () => {
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [ViewJobs,setViewJobs] = useState(false); 
+  const [Viewinfo,setViewinfo] = useState(false); 
     
   const GoToHome = () =>{
     setHome(true);
     setToOtherInfo(false);
     setJobUpdates(false);
     setProfile(false);
+    setViewJobs(false);
+    setViewinfo(false);
       }
 
       const GoToJobUpdates = () =>{
@@ -24,6 +28,8 @@ const ProfileAdmin = () => {
         setJobUpdates(true);
         setToOtherInfo(false);
         setProfile(false);
+        setViewJobs(false);
+        setViewinfo(false);
       }
 
 
@@ -33,7 +39,32 @@ const ProfileAdmin = () => {
         setJobUpdates(false);
         setToOtherInfo(true);
         setProfile(false);
+        setViewJobs(false);
+        setViewinfo(false);
       }
+
+
+            
+    const GoToViewJobs = () =>{
+      setHome(false);
+      setJobUpdates(false);
+      setToOtherInfo(false);
+      setProfile(false);
+      setViewJobs(true);
+      setViewinfo(false);
+    }
+            
+    const GoToViewinfo = () =>{
+      setHome(false);
+      setJobUpdates(false);
+      setToOtherInfo(false);
+      setProfile(false);
+      setViewJobs(false);
+      setViewinfo(true);
+    }
+
+
+    
 
 
       const handleUpdateButtonClick = () => {
@@ -46,11 +77,10 @@ const ProfileAdmin = () => {
 
     
     const handleUpdateSubmit = () => {
-        // Handle form submission logic here
+ 
     }
     
   
-      
       
 
     return (
@@ -59,7 +89,8 @@ const ProfileAdmin = () => {
              setHome={setHome} 
              setJobUpdates={setJobUpdates} 
              setToOtherInfo={setToOtherInfo} 
-           
+             setViewJobs={setViewJobs}
+             setViewinfo={setViewinfo}
             />
             <div className="container-fluid">
                 <div className="row">
@@ -96,10 +127,36 @@ work
     <a href="#" className={"nav-link " + (OtherInfo ? "active" : "link-dark")}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
         <span class="material-symbols-outlined" style={{color:'black'}}>
-info
+        add_circle
 </span>
             <svg className="bi me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
-            <span>Other Info</span>
+            <span>Add Information</span>
+        </div>
+    </a>
+</li>
+
+<li className="nav-item" onClick={GoToViewJobs}>
+    <a href="#" className={"nav-link " + (ViewJobs ? "active" : "link-dark")}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span class="material-symbols-outlined" style={{color:'black'}}>
+        visibility
+</span>
+
+            <svg className="bi me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
+            <span>View Jobs</span>
+        </div>
+    </a>
+</li>
+
+<li className="nav-item" onClick={GoToViewinfo}>
+    <a href="#" className={"nav-link " + (Viewinfo ? "active" : "link-dark")}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span class="material-symbols-outlined" style={{color:'black'}}>
+        info
+</span>
+
+            <svg className="bi me-2" width="16" height="16"><use xlinkHref="#table"></use></svg>
+            <span>View Information</span>
         </div>
     </a>
 </li>
@@ -254,27 +311,8 @@ style={{backgroundColor:"white"}}/>
   </div>
 </nav>
 
-<div className="card mb-4">
-  <div className="card-body">
-    <div className="d-flex align-items-center mb-3">
-      <img
-        src="https://via.placeholder.com/50"
-        alt="Company Logo"
-        className="img-fluid rounded-circle"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mb-0 ms-3">Company Name</h5>
-    </div>
-    <p className="text-muted">
-      Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.
-    </p>
-    <div className="d-flex justify-content-end">
-      <button type="button" className="btn btn-danger">Expired</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-success">Active</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-primary">Apply Now</button>
-    </div>
-  </div>
-</div>
+
+
 <br/>
 </>
 
@@ -425,6 +463,122 @@ style={{backgroundColor:"white"}}/>
 </>
 :
 
+ViewJobs ? 
+<>
+<h3 className="mb-2"><b>View Jobs</b></h3>
+<nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+               
+               
+<div class="container">
+<div class="row">
+<div class="col-md-4">
+
+<select class="form-select border-secondary text-muted" aria-label="Filter">
+<option selected>Filter By : Job Status</option>
+<optgroup label="Job Status">
+<option value="civil_engineering">Active</option>
+<option value="entc">Expired</option>
+</optgroup>
+</select>
+
+</div>
+<div class="col-md-4">
+
+</div>
+
+<div class="col-md-4">
+
+<div class="input-group">
+<input type="text" class="form-control border border-secondary" placeholder="Search by Company Name"
+style={{backgroundColor:"white"}}/>
+</div>
+</div>
+</div>
+</div>
+                 </nav>
+
+<div className="card mb-4">
+  <div className="card-body">
+    <div className="d-flex align-items-center mb-3">
+      <img
+        src="https://via.placeholder.com/50"
+        alt="Company Logo"
+        className="img-fluid rounded-circle"
+        style={{ width: '50px', height: '50px' }}
+      />
+      <h5 className="mb-0 ms-3">Company Name</h5>
+    </div>
+    <p className="text-muted">
+      Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.
+    </p>
+    <p>Last Date to Apply- 2121</p>
+    <div className="d-flex justify-content-end">
+      <button type="button" className="btn btn-danger">Expired</button> &nbsp;&nbsp;&nbsp;
+      <button type="button" className="btn btn-success">Active</button> &nbsp;&nbsp;&nbsp;
+      <button type="button" className="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</div>
+</>
+
+:
+
+setViewinfo ?
+<>
+<h3 className="mb-2"><b>View Information</b></h3>
+<nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+               
+               
+               <div class="container">
+<div class="row">
+<div class="col-md-4">
+
+<select class="form-select border-secondary text-muted" aria-label="Filter">
+<option selected>Filter By : Info</option>
+<optgroup label="More Info">
+<option value="civil_engineering">Job Preparation</option>
+<option value="entc">Others</option>
+</optgroup>
+</select>
+
+</div>
+<div class="col-md-4">
+
+</div>
+
+<div class="col-md-4">
+
+
+</div>
+</div>
+</div>
+               </nav>
+<div className="card mb-4">
+                                            <div className="card-body">
+                                                <div className="d-flex align-items-center mb-3">
+                                                    
+                                                    <img
+                                                        src={University}
+                                                        alt="Company Logo"
+                                                        className="img-fluid rounded-circle"
+                                                        style={{ width: '50px', height: '50px' }}
+                
+                                                    />
+                                                    
+                                                    <h5 className="mb-0 ms-3">How to Prepare for HR Round</h5>
+                                                </div>
+                                                <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
+                                                <p>Uploaded on- 2121</p>
+                                                <div className="d-flex justify-content-end">
+      <button type="button" className="btn btn-success">Job Preparation</button> &nbsp;&nbsp;&nbsp;
+      <button type="button" className="btn btn-success">Others</button> &nbsp;&nbsp;&nbsp;
+      <button type="button" className="btn btn-primary">Delete</button>
+    </div>
+                                            </div>
+                                            
+                                        </div>
+</>
+:
 ""}
 
 </div>

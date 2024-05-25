@@ -8,6 +8,7 @@ const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
   const [JobUpdates,setJobUpdates] = useState(false); 
+  const [ViewJobs,setViewJobs] = useState(false); 
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,7 @@ const ProfileUser = () => {
     setToOtherInfo(false);
     setJobUpdates(false);
     setProfile(false);
+ 
       }
 
       const GoToJobUpdates = () =>{
@@ -24,6 +26,7 @@ const ProfileUser = () => {
         setJobUpdates(true);
         setToOtherInfo(false);
         setProfile(false);
+     
       }
 
 
@@ -35,6 +38,8 @@ const ProfileUser = () => {
         setProfile(false);
       }
 
+    
+      
 
       const handleUpdateButtonClick = () => {
         setShowModal(true);
@@ -170,7 +175,7 @@ style={{backgroundColor:"white"}}/>
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
                
                
-                 <div class="container">
+<div class="container">
 <div class="row">
 <div class="col-md-4">
 
@@ -209,6 +214,7 @@ style={{backgroundColor:"white"}}/>
         <h5 className="mb-0 ms-3">Company Name</h5>
     </div>
     <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
+    <p>Last Date to Apply- 2121</p>
     <div className="d-flex justify-content-end">
     <button type="button" className="btn btn-danger">Expired</button> &nbsp;&nbsp;&nbsp;
     <button type="button" className="btn btn-success">Active</button> &nbsp;&nbsp;&nbsp;
@@ -263,7 +269,7 @@ style={{backgroundColor:"white"}}/>
                                                     <h5 className="mb-0 ms-3">How to Prepare for HR Round</h5>
                                                 </div>
                                                 <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
-                                               
+                                                <p>Uploaded on- 2121</p>
                                             </div>
                                         </div>
 </>

@@ -2,7 +2,7 @@ import React , {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT, ABOUT, LOGIN, SIGNUP } from '../../router/keys'; // Import your route constants
 
-const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo }) => {
+const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo,setViewJobs ,setViewinfo}) => {
 
   const GoToProfile = () => {
     setProfile(true);
@@ -11,6 +11,8 @@ const NavBar = ({ profile, setProfile ,setHome, setJobUpdates, setToOtherInfo })
     setHome(false);
     setToOtherInfo(false);
     setJobUpdates(false);
+    setViewJobs(false);
+    setViewinfo(false);
 
   };
   return (
