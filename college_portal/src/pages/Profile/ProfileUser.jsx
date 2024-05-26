@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../../componets/Loader';
+
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
@@ -83,153 +84,81 @@ const ProfileUser = () => {
 const [submittedId,setsubmittedId]= useState();
     
 console.log("submittedId",submittedId)
-    const [formData, setFormData] = useState({
-        address: '',
-        interest: '',
-        department:'',
-        studyingYear:'',
-        paramid:userId,
-        resume:'',
-        marks10th:'',
-        marks12thDiploma:'',
-        engineeringFirstYear:'',
-        engineeringSecondYear:'',
-        engineeringThirdYear:'',
-        engineeringLastYear:''
+ 
+    
+   
+const [formData, setFormData] = useState({
+    address: '',
+    interest: '',
+    department: '',
+    studyingYear: '',
+    resume: '',
+    marks10th: '',
+    marks12thDiploma: '',
+    engineeringFirstYear: '',
+    engineeringSecondYear: '',
+    engineeringThirdYear: '',
+    engineeringLastYear: ''
+  });
+
+
+  useEffect(() => {
+    // Fetch user data for editing
+    async function fetchUserData() {
+      try {
+        const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
+        setFormData(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+
+    fetchUserData();
+  }, [userId]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value
     });
-    
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setFormData({
-            ...formData,
-            [id]: value
-        });
-    };
-    
-    
-    const handleFileChange = (e) => {
-      const file = e.target.files[0];
-      setFormData({
-          ...formData,
-          resume: file
-      });
-    };
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-          
-    //         const postData = {
-    //           address: formData.address,
-    //           interest: formData.interest,
-    //           department: formData.department,
-    //           studyingYear: formData.studyingYear,
-    //           resume: formData.resumePath,
-    //           marks10th: formData.marks10th,
-    //           marks12thDiploma: formData.marks12thDiploma,
-    //           engineeringFirstYear: formData.engineeringFirstYear,
-    //           engineeringSecondYear: formData.engineeringSecondYear,
-    //           engineeringThirdYear: formData.engineeringThirdYear,
-    //           engineeringLastYear: formData.engineeringLastYear
-    //       };
-          
-    
-          
-    //         const response = await axios.post('http://localhost:8080/api/moreinfo/', postData);
-    
-    //         if (response.status === 200) {
-    //             console.log('Form submitted successfully');
-    //             const id = response.data._id;
-    //             setsubmittedId(id);
-    //             setFormData({ ...formData, id });
-    //         } else {
-    //             console.error('Failed to submit form');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error submitting form:', error);
-    //     }
-    // };
-    
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const postData = {
-                paramid: userId, // Include the userId from URL params
-                address: formData.address,
-                interest: formData.interest,
-                department: formData.department,
-                studyingYear: formData.studyingYear,
-                resume: formData.resumePath,
-                marks10th: formData.marks10th,
-                marks12thDiploma: formData.marks12thDiploma,
-                engineeringFirstYear: formData.engineeringFirstYear,
-                engineeringSecondYear: formData.engineeringSecondYear,
-                engineeringThirdYear: formData.engineeringThirdYear,
-                engineeringLastYear: formData.engineeringLastYear
-            };
-    
-            const response = await axios.post('http://localhost:8080/api/moreinfo/', postData);
-    
-            if (response.status === 200) {
-                console.log('Form submitted successfully');
-                const id = response.data._id;
-                setsubmittedId(id);
-                setFormData({ ...formData, id });
-            } else {
-                console.error('Failed to submit form');
-            }
-        } catch (error) {
-            console.error('Error submitting form:', error);
+  };
+
+  const handleFileChange = (event) => {
+    setFormData({
+      ...formData,
+      resume: event.target.files[0]
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formDataToSend = new FormData();
+    for (const key in formData) {
+      formDataToSend.append(key, formData[key]);
+    }
+
+    try {
+      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-    };
-    
+      });
+      console.log('User details updated:', response.data);
+      // Optionally, you can show a success message or redirect the user
+    } catch (error) {
+      console.error('Error updating user details:', error);
+      // Handle error, show error message, etc.
+    }
+  };
 
 
     
-    useEffect(() => {
-        const fetchMoreInfo = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/moreinfo/${userId}`); // Use userId in the API URL
-                setUser(response.data);
-            } catch (error) {
-                console.error('Error fetching user details:', error);
-                setError('Error fetching user details');
-            }
-        };
-    
-        fetchMoreInfo();
-    }, [userId]);
-    
-    useEffect(() => {
-        const fetchAllMoreInfo = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/api/moreinfo`);
-                const filteredUser = response.data.filter(info => info.paramid === userId);
-                console.log("Filtered User Data:", filteredUser); // Add this log
-                setMoreInfo(filteredUser);
-            } catch (error) {
-                console.error('Error fetching additional information:', error);
-                setError('Error fetching additional information');
-            }
-        };
-    
-        fetchAllMoreInfo();
-    }, [userId]);
-    
-    // useEffect(() => {
-    //     const fetchAllMoreInfo = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:8080/api/moreinfo`); // Fetch all additional information
-    //             setUser(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching additional information:', error);
-    //             setError('Error fetching additional information');
-    //         }
-    //     };
-    
-    //     fetchAllMoreInfo();
-    // }, []);
+  
     
 
+  
 
     
     
@@ -243,6 +172,7 @@ console.log("submittedId",submittedId)
              setViewinfo={setViewinfo}
             />
              
+      
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3">
@@ -530,7 +460,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Department</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Department}</p>
+                        <p className="text-muted mb-0">{user.department}</p>
                     </div>
                 </div>
                 <hr />
@@ -539,7 +469,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Studying Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.studyingyear}</p>
+                        <p className="text-muted mb-0">{user.studyingYear}</p>
                     </div>
                 </div>
                 <hr />
@@ -548,7 +478,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Interests</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Interests}</p>
+                        <p className="text-muted mb-0">{user.interest}</p>
                     </div>
                 </div>
                 <hr />
@@ -558,7 +488,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Address}</p>
+                        <p className="text-muted mb-0">{user.address}</p>
                     </div>
                 </div>
                 <hr/>
@@ -567,7 +497,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Resume</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Resume}</p>
+                        <p className="text-muted mb-0">{user.resume}</p>
                     </div>
 
                 </div>
@@ -578,7 +508,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Marks - 10th</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Marks1o}</p>
+                        <p className="text-muted mb-0">{user.marks10th}</p>
                     </div>
                     
                 </div>
@@ -589,7 +519,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">12th /Diploma</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Marks12}</p>
+                        <p className="text-muted mb-0">{user.marks12thDiploma}</p>
                     </div>
                     
                 </div>
@@ -600,7 +530,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering First Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.E1}</p>
+                        <p className="text-muted mb-0">{user.engineeringFirstYear}</p>
                     </div>
                     
                 </div>
@@ -610,7 +540,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Second Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.E2}</p>
+                        <p className="text-muted mb-0">{user.engineeringSecondYear}</p>
                     </div>
                     
                 </div>
@@ -621,7 +551,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Third Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.E3}</p>
+                        <p className="text-muted mb-0">{user.engineeringThirdYear}</p>
                     </div>
                     
                 </div>
@@ -632,7 +562,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Last Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.E4}</p>
+                        <p className="text-muted mb-0">{user.engineeringLastYear}</p>
                     </div>
                     
                 </div>
@@ -676,61 +606,57 @@ style={{backgroundColor:"white"}}/>
                 <Modal.Body>
                 <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 <form onSubmit={handleSubmit}>
-      <div className="mb-3">
+        <div className="mb-3">
           <label htmlFor="department" className="form-label">Department</label>
-          <input type="text" className="form-control" id="department" value={formData.department} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
-    <label htmlFor="studyingYear" className="form-label">Studying year</label>
-    <select className="form-select" style={{backgroundColor:"#f3f4f6"}} id="studyingYear" value={formData.studyingYear} onChange={handleChange}>
-        <option value="first">First year</option>
-        <option value="second">Second year</option>
-        <option value="third">Third year</option>
-        <option value="fourth">Fourth year</option>
-    </select>
-</div>
-      {/* <div className="mb-3">
+          <input type="text" className="form-control" id="department" name="department" value={formData.department} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="studyingYear" className="form-label">Studying Year</label>
-          <input type="text" className="form-control" id="studyingYear" value={formData.studyingYear} onChange={handleChange} />
-      </div> */}
-      <div className="mb-3">
+          <select className="form-select" id="studyingYear" name="studyingYear" value={formData.studyingYear} onChange={handleChange}>
+            <option value="first">First year</option>
+            <option value="second">Second year</option>
+            <option value="third">Third year</option>
+            <option value="fourth">Fourth year</option>
+          </select>
+        </div>
+        <div className="mb-3">
           <label htmlFor="interest" className="form-label">Interests</label>
-          <input type="text" className="form-control" id="interest" value={formData.interest} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="text" className="form-control" id="interest" name="interest" value={formData.interest} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="address" className="form-label">Address</label>
-          <input type="text" className="form-control" id="address" value={formData.address} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="text" className="form-control" id="address" name="address" value={formData.address} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="resume" className="form-label">Resume</label>
-          <input type="file" className="form-control" id="resume" onChange={handleFileChange} />
-      </div>
-      <div className="mb-3">
+          <input type="file" className="form-control" id="resume" name="resume" onChange={handleFileChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="marks10th" className="form-label">Marks - 10th</label>
-          <input type="number" min="0" max="100" className="form-control" id="marks10th" value={formData.marks10th} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="number" min="0" max="100" className="form-control" id="marks10th" name="marks10th" value={formData.marks10th} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="marks12thDiploma" className="form-label">12th / Diploma</label>
-          <input type="number" min="0" max="100" className="form-control" id="marks12thDiploma" value={formData.marks12thDiploma} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="number" min="0" max="100" className="form-control" id="marks12thDiploma" name="marks12thDiploma" value={formData.marks12thDiploma} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" name="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="engineeringThirdYear" className="form-label">Engineering Third Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
-      </div>
-      <div className="mb-3">
+          <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" name="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
+        </div>
+        <div className="mb-3">
           <label htmlFor="engineeringLastYear" className="form-label">Engineering Last Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
-      </div>
-      <button type="submit" className="btn btn-primary">Submit</button>
-  </form>
+          <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" name="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
+        </div>
+        <button type="submit" className="btn btn-primary">Update</button>
+      </form>
                     </div>
                 </Modal.Body>
             </Modal>
