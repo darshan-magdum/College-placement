@@ -54,19 +54,17 @@ const ProfileUser = () => {
     }
 
     
-    const handleUpdateSubmit = () => {
-        // Handle form submission logic here
-    }
-    
+  
   
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+   
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const userId = searchParams.get("userId");
 
-    console.log("userId",userId)
+    
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -80,9 +78,79 @@ const ProfileUser = () => {
     
         fetchUser();
     }, [userId]);
-
+const [submittedId,setsubmittedId]= useState();
+    
+    const [formData, setFormData] = useState({
+        address: '',
+        interest: '',
+        department:'',
+        studyingYear:'',
+    
+        resume:'',
+        marks10th:'',
+        marks12thDiploma:'',
+        engineeringFirstYear:'',
+        engineeringSecondYear:'',
+        engineeringThirdYear:'',
+        engineeringLastYear:''
+    });
+    
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({
+            ...formData,
+            [id]: value
+        });
+    };
+    
+    
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      setFormData({
+          ...formData,
+          resume: file
+      });
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          
+            const postData = {
+              address: formData.address,
+              interest: formData.interest,
+              department: formData.department,
+              studyingYear: formData.studyingYear,
+              resume: formData.resumePath,
+              marks10th: formData.marks10th,
+              marks12thDiploma: formData.marks12thDiploma,
+              engineeringFirstYear: formData.engineeringFirstYear,
+              engineeringSecondYear: formData.engineeringSecondYear,
+              engineeringThirdYear: formData.engineeringThirdYear,
+              engineeringLastYear: formData.engineeringLastYear
+          };
+          
+    
+          
+            const response = await axios.post('http://localhost:8080/api/moreinfo/', postData);
+    
+            if (response.status === 200) {
+                console.log('Form submitted successfully');
+                const id = response.data._id;
+                setsubmittedId(id);
+                setFormData({ ...formData, id });
+            } else {
+                console.error('Failed to submit form');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
     
 
+    
+    
+
+    
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -358,6 +426,8 @@ style={{backgroundColor:"white"}}/>
                     className="rounded-circle img-fluid"
                     style={{ width: '150px' }}
                 />
+                
+
                 <h5 className="my-3">{user.Name}</h5>
                 <p className="text-muted mb-1">{user.email}</p>
                 <p className="text-muted mb-4">{user.contact}</p>
@@ -522,73 +592,64 @@ style={{backgroundColor:"white"}}/>
                 </Modal.Header>
                 <Modal.Body>
                 <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    <form>
-                    
-                        <div className="mb-3">
-                            <label htmlFor="address" className="form-label">Address</label>
-                            <input type="text" className="form-control" id="address" defaultValue="Bay Area, San Francisco, CA" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="fullName" className="form-label">Department</label>
-                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
-                        </div>
-                        <div className="mb-3">
-    <label htmlFor="currentYear" className="form-label">Current year</label>
-    <select className="form-select" style={{backgroundColor:"#f3f4f6"}} id="currentYear">
+                <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+          <label htmlFor="department" className="form-label">Department</label>
+          <input type="text" className="form-control" id="department" value={formData.department} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+    <label htmlFor="studyingYear" className="form-label">Studying year</label>
+    <select className="form-select" style={{backgroundColor:"#f3f4f6"}} id="studyingYear" value={formData.studyingYear} onChange={handleChange}>
         <option value="first">First year</option>
         <option value="second">Second year</option>
         <option value="third">Third year</option>
         <option value="fourth">Fourth year</option>
     </select>
 </div>
-
-                        <div className="mb-3">
-                            <label htmlFor="resume" className="form-label">Resume</label>
-                            <input type="file" className="form-control" id="resume" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Marks - 10th</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Marks - 12th</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Marks - Diploma</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Engineering First Year</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Engineering Second Year</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Engineering Third Year</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Engineering Last Year</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="80" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="marks10th" className="form-label">Interest</label>
-                            <input type="text" className="form-control" id="marks10th" defaultValue="" placeholder='Web Development , Data Scientist' />
-                        </div>
-                    </form>
+      {/* <div className="mb-3">
+          <label htmlFor="studyingYear" className="form-label">Studying Year</label>
+          <input type="text" className="form-control" id="studyingYear" value={formData.studyingYear} onChange={handleChange} />
+      </div> */}
+      <div className="mb-3">
+          <label htmlFor="interest" className="form-label">Interests</label>
+          <input type="text" className="form-control" id="interest" value={formData.interest} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="address" className="form-label">Address</label>
+          <input type="text" className="form-control" id="address" value={formData.address} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="resume" className="form-label">Resume</label>
+          <input type="file" className="form-control" id="resume" onChange={handleFileChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="marks10th" className="form-label">Marks - 10th</label>
+          <input type="number" min="0" max="100" className="form-control" id="marks10th" value={formData.marks10th} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="marks12thDiploma" className="form-label">12th / Diploma</label>
+          <input type="number" min="0" max="100" className="form-control" id="marks12thDiploma" value={formData.marks12thDiploma} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
+          <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
+          <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="engineeringThirdYear" className="form-label">Engineering Third Year</label>
+          <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
+      </div>
+      <div className="mb-3">
+          <label htmlFor="engineeringLastYear" className="form-label">Engineering Last Year</label>
+          <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
+      </div>
+      <button type="submit" className="btn btn-primary">Submit</button>
+  </form>
                     </div>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdateSubmit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
          
        
