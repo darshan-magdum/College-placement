@@ -359,8 +359,8 @@ style={{backgroundColor:"white"}}/>
                     style={{ width: '150px' }}
                 />
                 <h5 className="my-3">{user.Name}</h5>
-                <p className="text-muted mb-1">{user.Domain}</p>
-                <p className="text-muted mb-4">{user.cuurentYear} - {user.Department}</p>
+                <p className="text-muted mb-1">{user.email}</p>
+                <p className="text-muted mb-4">{user.contact}</p>
                 {/* <div className="d-flex justify-content-center mb-2">
                     <button type="button" className="btn btn-primary">Follow</button>
                     <button type="button" className="btn btn-outline-primary ms-1">Message</button>
@@ -374,28 +374,28 @@ style={{backgroundColor:"white"}}/>
             <div className="card-body">
                 <div className="row">
                     <div className="col-sm-3">
-                        <p className="mb-0">Full Name</p>
+                        <p className="mb-0">Department</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.Name}</p>
+                        <p className="text-muted mb-0">{user.Department}</p>
                     </div>
                 </div>
                 <hr />
                 <div className="row">
                     <div className="col-sm-3">
-                        <p className="mb-0">Email</p>
+                        <p className="mb-0">Studying Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.email}</p>
+                        <p className="text-muted mb-0">{user.studyingyear}</p>
                     </div>
                 </div>
                 <hr />
                 <div className="row">
                     <div className="col-sm-3">
-                        <p className="mb-0">Contact Number</p>
+                        <p className="mb-0">Interests</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.contact}</p>
+                        <p className="text-muted mb-0">{user.Interests}</p>
                     </div>
                 </div>
                 <hr />
@@ -523,18 +523,7 @@ style={{backgroundColor:"white"}}/>
                 <Modal.Body>
                 <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     <form>
-                        <div className="mb-3">
-                            <label htmlFor="fullName" className="form-label">Full Name</label>
-                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="fullName" className="form-label">Email</label>
-                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                            <input type="tel" className="form-control" id="contactNumber" defaultValue="(097) 234-5678" />
-                        </div>
+                    
                         <div className="mb-3">
                             <label htmlFor="address" className="form-label">Address</label>
                             <input type="text" className="form-control" id="address" defaultValue="Bay Area, San Francisco, CA" />
