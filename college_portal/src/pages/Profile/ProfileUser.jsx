@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Loader from '../../componets/Loader';
 const ProfileUser = () => {
 
     const [home,setHome] = useState(true);
@@ -284,7 +285,7 @@ style={{backgroundColor:"white"}}/>
                                                 <div className="d-flex align-items-center mb-3">
                                                     
                                                     <img
-                                                        src={University}
+                                                        src={user.profileImageUrl? user.profileImageUrl :University}
                                                         alt="Company Logo"
                                                         className="img-fluid rounded-circle"
                                                         style={{ width: '50px', height: '50px' }}
@@ -298,8 +299,9 @@ style={{backgroundColor:"white"}}/>
                                             </div>
                                         </div>
 </>
-: profile ?
+: profile  ?
 <>
+{user ? <>
 <div className="row">
 <h3 className="mb-2"><b>Your Profile</b></h3>
     <div className="col">
@@ -345,6 +347,7 @@ style={{backgroundColor:"white"}}/>
     <button type="button" className="btn btn-success" onClick={handleUpdateButtonClick}>Update</button> 
     </div>
     <br></br>
+
 <div className="row">
     <div className="col-lg-4">
         <div className="card mb-4">
@@ -355,9 +358,9 @@ style={{backgroundColor:"white"}}/>
                     className="rounded-circle img-fluid"
                     style={{ width: '150px' }}
                 />
-                <h5 className="my-3">John Smith</h5>
-                <p className="text-muted mb-1">Full Stack Developer</p>
-                <p className="text-muted mb-4">Second Year - CSE</p>
+                <h5 className="my-3">{user.Name}</h5>
+                <p className="text-muted mb-1">{user.Domain}</p>
+                <p className="text-muted mb-4">{user.cuurentYear} - {user.Department}</p>
                 {/* <div className="d-flex justify-content-center mb-2">
                     <button type="button" className="btn btn-primary">Follow</button>
                     <button type="button" className="btn btn-outline-primary ms-1">Message</button>
@@ -374,7 +377,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Full Name</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">Johnatan Smith</p>
+                        <p className="text-muted mb-0">{user.Name}</p>
                     </div>
                 </div>
                 <hr />
@@ -383,7 +386,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">example@example.com</p>
+                        <p className="text-muted mb-0">{user.email}</p>
                     </div>
                 </div>
                 <hr />
@@ -392,7 +395,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Contact Number</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">(097) 234-5678</p>
+                        <p className="text-muted mb-0">{user.contact}</p>
                     </div>
                 </div>
                 <hr />
@@ -402,7 +405,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                        <p className="text-muted mb-0">{user.Address}</p>
                     </div>
                 </div>
                 <hr/>
@@ -411,7 +414,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Resume</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.Resume}</p>
                     </div>
 
                 </div>
@@ -422,7 +425,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Marks - 10th</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.Marks1o}</p>
                     </div>
                     
                 </div>
@@ -433,7 +436,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">12th /Diploma</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.Marks12}</p>
                     </div>
                     
                 </div>
@@ -444,7 +447,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering First Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.E1}</p>
                     </div>
                     
                 </div>
@@ -454,7 +457,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Second Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.E2}</p>
                     </div>
                     
                 </div>
@@ -465,7 +468,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Third Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.E3}</p>
                     </div>
                     
                 </div>
@@ -476,7 +479,7 @@ style={{backgroundColor:"white"}}/>
                         <p className="mb-0">Engineering Last Year</p>
                     </div>
                     <div className="col-sm-9">
-                        <p className="text-muted mb-0">80%</p>
+                        <p className="text-muted mb-0">{user.E4}</p>
                     </div>
                     
                 </div>
@@ -493,7 +496,9 @@ style={{backgroundColor:"white"}}/>
 <br></br>
 
 
-
+</>
+: <Loader/>
+}
 
 </>
 :
@@ -596,21 +601,7 @@ style={{backgroundColor:"white"}}/>
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <div className="container-fluid">
-              
-                {user ? (
-                    <div>
-                        <h2>User Details</h2>
-                        <p>Name: {user.name}</p>
-                        <p>Email: {user.email}</p>
-                   
-                    </div>
-                ) : error ? (
-                    <div>Error: {error}</div>
-                ) : (
-                    <div>Loading...</div>
-                )}
-            </div>
+         
        
         </>
     );
