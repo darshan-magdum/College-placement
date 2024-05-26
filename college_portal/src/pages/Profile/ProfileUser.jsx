@@ -57,6 +57,7 @@ const ProfileUser = () => {
   
   
     const [user, setUser] = useState(null);
+    const [MoreInfo, setMoreInfo] = useState(null);
     const [error, setError] = useState(null);
    
 
@@ -78,14 +79,16 @@ const ProfileUser = () => {
     
         fetchUser();
     }, [userId]);
+    
 const [submittedId,setsubmittedId]= useState();
     
+console.log("submittedId",submittedId)
     const [formData, setFormData] = useState({
         address: '',
         interest: '',
         department:'',
         studyingYear:'',
-    
+        paramid:userId,
         resume:'',
         marks10th:'',
         marks12thDiploma:'',
@@ -111,26 +114,59 @@ const [submittedId,setsubmittedId]= useState();
           resume: file
       });
     };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
           
-            const postData = {
-              address: formData.address,
-              interest: formData.interest,
-              department: formData.department,
-              studyingYear: formData.studyingYear,
-              resume: formData.resumePath,
-              marks10th: formData.marks10th,
-              marks12thDiploma: formData.marks12thDiploma,
-              engineeringFirstYear: formData.engineeringFirstYear,
-              engineeringSecondYear: formData.engineeringSecondYear,
-              engineeringThirdYear: formData.engineeringThirdYear,
-              engineeringLastYear: formData.engineeringLastYear
-          };
+    //         const postData = {
+    //           address: formData.address,
+    //           interest: formData.interest,
+    //           department: formData.department,
+    //           studyingYear: formData.studyingYear,
+    //           resume: formData.resumePath,
+    //           marks10th: formData.marks10th,
+    //           marks12thDiploma: formData.marks12thDiploma,
+    //           engineeringFirstYear: formData.engineeringFirstYear,
+    //           engineeringSecondYear: formData.engineeringSecondYear,
+    //           engineeringThirdYear: formData.engineeringThirdYear,
+    //           engineeringLastYear: formData.engineeringLastYear
+    //       };
           
     
           
+    //         const response = await axios.post('http://localhost:8080/api/moreinfo/', postData);
+    
+    //         if (response.status === 200) {
+    //             console.log('Form submitted successfully');
+    //             const id = response.data._id;
+    //             setsubmittedId(id);
+    //             setFormData({ ...formData, id });
+    //         } else {
+    //             console.error('Failed to submit form');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error submitting form:', error);
+    //     }
+    // };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const postData = {
+                paramid: userId, // Include the userId from URL params
+                address: formData.address,
+                interest: formData.interest,
+                department: formData.department,
+                studyingYear: formData.studyingYear,
+                resume: formData.resumePath,
+                marks10th: formData.marks10th,
+                marks12thDiploma: formData.marks12thDiploma,
+                engineeringFirstYear: formData.engineeringFirstYear,
+                engineeringSecondYear: formData.engineeringSecondYear,
+                engineeringThirdYear: formData.engineeringThirdYear,
+                engineeringLastYear: formData.engineeringLastYear
+            };
+    
             const response = await axios.post('http://localhost:8080/api/moreinfo/', postData);
     
             if (response.status === 200) {
@@ -147,9 +183,55 @@ const [submittedId,setsubmittedId]= useState();
     };
     
 
+
     
+    useEffect(() => {
+        const fetchMoreInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/moreinfo/${userId}`); // Use userId in the API URL
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+                setError('Error fetching user details');
+            }
+        };
+    
+        fetchMoreInfo();
+    }, [userId]);
+    
+    useEffect(() => {
+        const fetchAllMoreInfo = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/moreinfo`);
+                const filteredUser = response.data.filter(info => info.paramid === userId);
+                console.log("Filtered User Data:", filteredUser); // Add this log
+                setMoreInfo(filteredUser);
+            } catch (error) {
+                console.error('Error fetching additional information:', error);
+                setError('Error fetching additional information');
+            }
+        };
+    
+        fetchAllMoreInfo();
+    }, [userId]);
+    
+    // useEffect(() => {
+    //     const fetchAllMoreInfo = async () => {
+    //         try {
+    //             const response = await axios.get(`http://localhost:8080/api/moreinfo`); // Fetch all additional information
+    //             setUser(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching additional information:', error);
+    //             setError('Error fetching additional information');
+    //         }
+    //     };
+    
+    //     fetchAllMoreInfo();
+    // }, []);
     
 
+
+    
     
     return (
         <>
@@ -160,6 +242,7 @@ const [submittedId,setsubmittedId]= useState();
              setViewJobs={setViewJobs}
              setViewinfo={setViewinfo}
             />
+             
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3">

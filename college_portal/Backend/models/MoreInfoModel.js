@@ -1,3 +1,4 @@
+const { string } = require('joi');
 const mongoose = require('mongoose');
 
 
@@ -12,7 +13,9 @@ const moreInfoSchema = new mongoose.Schema({
   engineeringFirstYear: { type: Number, required: false },
   engineeringSecondYear: { type: Number, required: false },
   engineeringThirdYear: { type: Number, required: false },
-  engineeringLastYear: { type: Number, required: false }
+  engineeringLastYear: { type: Number, required: false },
+  paramid:{ type: String, required: false }
+
 
 });
 

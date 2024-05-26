@@ -40,6 +40,16 @@ router.patch('/:id', async (req, res) => {
 });
 
 
+// Route to get all additional information
+router.get('/', async (req, res) => {
+  try {
+    const allMoreInfo = await MoreInfo.find();
+    res.json(allMoreInfo);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 
 module.exports = router;
