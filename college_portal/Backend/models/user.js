@@ -3,12 +3,25 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
 
+
 const userSchema = new mongoose.Schema({
     Name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
     confirmPassword: { type: String, required: true }, 
     contact: { type: String, required: true },
+    address: { type: String},
+    interest: { type: String }, // New field
+    department: { type: String }, // New field
+    studyingYear: { type: String }, // New field
+    resume: { type: String }, // New field
+    marks10th: { type: String }, // New field
+    marks12thDiploma: { type: String }, // New field
+    engineeringFirstYear: { type: String }, // New field
+    engineeringSecondYear: { type: String }, // New field
+    engineeringThirdYear: { type: String }, // New field
+    engineeringLastYear: { type: String } // New field
+
 
 });
 
