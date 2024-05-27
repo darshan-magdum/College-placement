@@ -11,16 +11,16 @@ const userSchema = new mongoose.Schema({
     confirmPassword: { type: String, required: true }, 
     contact: { type: String, required: true },
     address: { type: String},
-    interest: { type: String }, // New field
-    department: { type: String }, // New field
-    studyingYear: { type: String }, // New field
-    resume: { type: String }, // New field
-    marks10th: { type: String }, // New field
-    marks12thDiploma: { type: String }, // New field
-    engineeringFirstYear: { type: String }, // New field
-    engineeringSecondYear: { type: String }, // New field
-    engineeringThirdYear: { type: String }, // New field
-    engineeringLastYear: { type: String } // New field
+    interest: { type: String }, 
+    department: { type: String }, 
+    studyingYear: { type: String }, 
+    resume: { type: String }, 
+    marks10th: { type: String }, 
+    marks12thDiploma: { type: String }, 
+    engineeringFirstYear: { type: String }, 
+    engineeringSecondYear: { type: String }, 
+    engineeringThirdYear: { type: String }, 
+    engineeringLastYear: { type: String } 
 
 
 });
