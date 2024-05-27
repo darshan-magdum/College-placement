@@ -5,8 +5,7 @@ const cors = require("cors");
 const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
-const moreInfoRoutes = require("./routes/moreInfoRoutes"); // Correct import for MoreInfo router
-
+const jobPostingRoutes = require("./routes/jobPostingRoutes"); 
 
 // database connection
 connection();
@@ -21,7 +20,7 @@ app.use(cors());
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/moreinfo", moreInfoRoutes); 
+app.use("/api", jobPostingRoutes);
 
 
 

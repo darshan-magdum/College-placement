@@ -4,6 +4,8 @@ import University from "../../Images/University.png";
 import Stdsplace_Info from '../Home/Stdsplace_Info';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 const ProfileAdmin = () => {
 
     const [home,setHome] = useState(true);
@@ -80,9 +82,54 @@ const ProfileAdmin = () => {
  
     }
     
-  
-      
 
+  
+
+    const [success, setSuccess] = useState(false);
+
+
+  
+    const [formData, setFormData] = useState({
+      companyName: '',
+      logo: '',
+      status: 'Active',
+      applyTill: '',
+      criteria10th: '',
+      criteria12thDiploma: '',
+      criteriaEngineering: '',
+      description: ''
+    });
+  
+    const handleChange = (event) => {
+      const { name, value } = event.target;
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    };
+  
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+    
+      try {
+        const response = await axios.post(`http://localhost:8080/api/jobPostings`, formData, {
+          headers: {
+            'Content-Type': 'application/json' 
+          }
+        });
+        setSuccess(true);
+        toast.success("New Job  Created SuccessFully!", { autoClose: 2000 });
+        
+        console.log('New Job  Created SuccessFully!:', response.data);
+       
+      } catch (error) {
+        console.error('Error updating user details:', error);
+        
+      }
+    };
+  
+    
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -92,6 +139,7 @@ const ProfileAdmin = () => {
              setViewJobs={setViewJobs}
              setViewinfo={setViewinfo}
             />
+             <ToastContainer position="top-right" autoClose={2000} />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-3">
@@ -229,7 +277,7 @@ style={{backgroundColor:"white"}}/>
     <div className="row">
       <div className="col-md-6">
         <div className="card bg-white shadow p-4">
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
               <label htmlFor="companyName">
                 <i className="fa-solid fa-user mr-2"></i>Company Name
@@ -241,6 +289,7 @@ style={{backgroundColor:"white"}}/>
                 required
                 placeholder="Company Name"
                 name="companyName"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mb-3">
@@ -258,7 +307,7 @@ style={{backgroundColor:"white"}}/>
 
             <div className="form-group mb-4">
               <label htmlFor="status">Status</label>
-              <select className="form-control" id="status" name="status">
+              <select className="form-control" id="status" name="status" onChange={handleChange}>
                 <option value="Active">Active</option>
                 <option value="Expired">Expired</option>
               </select>
@@ -274,45 +323,49 @@ style={{backgroundColor:"white"}}/>
                 id="applyTill"
                 required
                 name="applyTill"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="companyName">
+              <label htmlFor="criteria10th">
                 <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="companyName"
+                id="criteria10th"
                 required
                 placeholder="10TH Marks"
-                name="companyName"
+                name="criteria10th"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="companyName">
+              <label htmlFor="criteria12thDiploma">
                 <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="companyName"
+                id="criteria12thDiploma"
                 required
                 placeholder="12TH  /Diploma Marks"
-                name="companyName"
+                name="criteria12thDiploma"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="companyName">
+              <label htmlFor="criteriaEngineering">
                 <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
               </label>
               <input
                 type="text"
                 className="form-control"
-                id="companyName"
+                id="criteriaEngineering"
                 required
                 placeholder="Engineering Marks"
-                name="companyName"
+                name="criteriaEngineering"
+                onChange={handleChange}
               />
             </div>
             <div className="form-group mb-4">
@@ -322,6 +375,7 @@ style={{backgroundColor:"white"}}/>
                 id="description"
                 rows="3"
                 name="description"
+                onChange={handleChange}
               ></textarea>
             </div>
             <div className="d-flex justify-content-center">
