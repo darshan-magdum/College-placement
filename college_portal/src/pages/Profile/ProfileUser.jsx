@@ -141,22 +141,22 @@ const [formData, setFormData] = useState({
     try {
       const response = await axios.put(`http://localhost:8080/api/users/${userId}`, formData, {
         headers: {
-          'Content-Type': 'application/json' // Set content type to JSON
+          'Content-Type': 'application/json' 
         }
       });
       setSuccess(true);
       toast.success("User details updated SuccessFully!", { autoClose: 2000 });
       
-      // Refresh the page after 2 seconds
+
       setTimeout(() => {
         window.location.reload();
       }, 3000);
       setShowModal(true);
       console.log('User details updated:', response.data);
-      // Optionally, you can show a success message or redirect the user
+     
     } catch (error) {
       console.error('Error updating user details:', error);
-      // Handle error, show error message, etc.
+      
     }
   };
   
