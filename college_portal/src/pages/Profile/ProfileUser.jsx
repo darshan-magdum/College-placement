@@ -647,7 +647,7 @@ style={{backgroundColor:"white"}}/>
           <label htmlFor="marks12thDiploma" className="form-label">12th / Diploma</label>
           <input type="number" min="0" max="100" className="form-control" id="marks12thDiploma" name="marks12thDiploma" value={formData.marks12thDiploma} onChange={handleChange} />
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
           <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
         </div>
@@ -662,7 +662,65 @@ style={{backgroundColor:"white"}}/>
         <div className="mb-3">
           <label htmlFor="engineeringLastYear" className="form-label">Engineering Last Year</label>
           <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" name="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
-        </div>
+        </div> */}
+
+{formData.studyingYear === 'first' && (
+                                <>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+                                    </div>
+                                </>
+                            )}
+                            {formData.studyingYear === 'second' && (
+                                <>
+                                 <div className="mb-3">
+                                        <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" name="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
+                                    </div>
+                                </>
+                            )}
+                            {formData.studyingYear === 'third' && (
+                                <>
+                                 <div className="mb-3">
+                                        <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" name="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringThirdYear" className="form-label">Engineering Third Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" name="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
+                                    </div>
+                                </>
+                            )}
+                            {formData.studyingYear === 'fourth' && (
+                                <>
+                                <div className="mb-3">
+                                        <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" name="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringThirdYear" className="form-label">Engineering Third Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" name="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="engineeringLastYear" className="form-label">Engineering Last Year</label>
+                                        <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" name="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
+                                    </div>
+                                </>
+                            )}
+
         <button type="submit" className="btn btn-primary">Update</button>
       </form>
                     </div>
