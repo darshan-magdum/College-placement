@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Loader from '../../componets/Loader';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ProfileUser = () => {
 
@@ -101,6 +102,8 @@ const [formData, setFormData] = useState({
     engineeringLastYear: ''
   });
 
+  const [success, setSuccess] = useState(false);
+
 
   useEffect(() => {
     // Fetch user data for editing
@@ -141,6 +144,14 @@ const [formData, setFormData] = useState({
           'Content-Type': 'application/json' // Set content type to JSON
         }
       });
+      setSuccess(true);
+      toast.success("User details updated SuccessFully!", { autoClose: 2000 });
+      
+      // Refresh the page after 2 seconds
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      setShowModal(true);
       console.log('User details updated:', response.data);
       // Optionally, you can show a success message or redirect the user
     } catch (error) {
@@ -168,7 +179,7 @@ const [formData, setFormData] = useState({
              setViewJobs={setViewJobs}
              setViewinfo={setViewinfo}
             />
-             
+                   <ToastContainer position="top-right" autoClose={2000} />
       
             <div className="container-fluid">
                 <div className="row">
