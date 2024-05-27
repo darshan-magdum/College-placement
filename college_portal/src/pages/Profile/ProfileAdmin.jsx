@@ -435,11 +435,11 @@ style={{backgroundColor:"white"}}/>
 </div>
 
 <div className="d-flex justify-content-end">
-    <button type="button" className="btn btn-success" onClick={handleUpdateButtonClick}>Update</button> 
+    {/* <button type="button" className="btn btn-success" onClick={handleUpdateButtonClick}>Update</button>  */}
     </div>
     <br></br>
 <div className="row">
-    <div className="col-lg-4">
+    <div className="col-lg-6">
         <div className="card mb-4">
             <div className="card-body text-center">
                 <img
@@ -450,7 +450,7 @@ style={{backgroundColor:"white"}}/>
                 />
                 <h5 className="my-3">Admin</h5>
                 <p className="text-muted mb-1">Training and Placement Office</p>
-                <p className="text-muted mb-4">DR JJ Magdum College of Engineering</p>
+                {/* <p className="text-muted mb-4">DR JJ Magdum College of Engineering</p> */}
                 {/* <div className="d-flex justify-content-center mb-2">
                     <button type="button" className="btn btn-primary">Follow</button>
                     <button type="button" className="btn btn-outline-primary ms-1">Message</button>
@@ -459,7 +459,7 @@ style={{backgroundColor:"white"}}/>
         </div>
       
     </div>
-    <div className="col-lg-8">
+    {/* <div className="col-lg-8">
         <div className="card mb-4">
             <div className="card-body">
              
@@ -492,7 +492,7 @@ style={{backgroundColor:"white"}}/>
        
 
        
-    </div>
+    </div> */}
 </div>
 <br></br>
 
