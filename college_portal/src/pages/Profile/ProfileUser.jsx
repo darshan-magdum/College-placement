@@ -134,16 +134,11 @@ const [formData, setFormData] = useState({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const formDataToSend = new FormData();
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-
+  
     try {
-      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, formDataToSend, {
+      const response = await axios.put(`http://localhost:8080/api/users/${userId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json' // Set content type to JSON
         }
       });
       console.log('User details updated:', response.data);
@@ -153,6 +148,7 @@ const [formData, setFormData] = useState({
       // Handle error, show error message, etc.
     }
   };
+  
 
 
     
