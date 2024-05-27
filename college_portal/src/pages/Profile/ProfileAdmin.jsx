@@ -91,7 +91,7 @@ const ProfileAdmin = () => {
   
     const [formData, setFormData] = useState({
       companyName: '',
-      logo: '',
+      logo: null,
       status: 'Active',
       applyTill: '',
       criteria10th: '',
@@ -108,6 +108,27 @@ const ProfileAdmin = () => {
       });
     };
   
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+
+    
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      
+      reader.onloadend = () => {
+        // Convert the image file to a base64 encoded string
+        const base64String = reader.result;
+        setFormData({
+          ...formData,
+          logo: base64String,
+        });
+      };
+      
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    };
 
     const handleSubmit = async (event) => {
       event.preventDefault();
@@ -302,6 +323,7 @@ style={{backgroundColor:"white"}}/>
                 id="logo"
                 required
                 name="logo"
+                onChange={handleFileChange}
               />
             </div>
 
@@ -324,6 +346,7 @@ style={{backgroundColor:"white"}}/>
                 required
                 name="applyTill"
                 onChange={handleChange}
+                min={todayString}
               />
             </div>
             <div className="form-group mb-3">
@@ -331,7 +354,7 @@ style={{backgroundColor:"white"}}/>
                 <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
               </label>
               <input
-                type="text"
+            type="number" min="0" max="100"
                 className="form-control"
                 id="criteria10th"
                 required
@@ -345,7 +368,7 @@ style={{backgroundColor:"white"}}/>
                 <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
               </label>
               <input
-                type="text"
+               type="number" min="0" max="100"
                 className="form-control"
                 id="criteria12thDiploma"
                 required
@@ -359,7 +382,7 @@ style={{backgroundColor:"white"}}/>
                 <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
               </label>
               <input
-                type="text"
+              type="number" min="0" max="100"
                 className="form-control"
                 id="criteriaEngineering"
                 required
@@ -463,6 +486,7 @@ style={{backgroundColor:"white"}}/>
                 id="date"
                 required
                 name="date"
+                min={todayString}
               />
             </div>
 
