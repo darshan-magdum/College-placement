@@ -658,11 +658,12 @@ style={{backgroundColor:"white"}}/>
                     style={{ width: '80px', height: '80px' }}
                   />
                   
-                  <h5 className="mb-0 ms-3">{job.companyName}</h5>
+                  <h5 className="mb-0 ms-3 ">{job.companyName}</h5>
+                 
                 </div>
                 
                 <p className="text-muted">{job.description}</p>
-                <p>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</p>
+                <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
                 <div className="d-flex justify-content-end">
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>{job.status}</button>
                   <button type="button" className="btn btn-primary ms-2" onClick={() => handleDeleteJob(job._id)}>Delete</button>
