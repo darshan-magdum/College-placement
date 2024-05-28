@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../../componets/Navbar/Navbar';
 import University from "../../Images/University.png";
 import Stdsplace_Info from '../Home/Stdsplace_Info';
@@ -15,6 +15,8 @@ const ProfileAdmin = () => {
   const [showModal, setShowModal] = useState(false);
   const [ViewJobs,setViewJobs] = useState(false); 
   const [Viewinfo,setViewinfo] = useState(false); 
+
+  const [jobPostings, setJobPostings] = useState([]);
     
   const GoToHome = () =>{
     setHome(true);
@@ -117,7 +119,7 @@ const ProfileAdmin = () => {
       const reader = new FileReader();
       
       reader.onloadend = () => {
-        // Convert the image file to a base64 encoded string
+      
         const base64String = reader.result;
         setFormData({
           ...formData,
@@ -149,7 +151,21 @@ const ProfileAdmin = () => {
         
       }
     };
-  
+    useEffect(() => {
+      const fetchJobPostings = async () => {
+        try {
+          console.log('Before GET request');
+          const response = await axios.get('http://localhost:8080/api/jobPostings');
+          console.log('After GET request');
+          setJobPostings(response.data);
+        } catch (error) {
+          console.error('Error fetching job postings:', error);
+        }
+      };
+    
+      fetchJobPostings();
+    }, []);
+    
     
     return (
         <>
@@ -614,29 +630,36 @@ style={{backgroundColor:"white"}}/>
 </div>
                  </nav>
 
-<div className="card mb-4">
-  <div className="card-body">
-    <div className="d-flex align-items-center mb-3">
-      <img
-        src="https://via.placeholder.com/50"
-        alt="Company Logo"
-        className="img-fluid rounded-circle"
-        style={{ width: '50px', height: '50px' }}
-      />
-      <h5 className="mb-0 ms-3">Company Name</h5>
-    </div>
-    <p className="text-muted">
-      Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.
-    </p>
-    <p>Last Date to Apply- 2121</p>
-    <div className="d-flex justify-content-end">
-      <button type="button" className="btn btn-danger">Expired</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-success">Active</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-primary">Delete</button>
-    </div>
-  </div>
-</div>
+                 <div className="row">
+        {jobPostings.map(job => (
+          <div key={job._id} className="col-lg-12 mb-4">
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-3">
+                  <img
+                    src={job.logo}
+                    alt="Company Logo"
+                    className="img-fluid rounded-circle"
+                    style={{ width: '50px', height: '50px' }}
+                  />
+                  <h5 className="mb-0 ms-3">{job.companyName}</h5>
+                </div>
+                <p className="text-muted">{job.description}</p>
+                <p>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</p>
+                <div className="d-flex justify-content-end">
+                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>{job.status}</button>
+                  <button type="button" className="btn btn-primary ms-2">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+
 </>
+
+
 
 :
 
@@ -670,6 +693,7 @@ setViewinfo ?
 </div>
 </div>
                </nav>
+               
 <div className="card mb-4">
                                             <div className="card-body">
                                                 <div className="d-flex align-items-center mb-3">
@@ -682,7 +706,9 @@ setViewinfo ?
                 
                                                     />
                                                     
+                                                    
                                                     <h5 className="mb-0 ms-3">How to Prepare for HR Round</h5>
+                                               
                                                 </div>
                                                 <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
                                                 <p>Uploaded on- 2121</p>
