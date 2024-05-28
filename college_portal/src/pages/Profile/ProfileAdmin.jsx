@@ -166,6 +166,19 @@ const ProfileAdmin = () => {
       fetchJobPostings();
     }, []);
     
+
+    const handleDeleteJob = async (id) => {
+      try {
+        await axios.delete(`http://localhost:8080/api/jobPostings/${id}`);
+
+        setJobPostings(jobPostings.filter(job => job._id !== id));
+        setSuccess(true);
+        toast.success("Job  Deleted SuccessFully!", { autoClose: 2000 });
+      } catch (error) {
+        console.error('Error deleting job:', error);
+      }
+    };
+  
     
     return (
         <>
@@ -529,7 +542,7 @@ style={{backgroundColor:"white"}}/>
 </div>
 
 <div className="d-flex justify-content-end">
-    {/* <button type="button" className="btn btn-success" onClick={handleUpdateButtonClick}>Update</button>  */}
+    
     </div>
     <br></br>
 <div className="row">
@@ -635,20 +648,25 @@ style={{backgroundColor:"white"}}/>
           <div key={job._id} className="col-lg-12 mb-4">
             <div className="card">
               <div className="card-body">
+                
                 <div className="d-flex align-items-center mb-3">
+                  
                   <img
                     src={job.logo}
                     alt="Company Logo"
                     className="img-fluid rounded-circle"
-                    style={{ width: '50px', height: '50px' }}
+                    style={{ width: '80px', height: '80px' }}
                   />
+                  
                   <h5 className="mb-0 ms-3">{job.companyName}</h5>
                 </div>
+                
                 <p className="text-muted">{job.description}</p>
                 <p>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</p>
                 <div className="d-flex justify-content-end">
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>{job.status}</button>
-                  <button type="button" className="btn btn-primary ms-2">Delete</button>
+                  <button type="button" className="btn btn-primary ms-2" onClick={() => handleDeleteJob(job._id)}>Delete</button>
+                  <button type="button" className="btn btn-danger ms-2" onClick={handleUpdateButtonClick}>Update</button> 
                 </div>
               </div>
             </div>

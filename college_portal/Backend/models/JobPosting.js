@@ -6,7 +6,7 @@ const jobPostingSchema = new mongoose.Schema({
   companyName: { type: String, required: true },
   logo: { type: String, required: true },
   status: { type: String, enum: ['Active', 'Expired'], required: true },
-  applyTill: { type: Date, required: true },
+  applyTill: { type: Date, required: false },
   criteria10th: { type: String, required: true },
   criteria12thDiploma: { type: String, required: true },
   criteriaEngineering: { type: String, required: true },
