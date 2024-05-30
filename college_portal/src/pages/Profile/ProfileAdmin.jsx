@@ -179,6 +179,7 @@ const ProfileAdmin = () => {
       }
     };
   
+   
     
     return (
         <>
@@ -667,7 +668,7 @@ style={{backgroundColor:"white"}}/>
                 <div className="d-flex justify-content-end">
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>{job.status}</button>
                   <button type="button" className="btn btn-primary ms-2" onClick={() => handleDeleteJob(job._id)}>Delete</button>
-                  <button type="button" className="btn btn-danger ms-2" onClick={handleUpdateButtonClick}>Update</button> 
+                  <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(job._id)}>Update</button> 
                 </div>
               </div>
             </div>
@@ -760,23 +761,115 @@ setViewinfo ?
                 </Modal.Header>
                 <Modal.Body>
                 <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                    <form>
-                        <div className="mb-3">
-                            <label htmlFor="fullName" className="form-label">Email</label>
-                            <input type="text" className="form-control" id="fullName" defaultValue="Johnatan Smith" />
-                        </div>
-                       
-                        <div className="mb-3">
-                            <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                            <input type="tel" className="form-control" id="contactNumber" defaultValue="(097) 234-5678" />
-                        </div>
-                      
-                        <div className="mb-3">
-                            <label htmlFor="contactNumber" className="form-label">College</label>
-                            <input type="tel" className="form-control" id="contactNumber" defaultValue="(097) 234-5678" />
-                        </div>
-                       
-                    </form>
+                <form onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+              <label htmlFor="companyName">
+                <i className="fa-solid fa-user mr-2"></i>Company Name
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="companyName"
+                required
+                placeholder="Company Name"
+                name="companyName"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="logo">
+                <i className="fa-solid fa-envelope mr-2"></i>Logo
+              </label><br/>
+              <input
+                type="file"
+                className="form-control-file"
+                id="logo"
+                required
+                name="logo"
+                onChange={handleFileChange}
+              />
+            </div>
+
+            <div className="form-group mb-4">
+              <label htmlFor="status">Status</label>
+              <select className="form-control" id="status" name="status" onChange={handleChange}>
+                <option value="Active">Active</option>
+                <option value="Expired">Expired</option>
+              </select>
+            </div>
+
+            <div className="form-group mb-3">
+              <label htmlFor="applyTill">
+                <i className="fa-solid fa-phone mr-2"></i>Apply till
+              </label>
+              <input
+                type="date"
+                className="form-control"
+                id="applyTill"
+                required
+                name="applyTill"
+                onChange={handleChange}
+                min={todayString}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="criteria10th">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
+              </label>
+              <input
+            type="number" min="0" max="100"
+                className="form-control"
+                id="criteria10th"
+                required
+                placeholder="10TH Marks"
+                name="criteria10th"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="criteria12thDiploma">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
+              </label>
+              <input
+               type="number" min="0" max="100"
+                className="form-control"
+                id="criteria12thDiploma"
+                required
+                placeholder="12TH  /Diploma Marks"
+                name="criteria12thDiploma"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="criteriaEngineering">
+                <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
+              </label>
+              <input
+              type="number" min="0" max="100"
+                className="form-control"
+                id="criteriaEngineering"
+                required
+                placeholder="Engineering Marks"
+                name="criteriaEngineering"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group mb-4">
+              <label htmlFor="description">Job Description</label>
+              <textarea
+                className="form-control"
+                id="description"
+                rows="3"
+                name="description"
+                onChange={handleChange}
+              ></textarea>
+            </div>
+            <div className="d-flex justify-content-center">
+              <button type="submit" className="btn btn-primary">
+                Post Job
+              </button>
+            </div>
+          </form>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
