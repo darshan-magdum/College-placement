@@ -18,6 +18,9 @@ const ProfileUser = () => {
   const [showModal, setShowModal] = useState(false);
   const [ViewJobs,setViewJobs] = useState(false); 
   const [Viewinfo,setViewinfo] = useState(false); 
+  const [jobPostings, setJobPostings] = useState([]);
+  const [infoPostings, setInfoPostings] = useState([]);
+  console.log("infoPostings",infoPostings)
     
   const GoToHome = () =>{
     setHome(true);
@@ -83,8 +86,7 @@ const ProfileUser = () => {
     }, [userId]);
     
 const [submittedId,setsubmittedId]= useState();
-    
-console.log("submittedId",submittedId)
+
  
     
    
@@ -161,8 +163,38 @@ const [formData, setFormData] = useState({
   };
   
 
+  useEffect(() => {
+    const fetchJobPostings = async () => {
+      try {
+        console.log('Before GET request');
+        const response = await axios.get('http://localhost:8080/api/jobPostings');
+        console.log('After GET request');
+        setJobPostings(response.data);
+      } catch (error) {
+        console.error('Error fetching job postings:', error);
+      }
+    };
+  
+    fetchJobPostings();
+  }, []);
+  
 
+ 
+  
     
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget'); // Assuming your backend API endpoint is at /api/infoget
+        setInfoPostings(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   
     
 
@@ -317,26 +349,47 @@ style={{backgroundColor:"white"}}/>
 </div>
 </div>
                  </nav>
-<div className="card mb-4">
-<div className="card-body">
-    <div className="d-flex align-items-center mb-3">
-        <img
-            src="https://via.placeholder.com/50"
-            alt="Company Logo"
-            className="img-fluid rounded-circle"
-            style={{ width: '50px', height: '50px' }}
-        />
-        <h5 className="mb-0 ms-3">Company Name</h5>
+             
+                 <div className="row">
+  {jobPostings.length === 0 ? (
+    <div className="col-lg-12">
+      <div className="alert alert-info" role="alert">
+        No jobs available.
+      </div>
     </div>
-    <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
-    <p>Last Date to Apply- 2121</p>
-    <div className="d-flex justify-content-end">
-    <button type="button" className="btn btn-danger">Expired</button> &nbsp;&nbsp;&nbsp;
-    <button type="button" className="btn btn-success">Active</button> &nbsp;&nbsp;&nbsp;
-        <button type="button" className="btn btn-primary">Apply Now</button>
-    </div>
+  ) : (
+    jobPostings.map((job) => (
+      <div key={job._id} className="col-lg-12 mb-4">
+        <div className="card">
+          <div className="card-body">
+            <div className="d-flex align-items-center mb-3">
+              <img
+                src={job.logo}
+                alt="Company Logo"
+                className="img-fluid rounded-circle"
+                style={{ width: '80px', height: '80px' }}
+              />
+              <h5 className="mb-0 ms-3">{job.companyName}</h5>
+            </div>
+            <p className="text-muted">{job.description}</p>
+            <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
+            <div className="d-flex justify-content-end">
+              <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                {job.status}
+              </button>
+             
+              {/* <button type="button" className="btn btn-info ms-2" onClick={() => handleUpdateButtonClick(job._id)}> */}
+              <button type="button" className="btn btn-info ms-2">
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
 </div>
-</div>
+
 
 <br></br>
 </>
@@ -369,24 +422,39 @@ style={{backgroundColor:"white"}}/>
 </div>
 </div>
                </nav>
-<div className="card mb-4">
-                                            <div className="card-body">
-                                                <div className="d-flex align-items-center mb-3">
-                                                    
-                                                    <img
-                                                        src={user.profileImageUrl? user.profileImageUrl :University}
-                                                        alt="Company Logo"
-                                                        className="img-fluid rounded-circle"
-                                                        style={{ width: '50px', height: '50px' }}
-                
-                                                    />
-                                                    
-                                                    <h5 className="mb-0 ms-3">How to Prepare for HR Round</h5>
-                                                </div>
-                                                <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
-                                                <p>Uploaded on- 2121</p>
-                                            </div>
-                                        </div>
+
+               <div className="row">
+  {infoPostings.length === 0 ? (
+    <div className="col-lg-12">
+      <div className="alert alert-info" role="alert">
+        No information postings available.
+      </div>
+    </div>
+  ) : (
+    infoPostings.map((info) => (
+      <div key={info._id} className="col-lg-12 mb-4">
+        <div className="card">
+          <div className="card-body">
+            <div className="d-flex align-items-center mb-3">
+              <img
+                src={University}
+                alt="Company Logo"
+                className="img-fluid rounded-circle"
+                style={{ width: '50px', height: '50px' }}
+              />
+              <h5 className="mb-0 ms-3">{info.Title}</h5>
+            </div>
+            <p className="text-muted">{info.Description}</p>
+            <bold>Last Date to Apply: {new Date(info.PostedDate).toLocaleDateString()}</bold>
+            <div className="d-flex justify-content-end">
+              <button type="button" className="btn btn-success">Category - {info.Category}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  )}
+</div>
 </>
 : profile  ?
 <>

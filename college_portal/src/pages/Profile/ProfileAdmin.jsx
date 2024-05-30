@@ -19,7 +19,7 @@ const ProfileAdmin = () => {
   const [jobPostings, setJobPostings] = useState([]);
 
   const [infoPostings, setInfoPostings] = useState([]);
-  console.log("required",infoPostings)
+ 
   const GoToHome = () =>{
     setHome(true);
     setToOtherInfo(false);
@@ -119,9 +119,9 @@ const ProfileAdmin = () => {
     const handleFileChange = (e) => {
       const file = e.target.files[0];
       
-      // Check if a file is selected
+    
       if (file) {
-          // Check if the selected file is an image
+         
           if (file.type && file.type.startsWith('image/')) {
               const reader = new FileReader();
   
@@ -135,9 +135,9 @@ const ProfileAdmin = () => {
   
               reader.readAsDataURL(file);
           } else {
-              // Display an error message or handle invalid file type
+              
             alert("Please Select image file only")
-              // You can show an error message to the user or handle the case accordingly
+              
           }
       }
   };
@@ -749,7 +749,7 @@ style={{backgroundColor:"white"}}/>
 </div>
                  </nav>
 
-                 <div className="row">
+               
                   
                  <div className="row">
   {jobPostings.length === 0 ? (
@@ -792,7 +792,7 @@ style={{backgroundColor:"white"}}/>
   )}
 </div>
 
-      </div>
+      
       
 
 </>
