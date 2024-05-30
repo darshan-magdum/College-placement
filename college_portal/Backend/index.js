@@ -6,6 +6,9 @@ const connection = require("./db");
 const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const jobPostingRoutes = require("./routes/jobPostingRoutes"); 
+const additionInfoRoutes = require("./routes/additionalInfoPostingsRoutes");
+
+
 
 // database connection
 connection();
@@ -21,6 +24,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api", jobPostingRoutes);
+app.use("/api/additionalInfoPostings", additionInfoRoutes);
 
 
 

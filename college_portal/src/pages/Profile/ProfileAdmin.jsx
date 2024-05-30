@@ -17,6 +17,7 @@ const ProfileAdmin = () => {
   const [Viewinfo,setViewinfo] = useState(false); 
 
   const [jobPostings, setJobPostings] = useState([]);
+  const [infoPostings, setInfoPostings] = useState([]);
     
   const GoToHome = () =>{
     setHome(true);
@@ -102,6 +103,7 @@ const ProfileAdmin = () => {
       description: ''
     });
   
+    
     const handleChange = (event) => {
       const { name, value } = event.target;
       setFormData({
@@ -180,7 +182,67 @@ const ProfileAdmin = () => {
     };
   
    
+    const [infoformData, setinfoFormData] = useState({
+      Title: '',
+      Category: 'JobPreparation',
+      PostedDate: '',
+      Description: '',
+    });
+
+ 
+  
+    const infohandleSubmit = async (event) => {
+      event.preventDefault();
     
+      const formData = new FormData(event.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+    
+      try {
+        const response = await axios.post(`http://localhost:8080/api/additionalInfoPostings/infopost`, data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        setSuccess(true);
+        toast.success("New Information Created Successfully!", { autoClose: 2000 });
+        console.log('New Job Created Successfully:', response.data);
+      } catch (error) {
+        console.error('Error updating user details:', error);
+      }
+    };
+    
+    useEffect(() => {
+      const fetchinfoPostings = async () => {
+        try {
+          console.log('Before GET request');
+          const response = await axios.get('http://localhost:8080/api/additionalInfoPostings');
+          console.log('After GET request');
+          setInfoPostings(response.data);
+        } catch (error) {
+          console.error('Error fetching job postings:', error);
+        }
+      };
+    
+      fetchinfoPostings();
+    }, []);
+    
+
+    const infohandleDeleteJob = async (id) => {
+      try {
+        await axios.delete(`http://localhost:8080/api/additionalInfoPostings/${id}`);
+
+        setInfoPostings(jobPostings.filter(job => job._id !== id));
+        setSuccess(true);
+        toast.success("Info Deleted SuccessFully!", { autoClose: 2000 });
+      } catch (error) {
+        console.error('Error deleting job:', error);
+      }
+    };    
+
+
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -470,62 +532,74 @@ style={{backgroundColor:"white"}}/>
     <div className="row">
       <div className="col-md-6">
         <div className="card bg-white shadow p-4">
-          <form>
-            <div className="form-group mb-3">
-              <label htmlFor="title">
-                <i className="fa-solid fa-heading mr-2"></i>Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                required
-                placeholder="Title"
-                name="title"
-              />
-            </div>
+        <form onSubmit={infohandleSubmit}>
+      <div className="form-group mb-3">
+        <label htmlFor="title">
+          <i className="fa-solid fa-heading mr-2"></i>Title
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="title"
+          required
+          placeholder="Title"
+          name="Title"
+          onChange={(e) => setinfoFormData({ ...infoformData, Title: e.target.value })} 
+        />
+      </div>
 
-            <div className="form-group mb-3">
-              <label htmlFor="description">
-                <i className="fa-solid fa-align-left mr-2"></i>Description
-              </label>
-              <textarea
-                className="form-control"
-                id="description"
-                rows="3"
-                name="description"
-                placeholder="Description goes here. This should be a brief overview of the content."
-              ></textarea>
-            </div>
+      <div className="form-group mb-3">
+        <label htmlFor="description">
+          <i className="fa-solid fa-align-left mr-2"></i>Description
+        </label>
+        <textarea
+          className="form-control"
+          id="description"
+          rows="3"
+          name="Description" 
+          onChange={(e) => setinfoFormData({ ...infoformData, Description: e.target.value })} 
+          placeholder="Description goes here. This should be a brief overview of the content."
+        ></textarea>
+      </div>
 
-            <div className="form-group mb-4">
-              <label htmlFor="category">Category</label>
-              <select className="form-control" id="category" name="category">
-                <option value="Job Preparation">Job Preparation</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
+      <div className="form-group mb-4">
+        <label htmlFor="category">Category</label>
+        <select
+          className="form-control"
+          id="category"
+          name="Category"  
+          onChange={(e) => setinfoFormData({ ...infoformData, Category: e.target.value })} 
+        >
+        
+        
+<option value="JobPrepation">Job Preparation</option>
+<option value="others">Others</option>
 
-            <div className="form-group mb-3">
-              <label htmlFor="date">
-                <i className="fa-solid fa-calendar-alt mr-2"></i>Date
-              </label>
-              <input
-                type="date"
-                className="form-control"
-                id="date"
-                required
-                name="date"
-                min={todayString}
-              />
-            </div>
 
-            <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary">
-                Add Information
-              </button>
-            </div>
-          </form>
+        </select>
+      </div>
+
+      <div className="form-group mb-3">
+        <label htmlFor="date">
+          <i className="fa-solid fa-calendar-alt mr-2"></i>Date
+        </label>
+        <input
+          type="date"
+          className="form-control"
+          id="date"
+          required
+          name="PostedDate" 
+          min={todayString}
+          onChange={(e) => setinfoFormData({ ...infoformData, PostedDate: e.target.value })} 
+        />
+      </div>
+
+      <div className="d-flex justify-content-center">
+        <button type="submit" className="btn btn-primary">
+          Add Information
+        </button>
+      </div>
+    </form>
         </div>
       </div>
     </div>
