@@ -17,8 +17,9 @@ const ProfileAdmin = () => {
   const [Viewinfo,setViewinfo] = useState(false); 
 
   const [jobPostings, setJobPostings] = useState([]);
+
   const [infoPostings, setInfoPostings] = useState([]);
-    
+  console.log("required",infoPostings)
   const GoToHome = () =>{
     setHome(true);
     setToOtherInfo(false);
@@ -492,6 +493,7 @@ style={{backgroundColor:"white"}}/>
                 rows="3"
                 name="description"
                 onChange={handleChange}
+                required
               ></textarea>
             </div>
             <div className="d-flex justify-content-center">
@@ -560,6 +562,7 @@ style={{backgroundColor:"white"}}/>
           name="Description" 
           onChange={(e) => setinfoFormData({ ...infoformData, Description: e.target.value })} 
           placeholder="Description goes here. This should be a brief overview of the content."
+          required
         ></textarea>
       </div>
 
@@ -570,6 +573,7 @@ style={{backgroundColor:"white"}}/>
           id="category"
           name="Category"  
           onChange={(e) => setinfoFormData({ ...infoformData, Category: e.target.value })} 
+          required
         >
         
         
@@ -592,6 +596,7 @@ style={{backgroundColor:"white"}}/>
           name="PostedDate" 
           min={todayString}
           onChange={(e) => setinfoFormData({ ...infoformData, PostedDate: e.target.value })} 
+          
         />
       </div>
 
@@ -720,35 +725,48 @@ style={{backgroundColor:"white"}}/>
                  </nav>
 
                  <div className="row">
-        {jobPostings.map(job => (
-          <div key={job._id} className="col-lg-12 mb-4">
-            <div className="card">
-              <div className="card-body">
-                
-                <div className="d-flex align-items-center mb-3">
                   
-                  <img
-                    src={job.logo}
-                    alt="Company Logo"
-                    className="img-fluid rounded-circle"
-                    style={{ width: '80px', height: '80px' }}
-                  />
-                  
-                  <h5 className="mb-0 ms-3 ">{job.companyName}</h5>
-                 
-                </div>
-                
-                <p className="text-muted">{job.description}</p>
-                <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
-                <div className="d-flex justify-content-end">
-                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>{job.status}</button>
-                  <button type="button" className="btn btn-primary ms-2" onClick={() => handleDeleteJob(job._id)}>Delete</button>
-                  <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(job._id)}>Update</button> 
-                </div>
-              </div>
+                 <div className="row">
+  {jobPostings.length === 0 ? (
+    <div className="col-lg-12">
+      <div className="alert alert-info" role="alert">
+        No jobs available.
+      </div>
+    </div>
+  ) : (
+    jobPostings.map((job) => (
+      <div key={job._id} className="col-lg-12 mb-4">
+        <div className="card">
+          <div className="card-body">
+            <div className="d-flex align-items-center mb-3">
+              <img
+                src={job.logo}
+                alt="Company Logo"
+                className="img-fluid rounded-circle"
+                style={{ width: '80px', height: '80px' }}
+              />
+              <h5 className="mb-0 ms-3">{job.companyName}</h5>
+            </div>
+            <p className="text-muted">{job.description}</p>
+            <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
+            <div className="d-flex justify-content-end">
+              <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                {job.status}
+              </button>
+              <button type="button" className="btn btn-primary ms-2" onClick={() => handleDeleteJob(job._id)}>
+                Delete
+              </button>
+              <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(job._id)}>
+                Update
+              </button>
             </div>
           </div>
-        ))}
+        </div>
+      </div>
+    ))
+  )}
+</div>
+
       </div>
       
 
@@ -791,38 +809,45 @@ setViewinfo ?
                
 
 
-                                        <div className="row">
-        {infoPostings.map(info => (
-          <div key={info._id} className="col-lg-12 mb-4">
-            <div className="card">
-              <div className="card-body">
-                
-                <div className="d-flex align-items-center mb-3">
-                  
-                <img
-                                                        src={University}
-                                                        alt="Company Logo"
-                                                        className="img-fluid rounded-circle"
-                                                        style={{ width: '50px', height: '50px' }}
-                
-                                                    />
-                  
-                  <h5 className="mb-0 ms-3 ">{info.Title}</h5>
-                 
-                </div>
-                
-                <p className="text-muted">{info.Description}</p>
-                <bold>Last Date to Apply: {new Date(info.PostedDate).toLocaleDateString()}</bold>
-                <div className="d-flex justify-content-end">
-                  <button type="button" className="btn btn-success">Category - {info.Category}</button>
-                  <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDeleteJob(info._id)}>Delete</button>
-                  <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(info._id)}>Update</button> 
-                </div>
-              </div>
+               <div className="row">
+  {infoPostings.length === 0 ? (
+    <div className="col-lg-12">
+      <div className="alert alert-info" role="alert">
+        No information postings available.
+      </div>
+    </div>
+  ) : (
+    infoPostings.map((info) => (
+      <div key={info._id} className="col-lg-12 mb-4">
+        <div className="card">
+          <div className="card-body">
+            <div className="d-flex align-items-center mb-3">
+              <img
+                src={University}
+                alt="Company Logo"
+                className="img-fluid rounded-circle"
+                style={{ width: '50px', height: '50px' }}
+              />
+              <h5 className="mb-0 ms-3">{info.Title}</h5>
+            </div>
+            <p className="text-muted">{info.Description}</p>
+            <bold>Last Date to Apply: {new Date(info.PostedDate).toLocaleDateString()}</bold>
+            <div className="d-flex justify-content-end">
+              <button type="button" className="btn btn-success">Category - {info.Category}</button>
+              <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDeleteJob(info._id)}>
+                Delete
+              </button>
+              <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(info._id)}>
+                Update
+              </button>
             </div>
           </div>
-        ))}
+        </div>
       </div>
+    ))
+  )}
+</div>
+
       
 </>
 :
