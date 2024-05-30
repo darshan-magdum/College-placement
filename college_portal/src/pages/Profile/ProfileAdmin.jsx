@@ -218,7 +218,7 @@ const ProfileAdmin = () => {
       const fetchinfoPostings = async () => {
         try {
           console.log('Before GET request');
-          const response = await axios.get('http://localhost:8080/api/additionalInfoPostings');
+          const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget');
           console.log('After GET request');
           setInfoPostings(response.data);
         } catch (error) {
@@ -232,9 +232,10 @@ const ProfileAdmin = () => {
 
     const infohandleDeleteJob = async (id) => {
       try {
-        await axios.delete(`http://localhost:8080/api/additionalInfoPostings/${id}`);
+       
+        await axios.delete(`http://localhost:8080/api/additionalInfoPostings/delete/${id}`);
 
-        setInfoPostings(jobPostings.filter(job => job._id !== id));
+        setInfoPostings(jobPostings.filter(info => info._id !== id));
         setSuccess(true);
         toast.success("Info Deleted SuccessFully!", { autoClose: 2000 });
       } catch (error) {
@@ -788,32 +789,41 @@ setViewinfo ?
 </div>
                </nav>
                
-<div className="card mb-4">
-                                            <div className="card-body">
-                                                <div className="d-flex align-items-center mb-3">
-                                                    
-                                                    <img
+
+
+                                        <div className="row">
+        {infoPostings.map(info => (
+          <div key={info._id} className="col-lg-12 mb-4">
+            <div className="card">
+              <div className="card-body">
+                
+                <div className="d-flex align-items-center mb-3">
+                  
+                <img
                                                         src={University}
                                                         alt="Company Logo"
                                                         className="img-fluid rounded-circle"
                                                         style={{ width: '50px', height: '50px' }}
                 
                                                     />
-                                                    
-                                                    
-                                                    <h5 className="mb-0 ms-3">How to Prepare for HR Round</h5>
-                                               
-                                                </div>
-                                                <p className="text-muted">Company description goes here. This should be a brief overview of what the company does, its mission, and any other pertinent information.</p>
-                                                <p>Uploaded on- 2121</p>
-                                                <div className="d-flex justify-content-end">
-      <button type="button" className="btn btn-success">Job Preparation</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-success">Others</button> &nbsp;&nbsp;&nbsp;
-      <button type="button" className="btn btn-primary">Delete</button>
-    </div>
-                                            </div>
-                                            
-                                        </div>
+                  
+                  <h5 className="mb-0 ms-3 ">{info.Title}</h5>
+                 
+                </div>
+                
+                <p className="text-muted">{info.Description}</p>
+                <bold>Last Date to Apply: {new Date(info.PostedDate).toLocaleDateString()}</bold>
+                <div className="d-flex justify-content-end">
+                  <button type="button" className="btn btn-success">Category - {info.Category}</button>
+                  <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDeleteJob(info._id)}>Delete</button>
+                  <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(info._id)}>Update</button> 
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
 </>
 :
 ""}

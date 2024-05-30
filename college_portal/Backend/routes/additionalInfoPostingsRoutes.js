@@ -14,7 +14,7 @@ router.post('/infopost', async (req, res) => {
 });
 
 // Get all additional information postings
-router.get('/additionalInfoPostings', async (req, res) => {
+router.get('/infoget', async (req, res) => {
   try {
     const additionalInfoPostings = await AdditioninfoPosting.find();
     res.send(additionalInfoPostings);
@@ -50,7 +50,7 @@ router.patch('/additionalInfoPostings/:id', async (req, res) => {
 });
 
 // Delete an additional information posting by ID
-router.delete('/additionalInfoPostings/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
   try {
     const additionalInfoPosting = await AdditioninfoPosting.findByIdAndDelete(req.params.id);
     if (!additionalInfoPosting) {
