@@ -116,24 +116,49 @@ const ProfileAdmin = () => {
     const today = new Date();
     const todayString = today.toISOString().split('T')[0];
 
-    
     const handleFileChange = (e) => {
       const file = e.target.files[0];
-      const reader = new FileReader();
       
-      reader.onloadend = () => {
-      
-        const base64String = reader.result;
-        setFormData({
-          ...formData,
-          logo: base64String,
-        });
-      };
-      
+      // Check if a file is selected
       if (file) {
-        reader.readAsDataURL(file);
+          // Check if the selected file is an image
+          if (file.type && file.type.startsWith('image/')) {
+              const reader = new FileReader();
+  
+              reader.onloadend = () => {
+                  const base64String = reader.result;
+                  setFormData({
+                      ...formData,
+                      logo: base64String,
+                  });
+              };
+  
+              reader.readAsDataURL(file);
+          } else {
+              // Display an error message or handle invalid file type
+            alert("Please Select image file only")
+              // You can show an error message to the user or handle the case accordingly
+          }
       }
-    };
+  };
+  
+    // const handleFileChange = (e) => {
+    //   const file = e.target.files[0];
+    //   const reader = new FileReader();
+      
+    //   reader.onloadend = () => {
+      
+    //     const base64String = reader.result;
+    //     setFormData({
+    //       ...formData,
+    //       logo: base64String,
+    //     });
+    //   };
+      
+    //   if (file) {
+    //     reader.readAsDataURL(file);
+    //   }
+    // };
 
     const handleSubmit = async (event) => {
       event.preventDefault();
