@@ -108,7 +108,7 @@ const [formData, setFormData] = useState({
 
 
   useEffect(() => {
-    // Fetch user data for editing
+   
     async function fetchUserData() {
       try {
         const response = await axios.get(`http://localhost:8080/api/users/${userId}`);
@@ -170,6 +170,7 @@ const [formData, setFormData] = useState({
         const response = await axios.get('http://localhost:8080/api/jobPostings');
         console.log('After GET request');
         setJobPostings(response.data);
+        setFilteredJobPostings(response.data);
       } catch (error) {
         console.error('Error fetching job postings:', error);
       }
@@ -186,7 +187,7 @@ const [formData, setFormData] = useState({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget'); // Assuming your backend API endpoint is at /api/infoget
+        const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget'); 
         setInfoPostings(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -198,7 +199,16 @@ const [formData, setFormData] = useState({
   
     
 
-  
+  const [filteredJobPostings, setFilteredJobPostings] = useState([]);
+  const handleFilterChange = (selectedStatus) => {
+    const filteredJobs = jobPostings.filter(job => job.status === selectedStatus);
+    setFilteredJobPostings(filteredJobs);
+  };
+
+  const handleSearchChange = (searchQuery) => {
+    const filteredJobs = jobPostings.filter(job => job.companyName.toLowerCase().includes(searchQuery.toLowerCase()));
+    setFilteredJobPostings(filteredJobs);
+  };
 
     
     
@@ -318,82 +328,71 @@ style={{backgroundColor:"white"}}/>
 
 : JobUpdates ? 
 <>
-<h3 className="mb-2"><b>Job Updates</b></h3>
-<nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-               
-               
-<div class="container">
-<div class="row">
-<div class="col-md-4">
-
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Job Status</option>
-<optgroup label="Job Status">
-<option value="civil_engineering">Active</option>
-<option value="entc">Expired</option>
-</optgroup>
-</select>
-
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-<div class="input-group">
-<input type="text" class="form-control border border-secondary" placeholder="Search by Company Name"
-style={{backgroundColor:"white"}}/>
-</div>
-</div>
-</div>
-</div>
-                 </nav>
-             
-                 <div className="row">
-  {jobPostings.length === 0 ? (
-    <div className="col-lg-12">
-      <div className="alert alert-info" role="alert">
-        No jobs available.
-      </div>
-    </div>
-  ) : (
-    jobPostings.map((job) => (
-      <div key={job._id} className="col-lg-12 mb-4">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex align-items-center mb-3">
-              <img
-                src={job.logo}
-                alt="Company Logo"
-                className="img-fluid rounded-circle"
-                style={{ width: '80px', height: '80px' }}
-              />
-              <h5 className="mb-0 ms-3">{job.companyName}</h5>
+      <h3 className="mb-2"><b>Job Updates</b></h3>
+      <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-4">
+              <select className="form-select border-secondary text-muted" aria-label="Filter" onChange={(e) => handleFilterChange(e.target.value)}>
+                <option selected disabled>Filter By : Job Status</option>
+                <optgroup label="Job Status">
+                  <option value="Active">Active</option>
+                  <option value="Expired">Expired</option>
+                </optgroup>
+              </select>
             </div>
-            <p className="text-muted">{job.description}</p>
-            <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
-            <div className="d-flex justify-content-end">
-              <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-                {job.status}
-              </button>
-             
-              {/* <button type="button" className="btn btn-info ms-2" onClick={() => handleUpdateButtonClick(job._id)}> */}
-              <button type="button" className="btn btn-info ms-2">
-                Apply
-              </button>
+            <div className="col-md-4"></div>
+            <div className="col-md-4">
+              <div className="input-group">
+                <input type="text" className="form-control border border-secondary" placeholder="Search by Company Name"
+                  style={{ backgroundColor: "white" }}
+                  onChange={(e) => handleSearchChange(e.target.value)} />
+              </div>
             </div>
           </div>
         </div>
+      </nav>
+
+      <div className="row">
+        {filteredJobPostings.length === 0 ? (
+          <div className="col-lg-12">
+            <div className="alert alert-info" role="alert">
+              No jobs available.
+            </div>
+          </div>
+        ) : (
+          filteredJobPostings.map((job) => (
+            <div key={job._id} className="col-lg-12 mb-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src={job.logo}
+                      alt="Company Logo"
+                      className="img-fluid rounded-circle"
+                      style={{ width: '80px', height: '80px' }}
+                    />
+                    <h5 className="mb-0 ms-3">{job.companyName}</h5>
+                  </div>
+                  <p className="text-muted">{job.description}</p>
+                  <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
+                  <div className="d-flex justify-content-end">
+                    <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                      {job.status}
+                    </button>
+                    <button type="button" className="btn btn-info ms-2">
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
-
-
-<br></br>
-</>
-: OtherInfo ? <>
+    </>
+: OtherInfo ?
+ <>
 <h3 className="mb-2"><b>Other Information</b></h3>
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
                

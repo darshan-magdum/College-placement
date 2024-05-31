@@ -602,7 +602,7 @@ style={{backgroundColor:"white"}}/>
         >
         
         
-<option value="JobPrepation">Job Preparation</option>
+<option value="JobPreparation">Job Preparation</option>
 <option value="others">Others</option>
 
 
