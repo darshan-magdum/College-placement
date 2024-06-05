@@ -160,6 +160,9 @@ const ProfileAdmin = () => {
     //   }
     // };
 
+    const [filteredJobPostings, setFilteredJobPostings] = useState([]);
+    const [filter, setFilter] = useState([]);
+
     const handleSubmit = async (event) => {
       event.preventDefault();
     
@@ -186,6 +189,7 @@ const ProfileAdmin = () => {
           const response = await axios.get('http://localhost:8080/api/jobPostings');
           console.log('After GET request');
           setJobPostings(response.data);
+          setFilteredJobPostings(response.data);
         } catch (error) {
           console.error('Error fetching job postings:', error);
         }
@@ -240,6 +244,9 @@ const ProfileAdmin = () => {
       }
     };
     
+  
+  
+
     useEffect(() => {
       const fetchinfoPostings = async () => {
         try {
@@ -247,6 +254,7 @@ const ProfileAdmin = () => {
           const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget');
           console.log('After GET request');
           setInfoPostings(response.data);
+          setFilter(response.data);
         } catch (error) {
           console.error('Error fetching job postings:', error);
         }
@@ -269,6 +277,25 @@ const ProfileAdmin = () => {
       }
     };    
 
+   
+
+    const handleFilterChange = (selectedStatus) => {
+      const filteredJobs = jobPostings.filter(job => job.status === selectedStatus);
+      console.log('Filtered infodddd:', filteredJobs);
+      setFilteredJobPostings(filteredJobs);
+    };
+  
+    const handleSearchChange = (searchQuery) => {
+      const filteredJobs = jobPostings.filter(job => job.companyName.toLowerCase().includes(searchQuery.toLowerCase()));
+      setFilteredJobPostings(filteredJobs);
+    };
+
+    const handleinfoFilterChange = (selectedCategory) => {
+      console.log('Selected category:', selectedCategory);
+      const filteredInfo = infoPostings.filter(info => info.Category === selectedCategory);
+      console.log('Filtered info:', filteredInfo);
+      setFilter(filteredInfo); 
+    };
 
     return (
         <>
@@ -721,60 +748,56 @@ ViewJobs ?
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
                
                
-<div class="container">
-<div class="row">
-<div class="col-md-4">
-
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Job Status</option>
-<optgroup label="Job Status">
-<option value="civil_engineering">Active</option>
-<option value="entc">Expired</option>
-</optgroup>
-</select>
-
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-<div class="input-group">
-<input type="text" class="form-control border border-secondary" placeholder="Search by Company Name"
-style={{backgroundColor:"white"}}/>
-</div>
-</div>
-</div>
-</div>
+<div className="row">
+            <div className="col-md-4">
+              <select className="form-select border-secondary text-muted" aria-label="Filter" onChange={(e) => handleFilterChange(e.target.value)}>
+                <option selected disabled>Filter By : Job Status</option>
+                <optgroup label="Job Status">
+                  <option value="Active">Active</option>
+                  <option value="Expired">Expired</option>
+                </optgroup>
+              </select>
+            </div>
+            <div className="col-md-4"></div>
+            <div className="col-md-4">
+              <div className="input-group">
+                <input type="text" className="form-control border border-secondary" placeholder="Search by Company Name"
+                  style={{ backgroundColor: "white" }}
+                  onChange={(e) => handleSearchChange(e.target.value)} />
+              </div>
+            </div>
+          </div>
                  </nav>
 
                
                   
-                 <div className="row">
-  {jobPostings.length === 0 ? (
-    <div className="col-lg-12">
-      <div className="alert alert-info" role="alert">
-        No jobs available.
-      </div>
-    </div>
-  ) : (
-    jobPostings.map((job) => (
-      <div key={job._id} className="col-lg-12 mb-4">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex align-items-center mb-3">
-              <img
-                src={job.logo}
-                alt="Company Logo"
-                className="img-fluid rounded-circle"
-                style={{ width: '80px', height: '80px' }}
-              />
-              <h5 className="mb-0 ms-3">{job.companyName}</h5>
+      
+
+
+<div className="row">
+        {filteredJobPostings.length === 0 ? (
+          <div className="col-lg-12">
+            <div className="alert alert-info" role="alert">
+              No jobs available.
             </div>
-            <p className="text-muted">{job.description}</p>
-            <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
-            <div className="d-flex justify-content-end">
+          </div>
+        ) : (
+          filteredJobPostings.map((job) => (
+            <div key={job._id} className="col-lg-12 mb-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src={job.logo}
+                      alt="Company Logo"
+                      className="img-fluid rounded-circle"
+                      style={{ width: '80px', height: '80px' }}
+                    />
+                    <h5 className="mb-0 ms-3">{job.companyName}</h5>
+                  </div>
+                  <p className="text-muted">{job.description}</p>
+                  <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
+                  <div className="d-flex justify-content-end">
               <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
                 {job.status}
               </button>
@@ -785,13 +808,12 @@ style={{backgroundColor:"white"}}/>
                 Update
               </button>
             </div>
-          </div>
-        </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
-
       
       
 
@@ -805,44 +827,44 @@ setViewinfo ?
 <>
 <h3 className="mb-2"><b>View Information</b></h3>
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-               
-               
-               <div class="container">
-<div class="row">
-<div class="col-md-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <select
+          class="form-select border-secondary text-muted"
+          aria-label="Filter"
+          onChange={(e) => handleinfoFilterChange(e.target.value)}
+          value={filter} 
+        >
+          <option value="Info">Filter By : Info</option>
+          <optgroup label="More Info">
+            <option value="JobPrepation">Job Preparation</option>
+            <option value="Others">Others</option>
+          </optgroup>
 
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Info</option>
-<optgroup label="More Info">
-<option value="civil_engineering">Job Preparation</option>
-<option value="entc">Others</option>
-</optgroup>
-</select>
-
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-
-</div>
-</div>
-</div>
-               </nav>
+         
+        </select>
+      </div>
+    </div>
+  </div>
+  
+</nav>
                
 
 
-               <div className="row">
-  {infoPostings.length === 0 ? (
+           
+
+
+
+<div className="row">
+  {filter.length === 0 ? (
     <div className="col-lg-12">
       <div className="alert alert-info" role="alert">
-        No information postings available.
+        No Information available.
       </div>
     </div>
   ) : (
-    infoPostings.map((info) => (
+    filter.map((info) => (
       <div key={info._id} className="col-lg-12 mb-4">
         <div className="card">
           <div className="card-body">
@@ -872,7 +894,6 @@ setViewinfo ?
     ))
   )}
 </div>
-
       
 </>
 :

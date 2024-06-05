@@ -181,14 +181,15 @@ const [formData, setFormData] = useState({
   
 
  
-  
-    
+  const [filteredJobPostings, setFilteredJobPostings] = useState([]);
+  const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget'); 
         setInfoPostings(response.data);
+        setFilter(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -199,9 +200,10 @@ const [formData, setFormData] = useState({
   
     
 
-  const [filteredJobPostings, setFilteredJobPostings] = useState([]);
+  
   const handleFilterChange = (selectedStatus) => {
     const filteredJobs = jobPostings.filter(job => job.status === selectedStatus);
+    console.log('Filtered infodddd:', filteredJobs);
     setFilteredJobPostings(filteredJobs);
   };
 
@@ -210,7 +212,20 @@ const [formData, setFormData] = useState({
     setFilteredJobPostings(filteredJobs);
   };
 
-    
+  
+  
+  const handleinfoFilterChange = (selectedCategory) => {
+    console.log('Selected category:', selectedCategory);
+    const filteredInfo = infoPostings.filter(info => info.Category === selectedCategory);
+    console.log('Filtered info:', filteredInfo);
+    setFilter(filteredInfo); 
+  };
+
+ 
+
+
+
+
     
     return (
         <>
@@ -380,9 +395,12 @@ style={{backgroundColor:"white"}}/>
                     <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
                       {job.status}
                     </button>
-                    <button type="button" className="btn btn-info ms-2">
-                      Apply
-                    </button>
+                    {job.status == "Active" ? 
+                       <button type="button" className="btn btn-info ms-2">
+                       Apply
+                     </button>
+                     : "" }
+                 
                   </div>
                 </div>
               </div>
@@ -392,45 +410,41 @@ style={{backgroundColor:"white"}}/>
       </div>
     </>
 : OtherInfo ?
- <>
+<>
 <h3 className="mb-2"><b>Other Information</b></h3>
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-               
-               
-               <div class="container">
-<div class="row">
-<div class="col-md-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <select
+          class="form-select border-secondary text-muted"
+          aria-label="Filter"
+          onChange={(e) => handleinfoFilterChange(e.target.value)}
+          value={filter} 
+        >
+          <option value="Info">Filter By : Info</option>
+          <optgroup label="More Info">
+            <option value="JobPrepation">Job Preparation</option>
+            <option value="Others">Others</option>
+          </optgroup>
 
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Info</option>
-<optgroup label="More Info">
-<option value="civil_engineering">Job Preparation</option>
-<option value="entc">Others</option>
-</optgroup>
-</select>
+         
+        </select>
+      </div>
+    </div>
+  </div>
+  
+</nav>
 
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-
-</div>
-</div>
-</div>
-               </nav>
-
-               <div className="row">
-  {infoPostings.length === 0 ? (
+<div className="row">
+  {filter.length === 0 ? (
     <div className="col-lg-12">
       <div className="alert alert-info" role="alert">
-        No information postings available.
+        No Information available.
       </div>
     </div>
   ) : (
-    infoPostings.map((info) => (
+    filter.map((info) => (
       <div key={info._id} className="col-lg-12 mb-4">
         <div className="card">
           <div className="card-body">
@@ -455,6 +469,7 @@ style={{backgroundColor:"white"}}/>
   )}
 </div>
 </>
+
 : profile  ?
 <>
 {user ? <>
