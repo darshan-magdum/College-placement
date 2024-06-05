@@ -250,6 +250,23 @@ const [formData, setFormData] = useState({
   }, [formData, jobPostings]);
 
     
+  const sendApplication = async (jobId) => {
+    try {
+   
+      const response = await axios.post('http://localhost:8080/api/jobsapply', {
+        studentInfo: formData,
+        jobId: jobId
+      });
+      console.log('Application sent:', response.data);
+     
+    } catch (error) {
+      console.error('Error sending application:', error);
+      
+    }
+  };
+  
+
+  
     return (
         <>
     
@@ -416,14 +433,16 @@ style={{backgroundColor:"white"}}/>
                   <p className="text-muted">{job.description}</p>
                   <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
                   <div className="d-flex justify-content-end">
-                    <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-                      {job.status}
-                    </button>
-                    {check10thMarks() && job.status === "Active" ? 
-      <button type="button" className="btn btn-info ms-2">
-        Apply
-      </button>
-      : null }
+                <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+  {job.status}
+</button>
+{check10thMarks() && job.status === "Active" ? 
+  <button type="button" className="btn btn-info ms-2" onClick={() => sendApplication(job._id)}>
+    Apply
+  </button>
+  : null }
+
+
                  
                   </div>
                 </div>
