@@ -438,23 +438,30 @@ style={{backgroundColor:"white"}}/>
                   <p className="text-muted">{job.description}</p>
                   <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
                   <div className="d-flex justify-content-end">
+                  {  job.status === "Active" && applicationStatus === true  ?
+ 
+ <p className='mt-1'style={{color:"black",fontWeight:500}}>Already Applied</p>
+ 
+:""}
+&nbsp;&nbsp;
+
                 <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
   {job.status}
 </button>
 {check10thMarks() && job.status === "Active" && applicationStatus !== true && (
-        <button
-          type="button"
-          className="btn btn-info ms-2"
-          onClick={() => {
-            sendApplication(job._id);
-          }}
-        >
-          Apply
-        </button>
-      )}
-       {applicationStatus == true && (
-        
-      )}
+  <button
+    type="button"
+    className="btn btn-info ms-2"
+    onClick={() => {
+      sendApplication(job._id);
+    }}
+  >
+    Apply
+  </button>
+)}
+
+
+
 
 
                  
