@@ -445,7 +445,7 @@ style={{backgroundColor:"white"}}/>
 :""}
 &nbsp;&nbsp;
 
-                <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                <button type="buttons" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
   {job.status}
 </button>
 {check10thMarks() && job.status === "Active" && applicationStatus !== true && (
