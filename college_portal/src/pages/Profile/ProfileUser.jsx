@@ -224,11 +224,35 @@ const [formData, setFormData] = useState({
  
 
 
+  const check10thMarks = () => {
+    const user10thMarks = parseInt(formData.marks10th); 
+    const jobPostingsWithMatchingMarks = jobPostings.filter(job => {
+      const job10thMarks = parseInt(job.criteria10th);
+     
+     
+      return user10thMarks > job10thMarks
+    });
+ 
+    const conditionMet = jobPostingsWithMatchingMarks.length > 0;
+    return conditionMet;
+ 
+  };
+  
+  
 
+  useEffect(() => {
+    if (Object.keys(formData).length > 0) {
+      const conditionMet = check10thMarks();
+      if (conditionMet) {
+        console.log("Hi");
+      }
+    }
+  }, [formData, jobPostings]);
 
     
     return (
         <>
+    
             <NavBar  profile={profile} setProfile={setProfile} 
              setHome={setHome} 
              setJobUpdates={setJobUpdates} 
@@ -395,11 +419,11 @@ style={{backgroundColor:"white"}}/>
                     <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
                       {job.status}
                     </button>
-                    {job.status == "Active" ? 
-                       <button type="button" className="btn btn-info ms-2">
-                       Apply
-                     </button>
-                     : "" }
+                    {check10thMarks() && job.status === "Active" ? 
+      <button type="button" className="btn btn-info ms-2">
+        Apply
+      </button>
+      : null }
                  
                   </div>
                 </div>
