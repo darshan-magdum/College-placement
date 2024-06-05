@@ -250,18 +250,23 @@ const [formData, setFormData] = useState({
   }, [formData, jobPostings]);
 
     
-  const sendApplication = async (jobId) => {
+  const [applicationStatus, setApplicationStatus] = useState(false);
+console.log("applicationStatus",applicationStatus)
+
+   const sendApplication = async (jobId) => {
     try {
-   
+    
       const response = await axios.post('http://localhost:8080/api/jobsapply', {
         studentInfo: formData,
         jobId: jobId
       });
-      console.log('Application sent:', response.data);
-     
+
+    
+        setApplicationStatus(true);
+      
     } catch (error) {
       console.error('Error sending application:', error);
-      
+      setApplicationStatus(false);
     }
   };
   
@@ -436,11 +441,20 @@ style={{backgroundColor:"white"}}/>
                 <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
   {job.status}
 </button>
-{check10thMarks() && job.status === "Active" ? 
-  <button type="button" className="btn btn-info ms-2" onClick={() => sendApplication(job._id)}>
-    Apply
-  </button>
-  : null }
+{check10thMarks() && job.status === "Active" && applicationStatus !== true && (
+        <button
+          type="button"
+          className="btn btn-info ms-2"
+          onClick={() => {
+            sendApplication(job._id);
+          }}
+        >
+          Apply
+        </button>
+      )}
+       {applicationStatus == true && (
+        
+      )}
 
 
                  
