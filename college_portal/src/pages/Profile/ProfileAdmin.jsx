@@ -70,21 +70,42 @@ const ProfileAdmin = () => {
     }
 
 
+    const [selectedJob, setSelectedJob] = useState(null);
+
+    const handleUpdateButtonClick = (jobId) => {
+      const selected = jobPostings.find(job => job._id === jobId);
+      setSelectedJob(selected);
+      setFormData({
+        companyName: selected.companyName,
+        logo: selected.logo,
+        status: selected.status,
+        applyTill: selected.applyTill,
+        criteria10th: selected.criteria10th,
+        criteria12thDiploma: selected.criteria12thDiploma,
+        criteriaEngineering: selected.criteriaEngineering,
+        description: selected.description
+      });
+      setShowModal(true);
+    };
     
-
-
-      const handleUpdateButtonClick = () => {
-        setShowModal(true);
-    }
-
+  
     const handleCloseModal = () => {
-        setShowModal(false);
+      setShowModal(false);
+      setSelectedJob(null);
+      setFormData({
+        companyName: '',
+        logo: '',
+        status: '',
+        applyTill: '',
+        criteria10th: '',
+        criteria12thDiploma: '',
+        criteriaEngineering: '',
+        description: ''
+      });
     }
 
     
-    const handleUpdateSubmit = () => {
- 
-    }
+
     
 
   
@@ -317,6 +338,20 @@ const ProfileAdmin = () => {
           console.error('Error fetching applications:', error);
         });
     }, []);
+
+    const handleUpdateSubmit = async () => {
+      try {
+        await axios.patch(`http://localhost:8080/api/jobPostings/${selectedJob._id}`, formData);
+        handleCloseModal();
+        // Refresh job postings after update
+        const response = await axios.get('http://localhost:8080/api/jobPostings');
+        setJobPostings(response.data);
+        setFilteredJobPostings(response.data);
+        toast.success("Job Updated SuccessFully!", { autoClose: 2000 });
+      } catch (error) {
+        console.error('Error updating job posting:', error);
+      }
+    };
 
     return (
         <>
@@ -932,132 +967,143 @@ setViewinfo ?
 
             
             {/* Modal for Update */}
-            <Modal show={showModal} onHide={handleCloseModal}  size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>Update Information</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                <form onSubmit={handleSubmit}>
-            <div className="form-group mb-3">
-              <label htmlFor="companyName">
-                <i className="fa-solid fa-user mr-2"></i>Company Name
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="companyName"
-                required
-                placeholder="Company Name"
-                name="companyName"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="logo">
-                <i className="fa-solid fa-envelope mr-2"></i>Logo
-              </label><br/>
-              <input
-                type="file"
-                className="form-control-file"
-                id="logo"
-                required
-                name="logo"
-                onChange={handleFileChange}
-              />
-            </div>
+            <Modal show={showModal} onHide={handleCloseModal} size="lg">
+  <Modal.Header closeButton>
+    <Modal.Title>Update Information</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    <form onSubmit={handleUpdateSubmit}>
+      <div className="form-group mb-3">
+        <label htmlFor="companyName">
+          <i className="fa-solid fa-user mr-2"></i>Company Name
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="companyName"
+          required
+          placeholder="Company Name"
+          name="companyName"
+          value={formData.companyName} // Value set from state
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="logo">
+          <i className="fa-solid fa-envelope mr-2"></i>Logo
+        </label><br/>
+        <input
+          type="file"
+          className="form-control-file"
+          id="logo"
+          required
+          name="logo"
+          onChange={handleChange}
+          // You might need a separate handler for file input, 
+          // this is just a placeholder
+        />
+      </div>
+      <div className="form-group mb-4">
+        <label htmlFor="status">Status</label>
+        <select
+          className="form-control"
+          id="status"
+          name="status"
+          value={formData.status} // Value set from state
+          onChange={handleChange}
+        >
+          <option value="Active">Active</option>
+          <option value="Expired">Expired</option>
+        </select>
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="applyTill">
+          <i className="fa-solid fa-phone mr-2"></i>Apply till
+        </label>
+        <input
+          type="date"
+          className="form-control"
+          id="applyTill"
+          required
+          name="applyTill"
+          value={formData.applyTill} 
+          onChange={handleChange}
+          min={todayString}
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="criteria10th">
+          <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
+        </label>
+        <input
+          type="number"
+          min="0"
+          max="100"
+          className="form-control"
+          id="criteria10th"
+          required
+          placeholder="10TH Marks"
+          name="criteria10th"
+          value={formData.criteria10th} 
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="criteria12thDiploma">
+          <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
+        </label>
+        <input
+          type="number"
+          min="0"
+          max="100"
+          className="form-control"
+          id="criteria12thDiploma"
+          required
+          placeholder="12TH  /Diploma Marks"
+          name="criteria12thDiploma"
+          value={formData.criteria12thDiploma} 
+          onChange={handleChange}
+        />
+      </div>
+      <div className="form-group mb-3">
+        <label htmlFor="criteriaEngineering">
+          <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
+        </label>
+        <input
+          type="number"
+          min="0"
+          max="100"
+          className="form-control"
+          id="criteriaEngineering"
+          required
+          placeholder="Engineering Marks"
+          name="criteriaEngineering"
+          value={formData.criteriaEngineering} 
+        />
+      </div>
+      <div className="form-group mb-4">
+        <label htmlFor="description">Job Description</label>
+        <textarea
+          className="form-control"
+          id="description"
+          rows="3"
+          name="description"
+          value={formData.description} 
+          onChange={handleChange}
+        ></textarea>
+      </div>
+    </form>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseModal}>
+      Close
+    </Button>
+    <Button variant="primary" onClick={handleUpdateSubmit}>
+      Save Changes
+    </Button>
+  </Modal.Footer>
+</Modal>
 
-            <div className="form-group mb-4">
-              <label htmlFor="status">Status</label>
-              <select className="form-control" id="status" name="status" onChange={handleChange}>
-                <option value="Active">Active</option>
-                <option value="Expired">Expired</option>
-              </select>
-            </div>
-
-            <div className="form-group mb-3">
-              <label htmlFor="applyTill">
-                <i className="fa-solid fa-phone mr-2"></i>Apply till
-              </label>
-              <input
-                type="date"
-                className="form-control"
-                id="applyTill"
-                required
-                name="applyTill"
-                onChange={handleChange}
-                min={todayString}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="criteria10th">
-                <i className="fa-solid fa-user mr-2"></i>Criteria - 10TH
-              </label>
-              <input
-            type="number" min="0" max="100"
-                className="form-control"
-                id="criteria10th"
-                required
-                placeholder="10TH Marks"
-                name="criteria10th"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="criteria12thDiploma">
-                <i className="fa-solid fa-user mr-2"></i>Criteria - 12TH / Diploma
-              </label>
-              <input
-               type="number" min="0" max="100"
-                className="form-control"
-                id="criteria12thDiploma"
-                required
-                placeholder="12TH  /Diploma Marks"
-                name="criteria12thDiploma"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="criteriaEngineering">
-                <i className="fa-solid fa-user mr-2"></i>Criteria - Engineering upto 5th or 6th SEM or all SEM
-              </label>
-              <input
-              type="number" min="0" max="100"
-                className="form-control"
-                id="criteriaEngineering"
-                required
-                placeholder="Engineering Marks"
-                name="criteriaEngineering"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group mb-4">
-              <label htmlFor="description">Job Description</label>
-              <textarea
-                className="form-control"
-                id="description"
-                rows="3"
-                name="description"
-                onChange={handleChange}
-              ></textarea>
-            </div>
-            <div className="d-flex justify-content-center">
-              <button type="submit" className="btn btn-primary">
-                Post Job
-              </button>
-            </div>
-          </form>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleUpdateSubmit}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
        
         </>
