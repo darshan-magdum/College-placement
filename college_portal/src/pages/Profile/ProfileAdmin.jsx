@@ -133,6 +133,15 @@ const ProfileAdmin = () => {
         [name]: value
       });
     };
+      // Handler for file input change (logo)
+  const handleEditFileChange = (event) => {
+    // Update logo in formData
+    setFormData({
+      ...formData,
+      logo: event.target.files[0], // Assuming only one file is selected
+    });
+  };
+
   
     const today = new Date();
     const todayString = today.toISOString().split('T')[0];
@@ -998,9 +1007,8 @@ setViewinfo ?
           id="logo"
           required
           name="logo"
-          onChange={handleChange}
-          // You might need a separate handler for file input, 
-          // this is just a placeholder
+          onChange={handleEditFileChange}
+          
         />
       </div>
       <div className="form-group mb-4">
@@ -1017,16 +1025,14 @@ setViewinfo ?
         </select>
       </div>
       <div className="form-group mb-3">
-        <label htmlFor="applyTill">
-          <i className="fa-solid fa-phone mr-2"></i>Apply till
-        </label>
+        <label htmlFor="applyTill">Apply till</label>
         <input
           type="date"
           className="form-control"
           id="applyTill"
           required
           name="applyTill"
-          value={formData.applyTill} 
+          value={formData.applyTill}
           onChange={handleChange}
           min={todayString}
         />
