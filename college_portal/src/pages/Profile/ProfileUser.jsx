@@ -253,23 +253,24 @@ const [formData, setFormData] = useState({
   const [applicationStatus, setApplicationStatus] = useState(false);
 console.log("applicationStatus",applicationStatus)
 
-   const sendApplication = async (jobId) => {
-    try {
-    
-      const response = await axios.post('http://localhost:8080/api/jobsapply', {
-        studentInfo: formData,
-        jobId: jobId
-      });
+const sendApplication = async (jobId) => {
+  try {
+    const response = await axios.post('http://localhost:8080/api/jobsapply', {
+      studentInfo: formData,
+      jobId: jobId
+    });
 
-    
-        setApplicationStatus(true);
-      
-    } catch (error) {
-      console.error('Error sending application:', error);
+    if (response.status === 201) {
+      setApplicationStatus(true);
+    } else {
       setApplicationStatus(false);
     }
-  };
-  
+  } catch (error) {
+    console.error('Error sending application:', error);
+    setApplicationStatus(false);
+  }
+};
+
 
   
     return (
