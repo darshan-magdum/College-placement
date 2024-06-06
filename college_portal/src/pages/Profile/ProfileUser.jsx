@@ -249,8 +249,8 @@ const [formData, setFormData] = useState({
     }
   }, [formData, jobPostings]);
 
-    
-  const [applicationStatus, setApplicationStatus] = useState(false);
+  const [applicationStatus, setApplicationStatus] = useState({});
+
 console.log("applicationStatus",applicationStatus)
 
 const sendApplication = async (jobId) => {
@@ -260,16 +260,30 @@ const sendApplication = async (jobId) => {
       jobId: jobId
     });
 
+    // Update applicationStatus in localStorage
+    const updatedStatus = { ...applicationStatus, [jobId]: response.status === 201 };
+    localStorage.setItem('applicationStatus', JSON.stringify(updatedStatus));
+    setApplicationStatus(updatedStatus);
+
     if (response.status === 201) {
-      setApplicationStatus(true);
-    } else {
-      setApplicationStatus(false);
+      toast.success("Job Application submitted successfully!", { autoClose: 2000 });
     }
   } catch (error) {
     console.error('Error sending application:', error);
-    setApplicationStatus(false);
   }
 };
+
+const hasApplied = (jobId) => {
+  return applicationStatus[jobId];
+};
+
+
+useEffect(() => {
+  const storedStatus = JSON.parse(localStorage.getItem('applicationStatus'));
+  if (storedStatus) {
+    setApplicationStatus(storedStatus);
+  }
+}, []);
 
 
   
@@ -416,63 +430,63 @@ style={{backgroundColor:"white"}}/>
       </nav>
 
       <div className="row">
-        {filteredJobPostings.length === 0 ? (
-          <div className="col-lg-12">
-            <div className="alert alert-info" role="alert">
-              No jobs available.
+  {filteredJobPostings.length === 0 ? (
+    <div className="col-lg-12">
+      <div className="alert alert-info" role="alert">
+        No jobs available.
+      </div>
+    </div>
+  ) : (
+    filteredJobPostings.map((job) => (
+      <div key={job._id} className="col-lg-12 mb-4">
+        <div className="card">
+          <div className="card-body">
+            <div className="d-flex align-items-center mb-3">
+              <img
+                src={job.logo}
+                alt="Company Logo"
+                className="img-fluid rounded-circle"
+                style={{ width: '80px', height: '80px' }}
+              />
+              <h5 className="mb-0 ms-3">{job.companyName}</h5>
+            </div>
+            <p className="text-muted">{job.description}</p>
+            <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
+            <div className="d-flex justify-content-end">
+              {job.status === "Active" && hasApplied(job._id) ? (
+                <>
+                <p className='mt-1' style={{ color: "black", fontWeight: 500 }}>Already Applied</p>
+                &nbsp;&nbsp;
+                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                    {job.status}
+                  </button>
+                  </>
+              ) : (
+                <>
+                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+                    {job.status}
+                  </button>
+                  {check10thMarks() && job.status === "Active" && !hasApplied(job._id) && (
+                    <button
+                      type="button"
+                      className="btn btn-info ms-2"
+                      onClick={() => {
+                        sendApplication(job._id);
+                      }}
+                    >
+                      Apply
+                    </button>
+                  )}
+                </>
+              )}
             </div>
           </div>
-        ) : (
-          filteredJobPostings.map((job) => (
-            <div key={job._id} className="col-lg-12 mb-4">
-              <div className="card">
-                <div className="card-body">
-                  <div className="d-flex align-items-center mb-3">
-                    <img
-                      src={job.logo}
-                      alt="Company Logo"
-                      className="img-fluid rounded-circle"
-                      style={{ width: '80px', height: '80px' }}
-                    />
-                    <h5 className="mb-0 ms-3">{job.companyName}</h5>
-                  </div>
-                  <p className="text-muted">{job.description}</p>
-                  <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
-                  <div className="d-flex justify-content-end">
-                  {  job.status === "Active" && applicationStatus === true  ?
- 
- <p className='mt-1'style={{color:"black",fontWeight:500}}>Already Applied</p>
- 
-:""}
-&nbsp;&nbsp;
-
-                <button type="buttons" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-  {job.status}
-</button>
-{check10thMarks() && job.status === "Active" && applicationStatus !== true && (
-  <button
-    type="button"
-    className="btn btn-info ms-2"
-    onClick={() => {
-      sendApplication(job._id);
-    }}
-  >
-    Apply
-  </button>
-)}
-
-
-
-
-
-                 
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+        </div>
       </div>
+    ))
+  )}
+</div>
+
     </>
 : OtherInfo ?
 <>
