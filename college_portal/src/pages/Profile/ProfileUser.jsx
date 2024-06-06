@@ -394,7 +394,7 @@ style={{backgroundColor:"white"}}/>
              </div>
          </div>
 
-       <Stdsplace_Info/>
+       {/* <Stdsplace_Info/> */}
          <br></br>
      
     

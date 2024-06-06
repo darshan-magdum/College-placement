@@ -81,7 +81,35 @@ Our college placement portal is designed to empower students in their career jou
       </div>
    
     </div>
-            <Stdsplace_Info/>
+    <div className="container">
+      <h2 className="mt-3 mb-4 text-center">Features of Our Placement Portal</h2>
+      <div className="row">
+        <div className="col-md-6 mb-4">
+          <div className="card border-info h-100 rounded shadow">
+            <div className="card-body">
+              <h5 className="card-title text-info mb-4">For Students</h5>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">View jobs uploaded by the college</li>
+                <li className="list-group-item">Apply for jobs</li>
+                <li className="list-group-item">View articles, posts regarding Job Market</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6 mb-4">
+          <div className="card border-success h-100 rounded shadow">
+            <div className="card-body">
+              <h5 className="card-title text-success mb-4">For Colleges</h5>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">Upload job opportunities for students</li>
+                <li className="list-group-item">Review applications from students</li>
+                <li className="list-group-item">Manage job listings and applications</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
        
