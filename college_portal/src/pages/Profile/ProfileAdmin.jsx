@@ -182,6 +182,7 @@ const ProfileAdmin = () => {
         
       }
     };
+  
     useEffect(() => {
       const fetchJobPostings = async () => {
         try {
@@ -189,14 +190,19 @@ const ProfileAdmin = () => {
           const response = await axios.get('http://localhost:8080/api/jobPostings');
           console.log('After GET request');
           setJobPostings(response.data);
-          setFilteredJobPostings(response.data);
         } catch (error) {
           console.error('Error fetching job postings:', error);
         }
       };
-    
+  
       fetchJobPostings();
     }, []);
+  
+    const activeJobCount = jobPostings.filter(job => job.status === "Active").length;
+    const ExpiredJobCount = jobPostings.filter(job => job.status === "Expired").length;
+    const totalJobCount = jobPostings.length;
+
+  console.log("totalJobCount",totalJobCount)
     
 
     const handleDeleteJob = async (id) => {
@@ -575,15 +581,15 @@ work
       <div className="col-md-6 d-flex flex-column justify-content-center">
         <div className="card bg-light shadow mb-3 p-4 text-center">
           <h5 className="text-primary">Total Jobs</h5>
-          <p className="display-4">0</p>
+          <p className="display-4">{totalJobCount}</p>
         </div>
         <div className="card bg-light shadow mb-3 p-4 text-center">
           <h5 className="text-success">Active Jobs</h5>
-          <p className="display-4">0</p>
+          <p className="display-4">{activeJobCount}</p>
         </div>
         <div className="card bg-light shadow mb-3 p-4 text-center">
           <h5 className="text-danger">Expired Jobs</h5>
-          <p className="display-4">0</p>
+          <p className="display-4">{ExpiredJobCount}</p>
         </div>
       </div>
     </div>
