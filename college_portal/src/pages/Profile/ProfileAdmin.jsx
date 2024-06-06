@@ -297,6 +297,21 @@ const ProfileAdmin = () => {
       setFilter(filteredInfo); 
     };
 
+
+    const [applications, setApplications] = useState([]);
+
+    useEffect(() => {
+      // Fetch applications from your backend API using Axios
+      axios.get('http://localhost:8080/api/GetallAppliedJobs')
+        .then(response => {
+          setApplications(response.data);
+          console.log("s",response.data)
+        })
+        .catch(error => {
+          console.error('Error fetching applications:', error);
+        });
+    }, []);
+
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -323,7 +338,7 @@ const ProfileAdmin = () => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
             <span className="material-symbols-outlined" style={{color:'black'}}>home</span>
             <svg className="bi me-2" width="16" height="16"><use xlinkHref="#home"></use></svg>
-            <span>Home</span>
+            <span>Applied Jobs</span>
         </div>
     </a>
 </li>
@@ -387,55 +402,56 @@ work
 {home ?
 
  
-    <>
-         <div className="row">
-         <h3 className="mb-2"><b>Home</b></h3>
-             <div className="col">
-                 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-               
-               
-                 <div class="container">
-<div class="row">
-<div class="col-md-4">
-
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Department</option>
-<optgroup label="Engineering Departments">
-<option value="civil_engineering">Civil Engineering</option>
-<option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
-<option value="information_technology">Information Technology</option>
-<option value="computer_science">Computer Science</option>
-<option value="mechanical_engineering">Mechanical Engineering</option>
-<option value="artificial_intelligence">Artificial Intelligence</option>
-</optgroup>
-</select>
-
+<>
+<div className="row">
+  <h3 className="mb-2"><b>Home</b></h3>
+  <div className="col">
+    <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <select class="form-select border-secondary text-muted" aria-label="Filter">
+              <option selected>Filter By: Department</option>
+              <optgroup label="Engineering Departments">
+                <option value="civil_engineering">Civil Engineering</option>
+                <option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
+                <option value="information_technology">Information Technology</option>
+                <option value="computer_science">Computer Science</option>
+                <option value="mechanical_engineering">Mechanical Engineering</option>
+                <option value="artificial_intelligence">Artificial Intelligence</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" class="form-control border border-secondary" placeholder="Search by Student name" style={{ backgroundColor: "white" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
 </div>
-<div class="col-md-4">
 
+<br></br>
+
+<div className="row">
+  {applications.map(application => (
+    <div key={application._id} className="col-md-6 mb-3">
+      <div className="card">
+        <div className="card-body">
+          <h5 className="card-title">{application.studentName}</h5>
+          <p className="card-text">Contact Number: {application.contactNumber}</p>
+          <p className="card-text">Email: {application.email}</p>
+          <p className="card-text">Department: {application.department}</p>
+          {/* Render additional application details here */}
+        </div>
+      </div>
+    </div>
+  ))}
 </div>
-
-<div class="col-md-4">
-
-<div class="input-group">
-<input type="text" class="form-control border border-secondary" placeholder="Search by Student name"
-style={{backgroundColor:"white"}}/>
-</div>
-</div>
-</div>
-</div>
-                 </nav>
-             </div>
-         </div>
-
-       <Stdsplace_Info/>
-         <br></br>
-     
-    
-     
-
-         </>
-
+</>
 : JobUpdates ? 
 <>
 <h3 className="mb-2"><b>Add New Job</b></h3>

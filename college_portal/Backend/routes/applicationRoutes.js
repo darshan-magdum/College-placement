@@ -7,8 +7,7 @@ const JobPosting = require('../models/JobPosting'); // Import the JobPosting mod
 
 
 // Get all applications
-
-router.get('/Getall', async (req, res) => {
+router.get('/GetallAppliedJobs', async (req, res) => {
   try {
     const applications = await Application.find()
       .populate('jobId') // Populate the associated job details
@@ -20,6 +19,11 @@ router.get('/Getall', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+
+
 
 // Create a new application
 router.post('/jobsapply', async (req, res) => {
