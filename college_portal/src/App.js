@@ -100,7 +100,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <NavBar />
+    
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -111,7 +111,7 @@ function App() {
           <Route path="/profile" element={<ProfileUser />} />
           <Route path="/profile/admin" element={<ProfileAdmin />} />
         </Routes>
-        <Footer />
+      
     
         {isListening && <div>Listening...</div>}
       </div>
