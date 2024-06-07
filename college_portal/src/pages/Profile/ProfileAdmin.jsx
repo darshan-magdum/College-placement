@@ -13,6 +13,7 @@ const ProfileAdmin = () => {
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showinfoModal, setShowinfoModal] = useState(false);
   const [ViewJobs,setViewJobs] = useState(false); 
   const [Viewinfo,setViewinfo] = useState(false); 
 
@@ -370,6 +371,16 @@ const ProfileAdmin = () => {
       const filteredJobs = jobPostings.filter(job => job.companyName.toLowerCase().includes(searchQuery.toLowerCase()));
       setFilteredJobPostings(filteredJobs);
     };
+
+
+
+    const handleUpdateinfoButtonClick=()=>{
+      setShowinfoModal(true);
+    }
+
+    const handleinfoCloseModal = ()=>{
+      setShowinfoModal(false);
+    }
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -954,13 +965,13 @@ setViewinfo ?
               <h5 className="mb-0 ms-3">{info.Title}</h5>
             </div>
             <p className="text-muted">{info.Description}</p>
-            <bold>Last Date to Apply: {new Date(info.PostedDate).toLocaleDateString()}</bold>
+            <bold>Date: {new Date(info.PostedDate).toLocaleDateString()}</bold>
             <div className="d-flex justify-content-end">
               <button type="button" className="btn btn-success">Category - {info.Category}</button>
               <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDeleteJob(info._id)}>
                 Delete
               </button>
-              <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateButtonClick(info._id)}>
+              <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateinfoButtonClick(info._id)}>
                 Update
               </button>
             </div>
@@ -985,7 +996,7 @@ setViewinfo ?
             </div>
 
             
-            {/* Modal for Update */}
+            {/* Modal for Update job */}
             <Modal show={showModal} onHide={handleCloseModal} size="lg">
   <Modal.Header closeButton>
     <Modal.Title>Update Information</Modal.Title>
@@ -1126,6 +1137,90 @@ setViewinfo ?
 
 
        
+       {/* Modal for Update info */}
+       <Modal show={showinfoModal} onHide={handleinfoCloseModal} size="lg">
+  <Modal.Header closeButton>
+    <Modal.Title>Update Information</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+  <form onSubmit={infohandleSubmit}>
+      <div className="form-group mb-3">
+        <label htmlFor="title">
+          <i className="fa-solid fa-heading mr-2"></i>Title
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="title"
+          required
+          placeholder="Title"
+          name="Title"
+ 
+        />
+      </div>
+
+      <div className="form-group mb-3">
+        <label htmlFor="description">
+          <i className="fa-solid fa-align-left mr-2"></i>Description
+        </label>
+        <textarea
+          className="form-control"
+          id="description"
+          rows="3"
+          name="Description" 
+          
+          placeholder="Description goes here. This should be a brief overview of the content."
+          required
+        ></textarea>
+      </div>
+
+      <div className="form-group mb-4">
+        <label htmlFor="category">Category</label>
+        <select
+          className="form-control"
+          id="category"
+          name="Category"  
+         
+          required
+        >
+        
+        
+<option value="JobPreparation">Job Preparation</option>
+<option value="others">Others</option>
+
+
+        </select>
+      </div>
+
+      <div className="form-group mb-3">
+        <label htmlFor="date">
+          <i className="fa-solid fa-calendar-alt mr-2"></i>Date
+        </label>
+        <input
+          type="date"
+          className="form-control"
+          id="date"
+          required
+          name="PostedDate" 
+          min={todayString}
+         
+          
+        />
+      </div>
+
+     
+    </form>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseModal}>
+      Close
+    </Button>
+    <Button variant="primary" onClick={handleUpdateSubmit}>
+      Save Changes
+    </Button>
+  </Modal.Footer>
+</Modal>
+
         </>
     );
 };
