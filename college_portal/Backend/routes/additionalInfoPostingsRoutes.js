@@ -37,7 +37,7 @@ router.get('/additionalInfoPostings/:id', async (req, res) => {
 });
 
 // Update an additional information posting by ID
-router.patch('/additionalInfoPostings/:id', async (req, res) => {
+router.patch('/additionalInfoPostings/edit/:id', async (req, res) => {
   try {
     const additionalInfoPosting = await AdditioninfoPosting.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!additionalInfoPosting) {

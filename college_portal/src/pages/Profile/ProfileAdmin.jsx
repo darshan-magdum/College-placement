@@ -16,11 +16,12 @@ const ProfileAdmin = () => {
   const [showinfoModal, setShowinfoModal] = useState(false);
   const [ViewJobs,setViewJobs] = useState(false); 
   const [Viewinfo,setViewinfo] = useState(false); 
-
+  const [success, setSuccess] = useState(false);
   const [jobPostings, setJobPostings] = useState([]);
 
   const [infoPostings, setInfoPostings] = useState([]);
  
+  console.log("success",success)
   const GoToHome = () =>{
     setHome(true);
     setToOtherInfo(false);
@@ -79,8 +80,7 @@ const ProfileAdmin = () => {
 
   
 
-    const [success, setSuccess] = useState(false);
-
+  
 
   
     const [formData, setFormData] = useState({
@@ -241,9 +241,11 @@ const ProfileAdmin = () => {
             'Content-Type': 'application/json'
           }
         });
+        setInfoPostings([...infoPostings, response.data]);
         setSuccess(true);
         toast.success("New Information Created Successfully!", { autoClose: 2000 });
         console.log('New Job Created Successfully:', response.data);
+        
       } catch (error) {
         console.error('Error updating user details:', error);
       }
@@ -269,14 +271,16 @@ const ProfileAdmin = () => {
     }, []);
     
 
-    const infohandleDeleteJob = async (id) => {
+    const infohandleDelete = async (id) => {
       try {
        
         await axios.delete(`http://localhost:8080/api/additionalInfoPostings/delete/${id}`);
 
-        setInfoPostings(jobPostings.filter(info => info._id !== id));
+        setInfoPostings(infoPostings.filter(info => info._id !== id));
+       
         setSuccess(true);
         toast.success("Info Deleted SuccessFully!", { autoClose: 2000 });
+        
       } catch (error) {
         console.error('Error deleting job:', error);
       }
@@ -316,6 +320,8 @@ const ProfileAdmin = () => {
         const response = await axios.get('http://localhost:8080/api/jobPostings');
         setJobPostings(response.data);
         setFilteredJobPostings(response.data);
+        window.location.reload();
+        setViewJobs(true)
         toast.success("Job Updated SuccessFully!", { autoClose: 2000 });
       } catch (error) {
         console.error('Error updating job posting:', error);
@@ -372,15 +378,55 @@ const ProfileAdmin = () => {
       setFilteredJobPostings(filteredJobs);
     };
 
+    const [selectedinfo, setSelectedinfo] = useState(null);
+  
+    const handleUpdateinfoSubmit = async () => {
+      try {
+        await axios.patch(`http://localhost:8080/api/additionalInfoPostings/additionalInfoPostings/edit/${selectedinfo._id}`, infoformData); // Use infoFormData instead of formData
+        handleinfoCloseModal();
+        // Refresh additional information postings after update
+        const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget');
+        setInfoPostings(response.data);
+        setFilter(response.data);
+        toast.success("Additional Information Updated Successfully!", { autoClose: 2000 });
+      } catch (error) {
+        console.error('Error updating additional information posting:', error);
+      }
+    };
 
+   
+    
 
-    const handleUpdateinfoButtonClick=()=>{
+    
+    const handleUpdateinfoButtonClick = (infoId) => {
+      const selected = infoPostings.find(info => info._id === infoId);
+      const formattedApplyTill = new Date(selected.PostedDate).toISOString().split('T')[0];
+  
+      setSelectedinfo(selected);
+      setinfoFormData({
+        Title: selected.Title,
+        Category: selected.Category,
+        PostedDate: formattedApplyTill,
+        Description: selected.Description
+
+      
+      });
       setShowinfoModal(true);
-    }
+      
+    };
 
     const handleinfoCloseModal = ()=>{
       setShowinfoModal(false);
     }
+
+    const handleInfoInputChange = (event) => {
+      const { name, value } = event.target;
+      setinfoFormData({
+        ...infoformData,
+        [name]: value
+      });
+    };
+    
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -968,7 +1014,7 @@ setViewinfo ?
             <bold>Date: {new Date(info.PostedDate).toLocaleDateString()}</bold>
             <div className="d-flex justify-content-end">
               <button type="button" className="btn btn-success">Category - {info.Category}</button>
-              <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDeleteJob(info._id)}>
+              <button type="button" className="btn btn-primary ms-2" onClick={() => infohandleDelete(info._id)}>
                 Delete
               </button>
               <button type="button" className="btn btn-danger ms-2" onClick={() => handleUpdateinfoButtonClick(info._id)}>
@@ -1143,79 +1189,79 @@ setViewinfo ?
     <Modal.Title>Update Information</Modal.Title>
   </Modal.Header>
   <Modal.Body>
-  <form onSubmit={infohandleSubmit}>
-      <div className="form-group mb-3">
-        <label htmlFor="title">
-          <i className="fa-solid fa-heading mr-2"></i>Title
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="title"
-          required
-          placeholder="Title"
-          name="Title"
+  <form onSubmit={handleUpdateinfoSubmit}>
+  <div className="form-group mb-3">
+    <label htmlFor="title">
+      <i className="fa-solid fa-heading mr-2"></i>Title
+    </label>
+    <input
+      type="text"
+      className="form-control"
+      id="title"
+      required
+      placeholder="Title"
+      name="Title"
+      value={infoformData.Title || ''}
+      onChange={handleInfoInputChange}
+    />
+  </div>
+
+  <div className="form-group mb-3">
+    <label htmlFor="description">
+      <i className="fa-solid fa-align-left mr-2"></i>Description
+    </label>
+    <textarea
+      className="form-control"
+      id="description"
+      rows="3"
+      name="Description"
+      value={infoformData.Description || ''}
+      onChange={handleInfoInputChange}
+      placeholder="Description goes here. This should be a brief overview of the content."
+      required
+    ></textarea>
+  </div>
+
+  <div className="form-group mb-4">
+    <label htmlFor="category">Category</label>
  
-        />
-      </div>
+    <select
+  className="form-control"
+  id="category"
+  name="Category"
+  value={infoformData.Category}
+  onChange={handleInfoInputChange}
+  required
+>
+  <option value="JobPreparation">Job Preparation</option>
+  <option value="others">Others</option>
+</select>
 
-      <div className="form-group mb-3">
-        <label htmlFor="description">
-          <i className="fa-solid fa-align-left mr-2"></i>Description
-        </label>
-        <textarea
-          className="form-control"
-          id="description"
-          rows="3"
-          name="Description" 
-          
-          placeholder="Description goes here. This should be a brief overview of the content."
-          required
-        ></textarea>
-      </div>
+  </div>
 
-      <div className="form-group mb-4">
-        <label htmlFor="category">Category</label>
-        <select
-          className="form-control"
-          id="category"
-          name="Category"  
-         
-          required
-        >
-        
-        
-<option value="JobPreparation">Job Preparation</option>
-<option value="others">Others</option>
+  <div className="form-group mb-3">
+    <label htmlFor="date">
+      <i className="fa-solid fa-calendar-alt mr-2"></i>Date
+    </label>
+    <input
+      type="date"
+      className="form-control"
+      id="date"
+      required
+      name="PostedDate"
+      value={infoformData.PostedDate || ''}
+      onChange={handleInfoInputChange}
+      min={todayString}
+    />
+  </div>
+</form>
 
-
-        </select>
-      </div>
-
-      <div className="form-group mb-3">
-        <label htmlFor="date">
-          <i className="fa-solid fa-calendar-alt mr-2"></i>Date
-        </label>
-        <input
-          type="date"
-          className="form-control"
-          id="date"
-          required
-          name="PostedDate" 
-          min={todayString}
-         
-          
-        />
-      </div>
-
-     
-    </form>
   </Modal.Body>
   <Modal.Footer>
-    <Button variant="secondary" onClick={handleCloseModal}>
+    <Button variant="secondary" onClick={handleinfoCloseModal}>
       Close
     </Button>
-    <Button variant="primary" onClick={handleUpdateSubmit}>
+    <Button variant="primary" onClick={handleUpdateinfoSubmit}>
       Save Changes
     </Button>
   </Modal.Footer>
