@@ -427,6 +427,8 @@ const ProfileAdmin = () => {
       });
     };
     
+
+    console.log("companyName",applications)
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -551,21 +553,35 @@ work
 
 <br></br>
 
-<div className="row">
-  {applications.map(application => (
-    <div key={application._id} className="col-md-6 mb-3">
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">{application.studentName}</h5>
-          <p className="card-text">Contact Number: {application.contactNumber}</p>
-          <p className="card-text">Email: {application.email}</p>
-          <p className="card-text">Department: {application.department}</p>
-          {/* Render additional application details here */}
-        </div>
-      </div>
-    </div>
-  ))}
+<div className="table-responsive">
+  <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+    <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
+      <tr>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
+  
+      </tr>
+    </thead>
+    <tbody>
+      {applications.map(application => (
+        application.jobId && (
+          <tr key={application._id}>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.companyName || 'N/A'}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' ,backgroundColor:'white',color:'black' }}>{application.jobId.status || 'N/A'}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.applyTill || 'N/A'}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.criteria10th || 'N/A'}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.criteria12thDiploma || 'N/A'}</td>
+            
+          </tr>
+        )
+      ))}
+    </tbody>
+  </table>
 </div>
+
 </>
 : JobUpdates ? 
 <>
