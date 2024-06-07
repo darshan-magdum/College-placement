@@ -4,13 +4,21 @@ const express = require('express');
 const router = express.Router();
 const Application = require('../models/ApplicationModel');
 const JobPosting = require('../models/JobPosting'); // Import the JobPosting model
+const User = require('../models/user'); // Import the User model
 
 
 // Get all applications
 router.get('/GetallAppliedJobs', async (req, res) => {
   try {
     const applications = await Application.find()
-      .populate('jobId') // Populate the associated job details
+      .populate({
+        path: 'jobId', // Populate the associated job details
+        select: '-__v' // Exclude the __v field from the job details
+      })
+      .populate({
+        path: 'userId', // Populate the associated user details
+        select: '-password -__v' // Exclude password and __v fields from user details
+      })
       .select('-__v'); // Exclude the __v field from the result
 
     res.json(applications);
@@ -19,6 +27,8 @@ router.get('/GetallAppliedJobs', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 
 
 

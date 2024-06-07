@@ -255,8 +255,11 @@ console.log("applicationStatus",applicationStatus)
 
 const sendApplication = async (jobId) => {
   try {
+    // Extracting specific fields from formData
+    const { Name , email, contact, department , _id } = formData;
+
     const response = await axios.post('http://localhost:8080/api/jobsapply', {
-      studentInfo: formData,
+      studentInfo: { Name , email, contact, department ,_id }, // Sending only required fields
       jobId: jobId
     });
 
