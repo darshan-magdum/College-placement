@@ -283,16 +283,7 @@ const ProfileAdmin = () => {
 
    
 
-    const handleFilterChange = (selectedStatus) => {
-      const filteredJobs = jobPostings.filter(job => job.status === selectedStatus);
-      console.log('Filtered infodddd:', filteredJobs);
-      setFilteredJobPostings(filteredJobs);
-    };
-  
-    const handleSearchChange = (searchQuery) => {
-      const filteredJobs = jobPostings.filter(job => job.companyName.toLowerCase().includes(searchQuery.toLowerCase()));
-      setFilteredJobPostings(filteredJobs);
-    };
+ 
 
     const handleinfoFilterChange = (selectedCategory) => {
       console.log('Selected category:', selectedCategory);
@@ -367,6 +358,18 @@ const ProfileAdmin = () => {
         description: ''
       });
     }
+
+
+    const handleFilterChange = (selectedStatus) => {
+      const filteredJobs = jobPostings.filter(job => job.status === selectedStatus);
+      console.log('Filtered infodddd:', filteredJobs);
+      setFilteredJobPostings(filteredJobs);
+    };
+  
+    const handleSearchChange = (searchQuery) => {
+      const filteredJobs = jobPostings.filter(job => job.companyName.toLowerCase().includes(searchQuery.toLowerCase()));
+      setFilteredJobPostings(filteredJobs);
+    };
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -823,7 +826,7 @@ ViewJobs ?
                
 <div className="row">
             <div className="col-md-4">
-              <select className="form-select border-secondary text-muted" aria-label="Filter" onChange={(e) => handleFilterChange(e.target.value)}>
+            <select className="form-select border-secondary text-muted" aria-label="Filter" onChange={(e) => handleFilterChange(e.target.value)}>
                 <option selected disabled>Filter By : Job Status</option>
                 <optgroup label="Job Status">
                   <option value="Active">Active</option>
