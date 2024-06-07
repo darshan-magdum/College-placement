@@ -256,10 +256,10 @@ console.log("applicationStatus",applicationStatus)
 const sendApplication = async (jobId) => {
   try {
     // Extracting specific fields from formData
-    const { Name , email, contact, department , _id } = formData;
+    const { Name , email, contact, department  } = formData;
 
     const response = await axios.post('http://localhost:8080/api/jobsapply', {
-      studentInfo: { Name , email, contact, department ,_id }, // Sending only required fields
+      studentInfo: { Name , email, contact, department  }, // Sending only required fields
       jobId: jobId
     });
 
@@ -287,6 +287,80 @@ useEffect(() => {
     setApplicationStatus(storedStatus);
   }
 }, []);
+
+
+const [applyShowModal, setApplyShowModal] = useState(false);
+const [applyFormData, setApplyFormData] = useState({
+    studentName: '',
+    contactNumber: '',
+    email: '',
+    department: '',
+    post: ''
+});
+
+const handleOpenApplyEventModal = () => {
+    setApplyShowModal(true);
+};
+
+const handleCloseApplyModal = () => {
+    setApplyShowModal(false);
+};
+
+const handleChangeApplyForm = (e) => {
+    const { name, value } = e.target;
+    setApplyFormData({
+        ...applyFormData,
+        [name]: value
+    });
+};
+
+
+const handleApplyFormSubmit = async (e, jobId) => {
+  e.preventDefault(); // Prevent default form submission
+  
+  try {
+    // Fetch job details based on jobId asynchronously
+    const jobDetailsPromise = axios.get(`http://localhost:8080/api/jobPostings/${jobId}`);
+
+    // Wait for job details retrieval to complete
+    const jobDetailsResponse = await jobDetailsPromise;
+    const jobDetails = jobDetailsResponse.data;
+    
+    // Extract data from applyFormData
+    const { studentName, contactNumber, email, department } = applyFormData;
+
+    // Check if required fields are provided
+    if (!studentName || !contactNumber || !email || !department) {
+      console.error('All fields are required');
+      return; // Exit the function if any required field is missing
+    }
+
+    // Make the POST request
+    const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', {
+      studentName,
+      contactNumber,
+      email,
+      department,
+      jobId,
+      jobDetails // Include job details in the payload
+    });
+
+    // If the request is successful, reset form data and close the modal
+    if (response.status === 201) { // Assuming 201 for created
+      setApplyShowModal(false);
+
+      // Optionally, you can handle success message or other actions here
+      console.log('Application submitted successfully!');
+    }
+  } catch (error) {
+    console.error('Error sending application:', error);
+    // Optionally, you can handle error messages or other actions here
+  }
+};
+
+
+
+
 
 
   
@@ -441,6 +515,7 @@ style={{backgroundColor:"white"}}/>
     </div>
   ) : (
     filteredJobPostings.map((job) => (
+      
       <div key={job._id} className="col-lg-12 mb-4">
         <div className="card">
           <div className="card-body">
@@ -470,22 +545,69 @@ style={{backgroundColor:"white"}}/>
                     {job.status}
                   </button>
                   {check10thMarks() && job.status === "Active" && !hasApplied(job._id) && (
-                    <button
+                    // <button
+                    //   type="button"
+                    //   className="btn btn-info ms-2"
+                    //   onClick={() => {
+                    //     sendApplication(job._id);
+                    //   }}
+                    // >
+                    
+                    //   Apply
+                    // </button>
+
+                     <button
                       type="button"
                       className="btn btn-info ms-2"
                       onClick={() => {
-                        sendApplication(job._id);
+                        handleOpenApplyEventModal();
                       }}
                     >
                       Apply
                     </button>
+
+
+                    
                   )}
                 </>
               )}
             </div>
           </div>
         </div>
+        <Modal show={applyShowModal} onHide={handleCloseApplyModal} size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Apply</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form
+                    onSubmit={(e) => handleApplyFormSubmit(e, job._id)}
+                    >
+                        <div className="mb-3">
+                            <label htmlFor="studentName" className="form-label">Student Name</label>
+                            <input type="text" className="form-control" id="studentName" name="studentName" value={applyFormData.studentName} onChange={handleChangeApplyForm} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="contactNumber" className="form-label">Contact Number</label>
+                            <input type="text" className="form-control" id="contactNumber" name="contactNumber" value={applyFormData.contactNumber} onChange={handleChangeApplyForm} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <input type="email" className="form-control" id="email" name="email" value={applyFormData.email} onChange={handleChangeApplyForm} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="department" className="form-label">Department</label>
+                            <input type="text" className="form-control" id="department" name="department" value={applyFormData.department} onChange={handleChangeApplyForm} />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="post" className="form-label">Post</label>
+                            <input type="text" className="form-control" id="post" name="post" value={applyFormData.post} onChange={handleChangeApplyForm} />
+                        </div>
+                        <button type="submit" className="btn btn-primary" >Submit</button>
+                    </form>
+                </Modal.Body>
+            </Modal>  
       </div>
+      
     ))
   )}
 </div>
@@ -891,6 +1013,9 @@ style={{backgroundColor:"white"}}/>
                 </Modal.Body>
             </Modal>
          
+
+
+        
        
         </>
     );

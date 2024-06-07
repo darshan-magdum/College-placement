@@ -8,15 +8,15 @@ const authRoutes = require("./routes/auth");
 const jobPostingRoutes = require("./routes/jobPostingRoutes"); 
 const additionInfoRoutes = require("./routes/additionalInfoPostingsRoutes");
 const JobApplyRoutes = require("./routes/applicationRoutes");
-
+const JobApplicationRoutes = require("./routes/JobApplicationRoutes");
 
 
 // database connection
 connection();
 
 // middlewares
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit: '400mb' }));
+app.use(express.urlencoded({ limit: '400mb', extended: true }));
 
 
 app.use(cors());
@@ -27,6 +27,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api", jobPostingRoutes);
 app.use("/api/additionalInfoPostings", additionInfoRoutes);
 app.use("/api/", JobApplyRoutes);
+app.use("/api/JobApplicationRoutes", JobApplicationRoutes);
+
+
 
 
 

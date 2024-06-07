@@ -428,7 +428,47 @@ const ProfileAdmin = () => {
     };
     
 
-    console.log("companyName",applications)
+    const [jobapplication, setjobapplication] = useState([]);
+    const getAllJobPostings = async () => {
+      try {
+        // Make the GET request
+        const response = await axios.get('http://localhost:8080/api/JobApplicationRoutes/Getall');
+  
+        // If the request is successful, update the state with the data
+        if (response.status === 200) {
+          setjobapplication(response.data); // Assuming your backend returns an array of job postings
+        }
+      } catch (error) {
+        console.error('Error fetching job postings:', error);
+        // Optionally, you can handle error messages or other actions here
+      }
+    };
+  
+    // Fetch all job postings when the component mounts
+    useEffect(() => {
+      getAllJobPostings();
+    }, []);
+  
+   
+
+    const handleDelete = async (applicationId) => {
+      try {
+        // Make the DELETE request to your backend API to delete the application
+        const response = await axios.delete(`http://localhost:8080/api/JobApplicationRoutes/delete/${applicationId}`);
+    
+        // If the request is successful, update the state or perform any other necessary action
+        if (response.status === 200) {
+          // Refresh the job applications list or update the state as needed
+          getAllJobPostings();
+          toast.success("Record  Deleted Successfully!", { autoClose: 2000 });
+        }
+      } catch (error) {
+        console.error('Error deleting application:', error);
+        // Optionally, you can handle error messages or other actions here
+      }
+    };
+    
+
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -552,7 +592,8 @@ work
 </div>
 
 <br></br>
-
+<div>
+     
 <div className="table-responsive">
   <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
     <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
@@ -562,25 +603,32 @@ work
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
-  
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
       </tr>
     </thead>
     <tbody>
-      {applications.map(application => (
-        application.jobId && (
-          <tr key={application._id}>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.companyName || 'N/A'}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' ,backgroundColor:'white',color:'black' }}>{application.jobId.status || 'N/A'}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.applyTill || 'N/A'}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.criteria10th || 'N/A'}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6',backgroundColor:'white',color:'black' }}>{application.jobId.criteria12thDiploma || 'N/A'}</td>
-            
-          </tr>
-        )
+      {jobapplication.map((application, index) => (
+        <tr key={index}>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+          <button type="button" class="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
+           
+          </td>
+        </tr>
       ))}
     </tbody>
   </table>
 </div>
+
+
+
+    </div>
+
+
 
 </>
 : JobUpdates ? 
