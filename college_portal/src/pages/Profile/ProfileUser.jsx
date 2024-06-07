@@ -348,7 +348,7 @@ const handleApplyFormSubmit = async (e, jobId) => {
     // If the request is successful, reset form data and close the modal
     if (response.status === 201) { // Assuming 201 for created
       setApplyShowModal(false);
-
+      toast.success("Job Application Sent successfully!", { autoClose: 2000 });
       // Optionally, you can handle success message or other actions here
       console.log('Application submitted successfully!');
     }
@@ -576,7 +576,7 @@ style={{backgroundColor:"white"}}/>
         </div>
         <Modal show={applyShowModal} onHide={handleCloseApplyModal} size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Apply</Modal.Title>
+                    <Modal.Title>Apply for Job</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form
@@ -596,12 +596,20 @@ style={{backgroundColor:"white"}}/>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="department" className="form-label">Department</label>
-                            <input type="text" className="form-control" id="department" name="department" value={applyFormData.department} onChange={handleChangeApplyForm} />
+                        
+                            <select class="form-select border-secondary text-muted" aria-label="Filter" id="department" name="department" value={applyFormData.department} onChange={handleChangeApplyForm}>
+<option selected>Filter By : Department</option>
+<optgroup label="Engineering Departments">
+<option value="civil_engineering">Civil Engineering</option>
+<option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
+<option value="information_technology">Information Technology</option>
+<option value="computer_science">Computer Science</option>
+<option value="mechanical_engineering">Mechanical Engineering</option>
+<option value="artificial_intelligence">Artificial Intelligence</option>
+</optgroup>
+</select>
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="post" className="form-label">Post</label>
-                            <input type="text" className="form-control" id="post" name="post" value={applyFormData.post} onChange={handleChangeApplyForm} />
-                        </div>
+                      
                         <button type="submit" className="btn btn-primary" >Submit</button>
                     </form>
                 </Modal.Body>
