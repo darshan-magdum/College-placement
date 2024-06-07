@@ -70,39 +70,7 @@ const ProfileAdmin = () => {
     }
 
 
-    const [selectedJob, setSelectedJob] = useState(null);
-
-    const handleUpdateButtonClick = (jobId) => {
-      const selected = jobPostings.find(job => job._id === jobId);
-      setSelectedJob(selected);
-      setFormData({
-        companyName: selected.companyName,
-        logo: selected.logo,
-        status: selected.status,
-        applyTill: selected.applyTill,
-        criteria10th: selected.criteria10th,
-        criteria12thDiploma: selected.criteria12thDiploma,
-        criteriaEngineering: selected.criteriaEngineering,
-        description: selected.description
-      });
-      setShowModal(true);
-    };
     
-  
-    const handleCloseModal = () => {
-      setShowModal(false);
-      setSelectedJob(null);
-      setFormData({
-        companyName: '',
-        logo: '',
-        status: '',
-        applyTill: '',
-        criteria10th: '',
-        criteria12thDiploma: '',
-        criteriaEngineering: '',
-        description: ''
-      });
-    }
 
     
 
@@ -362,6 +330,43 @@ const ProfileAdmin = () => {
       }
     };
 
+    const [selectedJob, setSelectedJob] = useState(null);
+
+    const handleUpdateButtonClick = (jobId) => {
+      const selected = jobPostings.find(job => job._id === jobId);
+      const formattedApplyTill = new Date(selected.applyTill).toISOString().split('T')[0];
+  
+      setSelectedJob(selected);
+      setFormData({
+        companyName: selected.companyName,
+        logo: selected.logo,
+        status: selected.status,
+        applyTill: formattedApplyTill,
+        criteria10th: selected.criteria10th,
+        criteria12thDiploma: selected.criteria12thDiploma,
+        criteriaEngineering: selected.criteriaEngineering,
+        description: selected.description
+      });
+      setShowModal(true);
+
+      
+    };
+    
+  
+    const handleCloseModal = () => {
+      setShowModal(false);
+      setSelectedJob(null);
+      setFormData({
+        companyName: '',
+        logo: '',
+        status: '',
+        applyTill: '',
+        criteria10th: '',
+        criteria12thDiploma: '',
+        criteriaEngineering: '',
+        description: ''
+      });
+    }
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -812,6 +817,8 @@ ViewJobs ?
 <>
 <h3 className="mb-2"><b>View Jobs</b></h3>
 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
+
+      
                
                
 <div className="row">
@@ -1001,6 +1008,9 @@ setViewinfo ?
         <label htmlFor="logo">
           <i className="fa-solid fa-envelope mr-2"></i>Logo
         </label><br/>
+        {formData.logo && ( 
+          <img src={formData.logo} alt="Logo Preview" style={{ maxWidth: '10%', marginRight: '50px' }} />
+        )}
         <input
           type="file"
           className="form-control-file"
@@ -1010,6 +1020,7 @@ setViewinfo ?
           onChange={handleEditFileChange}
           
         />
+       
       </div>
       <div className="form-group mb-4">
         <label htmlFor="status">Status</label>
