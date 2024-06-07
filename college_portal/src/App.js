@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import NavBar from './componets/Navbar/Navbar';
 import Footer from './componets/Footer/Footer';
 import { About, Home } from './pages';
@@ -12,7 +12,7 @@ import { Forget } from './pages/Account/Forget';
 
 function App() {
   const [isListening, setIsListening] = useState(false);
-
+  const [spokenText, setSpokenText] = useState('');
 
   const handleKeyPress = (event) => {
     if (event.altKey) {
@@ -24,45 +24,51 @@ function App() {
           window.location.href = '/about';
           break;
         case 'l':
-          window.location.href = '/Login';
+          window.location.href = '/login';
           break;
         case 's':
-          window.location.href = '/Signup';
-          break;
-        case 't':
-          setIsListening(true);
+          window.location.href = '/signup';
           break;
         default:
           break;
       }
     }
+    if (event.altKey && event.key === 't') {
+      setIsListening(true);
+    }
   };
-  
-
- 
 
   const handleSpeechRecognition = (event) => {
     const transcript = event.results[0][0].transcript.toLowerCase();
-    switch (transcript) {
-      case 'go to home':
-      case 'navigate to home':
-        window.location.href = '/';
+    const command = transcript.replace('go to ', '').replace('navigate to ', ''); 
+    
+    let pageName, route;
+    switch (command) {
+      case 'home':
+        route = '/';
+        pageName = 'home';
         break;
-      case 'go to about':
-      case 'navigate to about':
-        window.location.href = '/about';
+      case 'about':
+        route = '/about';
+        pageName = 'about';
         break;
-      case 'go to login':
-      case 'navigate to login':
-        window.location.href = '/Login';
+      case 'login':
+        route = '/login';
+        pageName = 'login';
         break;
-      case 'go to signup':
-      case 'navigate to signup':
-        window.location.href = '/Signup';
+      case 'signup':
+        route = '/signup';
+        pageName = 'signup';
         break;
       default:
-        break;
+        speakText("Sorry, please try again.");
+        return;
     }
+    
+    speakText(`Okay, this is your ${pageName} page`);
+    setSpokenText(pageName);
+
+    window.location.href = route; 
   };
 
   useEffect(() => {
@@ -79,23 +85,35 @@ function App() {
     }
   }, [isListening]);
 
-  
+  useEffect(() => {
+    if (spokenText) {
+      speakText(`Okay, I will take you to ${spokenText}.`);
+    }
+  }, [spokenText]);
+
+  const speakText = (text) => {
+    const speechSynthesis = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  };
 
   return (
     <Router>
       <div className="App">
-
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/Signup" element={<Signup />} />
-          <Route path="/Forget" element={<Forget />} />
-          <Route path="/Reset" element={<Reset />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/forget" element={<Forget />} />
+          <Route path="/reset" element={<Reset />} />
           <Route path="/profile" element={<ProfileUser />} />
           <Route path="/profile/admin" element={<ProfileAdmin />} />
         </Routes>
-  
+        <Footer />
+    
+        {isListening && <div>Listening...</div>}
       </div>
     </Router>
   );
