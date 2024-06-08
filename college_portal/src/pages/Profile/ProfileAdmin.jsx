@@ -430,25 +430,43 @@ const ProfileAdmin = () => {
     
 
     const [jobapplication, setjobapplication] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [selectedDepartment, setSelectedDepartment] = useState('');
-    const jobsPerPage = 10;
+   
 
+ 
+    const [currentPage, setCurrentPage] = useState(1);
+const [selectedDepartment, setSelectedDepartment] = useState('');
+const jobsPerPage = 10;
+    const [searchTerm, setSearchTerm] = useState('');
+
+
+  
     const handleDepartmentChange = (e) => {
       setSelectedDepartment(e.target.value);
       setCurrentPage(1); // Reset pagination when department filter changes
     };
   
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    const handlejobapplySearchChange = (e) => {
+      setSearchTerm(e.target.value);
+      setCurrentPage(1); // Reset pagination when search term changes
+    };
+    
     const filteredJobs = selectedDepartment
       ? jobapplication.filter((application) => application.department === selectedDepartment)
       : jobapplication;
-  
+    
+    const searchedJobs = searchTerm
+      ? filteredJobs.filter((application) =>
+          application.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (application.jobId && application.jobId.companyName.toLowerCase().includes(searchTerm.toLowerCase()))
+        )
+      : filteredJobs;
+    
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
-  
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
+    const currentJobs = searchedJobs.slice(indexOfFirstJob, indexOfLastJob);
+    
    
     const getAllJobPostings = async () => {
       try {
@@ -605,15 +623,17 @@ work
             </optgroup>
           </select>
         </div>
-        <div className="col-md-4"></div>
-        <div className="col-md-4">
+        <div className="col-md-2"></div>
+        <div className="col-md-6">
           <div className="input-group">
-            <input
-              type="text"
-              className="form-control border border-secondary"
-              placeholder="Search by Student name"
-              style={{ backgroundColor: "white" }}
-            />
+          <input
+      type="text"
+      className="form-control border border-secondary"
+      placeholder="Search by Student or Company Name"
+      style={{ backgroundColor: "white" }}
+      value={searchTerm}
+      onChange={handlejobapplySearchChange}
+    />
           </div>
         </div>
       </div>
