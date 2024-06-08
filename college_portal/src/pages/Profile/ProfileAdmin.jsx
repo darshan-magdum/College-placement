@@ -511,6 +511,22 @@ const jobsPerPage = 10;
     const serverUrl = 'http://localhost:8080'; // Update with your server URL
     const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
     
+    const handleSaveRecords = () => {
+      const recordsText = currentJobs.map(application => {
+        return `${application.studentName}, ${application.department}, ${application.email}, ${application.contactNumber}, ${application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}, ${application.resume ? application.resume : 'N/A'}\n`;
+      }).join('');
+    
+      const blob = new Blob([recordsText], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+    
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'job_records.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
 
     return (
         <>
@@ -638,7 +654,12 @@ work
         </div>
       </div>
 
+
       <br />
+      <div className="d-flex justify-content-end mt-2 mb-2"> {/* Added mb-2 for margin-bottom */}
+  <button type="button" className="btn btn-primary" onClick={handleSaveRecords}>Download Records</button>
+</div>
+
 
       <div className="table-responsive">
         <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
