@@ -223,34 +223,41 @@ const [formData, setFormData] = useState({
  
 
 
-  const check10thMarks = () => {
-    const user10thMarks = parseInt(formData.marks10th); 
-    const jobPostingsWithMatchingMarks = jobPostings.filter(job => {
-      const job10thMarks = parseInt(job.criteria10th);
-     
-     
-      return user10thMarks > job10thMarks
+  const checkEligibility = () => {
+    const user10thMarks = parseInt(formData.marks10th);
+    const user12thMarks = parseInt(formData.marks12thDiploma); 
+    const engineeringMarks = parseInt(formData.engineeringLastYear); 
+    
+    const eligibleJobPostings = jobPostings.filter(job => {
+        const job10thMarks = parseInt(job.criteria10th);
+        const job12thMarks = parseInt(job.criteria12th);
+        const jobEngineeringMarks = parseInt(job.criteriaEngineering);
+        
+        return user10thMarks >= job10thMarks &&
+               user12thMarks >= job12thMarks &&
+               engineeringMarks >= jobEngineeringMarks;
     });
- 
-    const conditionMet = jobPostingsWithMatchingMarks.length > 0;
-    return conditionMet;
- 
-  };
+    
+    const allCriteriaMet = eligibleJobPostings.length > 0;
+    return allCriteriaMet;
+};
+
   
   
 
-  useEffect(() => {
-    if (Object.keys(formData).length > 0) {
-      const conditionMet = check10thMarks();
-      if (conditionMet) {
-        console.log("Hi");
+useEffect(() => {
+  if (Object.keys(formData).length > 0) {
+      const isEligible = checkEligibility();
+      if (isEligible) {
+          console.log("Hi");
       }
-    }
-  }, [formData, jobPostings]);
+  }
+}, [formData, jobPostings]);
+
 
   const [applicationStatus, setApplicationStatus] = useState({});
 
-console.log("applicationStatus",applicationStatus)
+
 
 const sendApplication = async (jobId) => {
   try {
@@ -571,17 +578,8 @@ info
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
                     {job.status}
                   </button>
-                  {check10thMarks() && job.status === "Active" && !hasApplied(job._id) && (
-                    // <button
-                    //   type="button"
-                    //   className="btn btn-info ms-2"
-                    //   onClick={() => {
-                    //     sendApplication(job._id);
-                    //   }}
-                    // >
-                    
-                    //   Apply
-                    // </button>
+                  {checkEligibility() && job.status === "Active" && !hasApplied(job._id) && (
+                
 
                      <button
                       type="button"
