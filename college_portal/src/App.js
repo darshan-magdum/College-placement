@@ -56,9 +56,9 @@ function App() {
         route = '/login';
         pageName = 'login';
         break;
-      case 'signup':
+      case 'new account':
         route = '/signup';
-        pageName = 'signup';
+        pageName = 'new account';
         break;
       default:
         speakText("Sorry, please try again.");
