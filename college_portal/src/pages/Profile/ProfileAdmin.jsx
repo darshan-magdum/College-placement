@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { Pagination } from 'react-bootstrap';
 const ProfileAdmin = () => {
 
     const [home,setHome] = useState(true);
@@ -429,7 +430,19 @@ const ProfileAdmin = () => {
     
 
     const [jobapplication, setjobapplication] = useState([]);
-    console.log("jobapplication",jobapplication)
+  
+    const [currentPage, setCurrentPage] = useState(1);
+    const jobsPerPage = 10;
+  
+    const indexOfLastJob = currentPage * jobsPerPage;
+    const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+    const currentJobs = jobapplication.slice(indexOfFirstJob, indexOfLastJob);
+
+  
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
+  
+   
     const getAllJobPostings = async () => {
       try {
         // Make the GET request
@@ -452,6 +465,7 @@ const ProfileAdmin = () => {
   
    
 
+
     const handleDelete = async (applicationId) => {
       try {
         // Make the DELETE request to your backend API to delete the application
@@ -472,7 +486,11 @@ const ProfileAdmin = () => {
     const serverUrl = 'http://localhost:8080'; // Update with your server URL
     const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
     
-console.log("fileUrls",fileUrls)    
+console.log("fileUrls",fileUrls)   
+
+console.log("Job Applications:", jobapplication);
+console.log("Current Jobs:", currentJobs);
+
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -648,49 +666,59 @@ work
 
 
 <div className="table-responsive">
-    <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-      <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
-        <tr>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
-          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {jobapplication.map((application, index) => (
-          <tr key={index}>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
-              {application.resume ? (
-                <div>
-                  {/* Display a link to download or view the resume */}
-                  <a href={`http://localhost:8080/${application.resume}`} download={`${application.studentName}_Resume`} target="_blank" rel="noopener noreferrer">Download Resume</a>
-                </div>
-              ) : (
-                <span>N/A</span>
-              )}
-            </td>
-            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
-              <button type="button" className="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-        {jobapplication.length === 0 && (
+      <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+        <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
           <tr>
-            <td colSpan="7" style={{ padding: '8px', textAlign: 'center', border: '1px solid #dee2e6' }}>Nobody has applied yet</td>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
+            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
           </tr>
-        )}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+        <tbody>
+          {currentJobs.map((application, index) => (
+            <tr key={index}>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+                {application.resume ? (
+                  <div>
+                    <a href={`http://localhost:8080/${application.resume}`} download={`${application.studentName}_Resume`} target="_blank" rel="noopener noreferrer">Download Resume</a>
+                  </div>
+                ) : (
+                  <span>N/A</span>
+                )}
+              </td>
+              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+                <button type="button" className="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+          {currentJobs.length === 0 && (
+            <tr>
+              <td colSpan="7" style={{ padding: '8px', textAlign: 'center', border: '1px solid #dee2e6' }}>Nobody has applied yet</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+  
+      <Pagination className="justify-content-end mt-2">
+  <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+  {Array.from({ length: Math.ceil(jobapplication.length / jobsPerPage) }, (_, i) => (
+    <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
+      {i + 1}
+    </Pagination.Item>
+  ))}
+  <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === Math.ceil(jobapplication.length / jobsPerPage)} />
+</Pagination>
+
+    </div>
 
 
 
