@@ -565,35 +565,27 @@ info
             <p className="text-muted">{job.description}</p>
             <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
             <div className="d-flex justify-content-end">
-              {job.status === "Active" && hasApplied(job._id) ? (
+              {job.status === "Active"  ? (
                 <>
-                <p className='mt-1' style={{ color: "black", fontWeight: 500 }}>Already Applied</p>
-                &nbsp;&nbsp;
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-                    {job.status}
-                  </button>
-                  </>
+                 {job.status}
+               </button>
+                 <button
+                 type="button"
+                 className="btn btn-info ms-2"
+                 onClick={() => {
+                   handleOpenApplyEventModal();
+                 }}
+               >
+                 Apply
+               </button>
+               </>
               ) : (
                 <>
                   <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
                     {job.status}
                   </button>
-                  {checkEligibility() && job.status === "Active" && !hasApplied(job._id) && (
-                
-
-                     <button
-                      type="button"
-                      className="btn btn-info ms-2"
-                      onClick={() => {
-                        handleOpenApplyEventModal();
-                      }}
-                    >
-                      Apply
-                    </button>
-
-
-                    
-                  )}
+                 
                 </>
               )}
             </div>
