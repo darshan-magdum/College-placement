@@ -74,7 +74,7 @@ const ProfileUser = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/users/${userId}`); // Use userId in the API URL
+                const response = await axios.get(`http://localhost:8080/api/users/${userId}`); 
                 setUser(response.data);
             } catch (error) {
                 console.error('Error fetching user details:', error);
@@ -266,15 +266,15 @@ useEffect(() => {
 
 const sendApplication = async (jobId) => {
   try {
-    // Extracting specific fields from formData
+    
     const { Name , email, contact, department  } = formData;
 
     const response = await axios.post('http://localhost:8080/api/jobsapply', {
-      studentInfo: { Name , email, contact, department  }, // Sending only required fields
+      studentInfo: { Name , email, contact, department  }, 
       jobId: jobId
     });
 
-    // Update applicationStatus in localStorage
+   
     const updatedStatus = { ...applicationStatus, [jobId]: response.status === 201 };
     localStorage.setItem('applicationStatus', JSON.stringify(updatedStatus));
     setApplicationStatus(updatedStatus);
@@ -287,9 +287,7 @@ const sendApplication = async (jobId) => {
   }
 };
 
-const hasApplied = (jobId) => {
-  return applicationStatus[jobId];
-};
+
 
 
 useEffect(() => {
@@ -328,7 +326,7 @@ const handleChangeApplyForm = (e) => {
 
 
 const handleResumeChange = (e) => {
-  // Add validation for file type (Word or PDF)
+ 
   const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
   const selectedFile = e.target.files[0];
 
@@ -338,82 +336,38 @@ const handleResumeChange = (e) => {
           resume: selectedFile
       });
   } else {
-      // Handle invalid file type error
+      
       alert('Please upload a Word (.doc, .docx) or PDF (.pdf) file.');
-      // Clear the file input
+      
       e.target.value = null;
   }
 };
 
-// const handleApplyFormSubmit = async (e, jobId) => {
-//   e.preventDefault(); // Prevent default form submission
-  
-//   try {
-//     // Fetch job details based on jobId asynchronously
-//     const jobDetailsPromise = axios.get(`http://localhost:8080/api/jobPostings/${jobId}`);
-
-//     // Wait for job details retrieval to complete
-//     const jobDetailsResponse = await jobDetailsPromise;
-//     const jobDetails = jobDetailsResponse.data;
-    
-//     // Extract data from applyFormData
-//     const { studentName, contactNumber, email, department ,resume } = applyFormData;
-
-//     // Check if required fields are provided
-//     if (!studentName || !contactNumber || !email || !department || !resume) {
-//       console.error('All fields are required');
-//       return; // Exit the function if any required field is missing
-//     }
-
-//     // Make the POST request
-//     const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', {
-//       studentName,
-//       contactNumber,
-//       email,
-//       resume,
-//       department,
-//       jobId,
-//       jobDetails 
-
-//     });
-
-//     // If the request is successful, reset form data and close the modal
-//     if (response.status === 201) { // Assuming 201 for created
-//       setApplyShowModal(false);
-//       toast.success("Job Application Sent successfully!", { autoClose: 2000 });
-//       // Optionally, you can handle success message or other actions here
-//       console.log('Application submitted successfully!');
-//     }
-//   } catch (error) {
-//     console.error('Error sending application:', error);
-//     // Optionally, you can handle error messages or other actions here
-//   }
-// };
 
 
 
 
 const handleApplyFormSubmit = async (e, jobId) => {
-  e.preventDefault(); // Prevent default form submission
+  e.preventDefault(); 
   
   try {
-    // Fetch job details based on jobId asynchronously
+    
     const jobDetailsPromise = axios.get(`http://localhost:8080/api/jobPostings/${jobId}`);
 
-    // Wait for job details retrieval to complete
+   
     const jobDetailsResponse = await jobDetailsPromise;
     const jobDetails = jobDetailsResponse.data;
     
-    // Extract data from applyFormData
+   
     const { studentName, contactNumber, email, department, resume } = applyFormData;
 
-    // Check if required fields are provided
+ 
     if (!studentName || !contactNumber || !email || !department || !jobDetails || !jobDetails._id) {
       console.error('All fields are required');
-      return; // Exit the function if any required field is missing
+      return; 
     }
 
-    // Create FormData object to send resume file and form data
+
     const formData = new FormData();
     formData.append('studentName', studentName);
     formData.append('contactNumber', contactNumber);
@@ -422,17 +376,17 @@ const handleApplyFormSubmit = async (e, jobId) => {
     formData.append('jobId', jobId);
     formData.append('resume', resume);
 
-    // Append job details to formData
+   
     formData.append('jobDetails', JSON.stringify(jobDetails));
 
-    // Make the POST request to submit job application with resume and job details
+   
     const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     });
 
-    // If the request is successful, reset form data and close the modal
+    
     if (response.status === 201) {
       setApplyShowModal(false);
       toast.success("Job Application Sent successfully!", { autoClose: 2000 });
@@ -440,7 +394,7 @@ const handleApplyFormSubmit = async (e, jobId) => {
     }
   } catch (error) {
     console.error('Error sending application:', error);
-    // Optionally, you can handle error messages or other actions here
+   
   }
 };
 
@@ -921,22 +875,7 @@ info
           <label htmlFor="marks12thDiploma" className="form-label">12th / Diploma</label>
           <input type="number" min="0" max="100" className="form-control" id="marks12thDiploma" name="marks12thDiploma" value={formData.marks12thDiploma} onChange={handleChange} />
         </div>
-        {/* <div className="mb-3">
-          <label htmlFor="engineeringFirstYear" className="form-label">Engineering First Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringFirstYear" name="engineeringFirstYear" value={formData.engineeringFirstYear} onChange={handleChange} />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="engineeringSecondYear" className="form-label">Engineering Second Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringSecondYear" name="engineeringSecondYear" value={formData.engineeringSecondYear} onChange={handleChange} />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="engineeringThirdYear" className="form-label">Engineering Third Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringThirdYear" name="engineeringThirdYear" value={formData.engineeringThirdYear} onChange={handleChange} />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="engineeringLastYear" className="form-label">Engineering Last Year</label>
-          <input type="number" min="0" max="100" className="form-control" id="engineeringLastYear" name="engineeringLastYear" value={formData.engineeringLastYear} onChange={handleChange} />
-        </div> */}
+       
 
 {formData.studyingYear === 'first' && (
                                 <>

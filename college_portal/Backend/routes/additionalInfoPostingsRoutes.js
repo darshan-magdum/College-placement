@@ -23,7 +23,7 @@ router.get('/infoget', async (req, res) => {
   }
 });
 
-// Get a single additional information posting by ID
+// Get by ID
 router.get('/additionalInfoPostings/:id', async (req, res) => {
   try {
     const additionalInfoPosting = await AdditioninfoPosting.findById(req.params.id);

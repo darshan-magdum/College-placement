@@ -13,7 +13,7 @@ export const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    contact: "", 
+    contact: "",
   });
 
   const [error, setError] = useState("");

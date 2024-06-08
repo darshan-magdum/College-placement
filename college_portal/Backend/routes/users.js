@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
         });
         await user.save();
       
-        // Return user ID upon successful signup
+        
         res.status(201).send({ message: "User created successfully", userId: user._id });
     } catch (error) {
         console.error(error);
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// GET route for getting a user by ID
+//  getting a user by ID
 router.get("/:userId", async (req, res) => {
     try {
         // Check if userId is a valid ObjectId
@@ -64,18 +64,17 @@ router.get("/:userId", async (req, res) => {
 
 router.put("/:userId", async (req, res) => {
     try {
-        // Check if userId is a valid ObjectId
+       
         if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
             return res.status(400).send({ message: "Invalid user ID" });
         }
 
-        // Find the user by ID
         let user = await User.findById(req.params.userId);
         if (!user) {
             return res.status(404).send({ message: "User not found" });
         }
 
-        // Update user profile fields
+        
         user.address = req.body.address || user.address;
         user.interest = req.body.interest || user.interest;
         user.department = req.body.department || user.department;
@@ -87,10 +86,10 @@ router.put("/:userId", async (req, res) => {
         user.engineeringThirdYear = req.body.engineeringThirdYear || user.engineeringThirdYear;
         user.engineeringLastYear = req.body.engineeringLastYear || user.engineeringLastYear;
 
-        // Save the updated user profile
+        
         await user.save();
 
-        // Return success response with only the updated fields
+       
         res.status(200).send({ message: "User profile updated successfully", updatedFields: req.body });
     } catch (error) {
         console.error(error);

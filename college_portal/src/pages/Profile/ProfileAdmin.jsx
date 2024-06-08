@@ -104,12 +104,12 @@ const ProfileAdmin = () => {
         [name]: value
       });
     };
-      // Handler for file input change (logo)
+     
   const handleEditFileChange = (event) => {
-    // Update logo in formData
+    
     setFormData({
       ...formData,
-      logo: event.target.files[0], // Assuming only one file is selected
+      logo: event.target.files[0], 
     });
   };
 
@@ -143,23 +143,6 @@ const ProfileAdmin = () => {
       }
   };
   
-    // const handleFileChange = (e) => {
-    //   const file = e.target.files[0];
-    //   const reader = new FileReader();
-      
-    //   reader.onloadend = () => {
-      
-    //     const base64String = reader.result;
-    //     setFormData({
-    //       ...formData,
-    //       logo: base64String,
-    //     });
-    //   };
-      
-    //   if (file) {
-    //     reader.readAsDataURL(file);
-    //   }
-    // };
 
     const [filteredJobPostings, setFilteredJobPostings] = useState([]);
     const [filter, setFilter] = useState([]);
@@ -303,7 +286,7 @@ const ProfileAdmin = () => {
     const [applications, setApplications] = useState([]);
 
     useEffect(() => {
-      // Fetch applications from your backend API using Axios
+     
       axios.get('http://localhost:8080/api/GetallAppliedJobs')
         .then(response => {
           setApplications(response.data);
@@ -318,7 +301,7 @@ const ProfileAdmin = () => {
       try {
         await axios.patch(`http://localhost:8080/api/jobPostings/${selectedJob._id}`, formData);
         handleCloseModal();
-        // Refresh job postings after update
+       
         const response = await axios.get('http://localhost:8080/api/jobPostings');
         setJobPostings(response.data);
         setFilteredJobPostings(response.data);
@@ -386,7 +369,7 @@ const ProfileAdmin = () => {
       try {
         await axios.patch(`http://localhost:8080/api/additionalInfoPostings/additionalInfoPostings/edit/${selectedinfo._id}`, infoformData); // Use infoFormData instead of formData
         handleinfoCloseModal();
-        // Refresh additional information postings after update
+      
         const response = await axios.get('http://localhost:8080/api/additionalInfoPostings/infoget');
         setInfoPostings(response.data);
         setFilter(response.data);
@@ -443,14 +426,14 @@ const jobsPerPage = 10;
   
     const handleDepartmentChange = (e) => {
       setSelectedDepartment(e.target.value);
-      setCurrentPage(1); // Reset pagination when department filter changes
+      setCurrentPage(1); 
     };
   
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const handlejobapplySearchChange = (e) => {
       setSearchTerm(e.target.value);
-      setCurrentPage(1); // Reset pagination when search term changes
+      setCurrentPage(1);
     };
     
     const filteredJobs = selectedDepartment
@@ -471,20 +454,20 @@ const jobsPerPage = 10;
    
     const getAllJobPostings = async () => {
       try {
-        // Make the GET request
+    
         const response = await axios.get('http://localhost:8080/api/JobApplicationRoutes/Getall');
   
-        // If the request is successful, update the state with the data
+      
         if (response.status === 200) {
-          setjobapplication(response.data); // Assuming your backend returns an array of job postings
+          setjobapplication(response.data); 
         }
       } catch (error) {
         console.error('Error fetching job postings:', error);
-        // Optionally, you can handle error messages or other actions here
+       
       }
     };
   
-    // Fetch all job postings when the component mounts
+ 
     useEffect(() => {
       getAllJobPostings();
     }, []);
@@ -494,26 +477,24 @@ const jobsPerPage = 10;
 
     const handleDelete = async (applicationId) => {
       try {
-        // Make the DELETE request to your backend API to delete the application
+     
         const response = await axios.delete(`http://localhost:8080/api/JobApplicationRoutes/delete/${applicationId}`);
     
-        // If the request is successful, update the state or perform any other necessary action
         if (response.status === 200) {
-          // Refresh the job applications list or update the state as needed
           getAllJobPostings();
           toast.success("Record  Deleted Successfully!", { autoClose: 2000 });
         }
       } catch (error) {
         console.error('Error deleting application:', error);
-        // Optionally, you can handle error messages or other actions here
+   
       }
     };
     
-    const serverUrl = 'http://localhost:8080'; // Update with your server URL
+    const serverUrl = 'http://localhost:8080'; 
     const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
    
     const handleSaveRecords = () => {
-      // Extracting only the desired fields from currentJobs
+     
       const data = currentJobs.map(application => ([
         application.studentName,
         application.department,
@@ -523,20 +504,20 @@ const jobsPerPage = 10;
         application.resume ? `http://localhost:8080/${application.resume}` : 'N/A'
       ]));
     
-      // Add headers
+    
       const headers = ['Student Name', 'Department', 'Email', 'Contact Number', 'Company Name', 'Resume'];
       const dataArray = [headers, ...data];
     
-      // Create a new workbook
+     
       const wb = XLSX.utils.book_new();
     
-      // Convert data to a worksheet
+     
       const ws = XLSX.utils.aoa_to_sheet(dataArray);
     
-      // Add the worksheet to the workbook
+    
       XLSX.utils.book_append_sheet(wb, ws, 'Job Records');
     
-      // Save the workbook as an Excel file
+    
       XLSX.writeFile(wb, 'job_records.xlsx');
     };
 
@@ -668,7 +649,7 @@ work
 
 
       <br />
-      <div className="d-flex justify-content-end mt-2 mb-2"> {/* Added mb-2 for margin-bottom */}
+      <div className="d-flex justify-content-end mt-2 mb-2"> 
   <button type="button" className="btn btn-primary" onClick={handleSaveRecords}>Download Records</button>
 </div>
 
@@ -981,49 +962,12 @@ work
                 />
                 <h5 className="my-3">Admin</h5>
                 <p className="text-muted mb-1">Training and Placement Office</p>
-                {/* <p className="text-muted mb-4">DR JJ Magdum College of Engineering</p> */}
-                {/* <div className="d-flex justify-content-center mb-2">
-                    <button type="button" className="btn btn-primary">Follow</button>
-                    <button type="button" className="btn btn-outline-primary ms-1">Message</button>
-                </div> */}
+               
             </div>
         </div>
       
     </div>
-    {/* <div className="col-lg-8">
-        <div className="card mb-4">
-            <div className="card-body">
-             
-                <div className="row">
-                    <div className="col-sm-3">
-                        <p className="mb-0">Email</p>
-                    </div>
-                    <div className="col-sm-9">
-                        <p className="text-muted mb-0">example@example.com</p>
-                    </div>
-                </div>
-                <hr />
-                <div className="row">
-                    <div className="col-sm-3">
-                        <p className="mb-0">Contact Number</p>
-                    </div>
-                    <div className="col-sm-9">
-                        <p className="text-muted mb-0">(097) 234-5678</p>
-                    </div>
-                </div>
-
-                
-              
-             
-              
-            </div>
-        </div>
-
-      
-       
-
-       
-    </div> */}
+   
 </div>
 <br></br>
 
@@ -1220,7 +1164,7 @@ setViewinfo ?
           required
           placeholder="Company Name"
           name="companyName"
-          value={formData.companyName} // Value set from state
+          value={formData.companyName} 
           onChange={handleChange}
         />
       </div>
@@ -1248,7 +1192,7 @@ setViewinfo ?
           className="form-control"
           id="status"
           name="status"
-          value={formData.status} // Value set from state
+          value={formData.status} 
           onChange={handleChange}
         >
           <option value="Active">Active</option>

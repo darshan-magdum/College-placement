@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const Application = require('../models/ApplicationModel');
-const JobPosting = require('../models/JobPosting'); // Import the JobPosting model
-const User = require('../models/user'); // Import the User model
+const JobPosting = require('../models/JobPosting'); 
+const User = require('../models/user'); 
 
 
 // Get all applications
@@ -12,14 +12,14 @@ router.get('/GetallAppliedJobs', async (req, res) => {
   try {
     const applications = await Application.find()
       .populate({
-        path: 'jobId', // Populate the associated job detailsaa
-        select: '-__v' // Exclude the __v field from the job details
+        path: 'jobId', 
+        select: '-__v' 
       })
       .populate({
-        path: 'userId', // Populate the associated user details
-        select: '-password -__v' // Exclude password and __v fields from user details
+        path: 'userId', 
+        select: '-password -__v' 
       })
-      .select('-__v'); // Exclude the __v field from the result
+      .select('-__v'); 
 
     res.json(applications);
   } catch (err) {
@@ -35,22 +35,22 @@ router.get('/GetallAppliedJobs', async (req, res) => {
 
 
 
-// Create a new application
+// Create a new application Post Request
 router.post('/jobsapply', async (req, res) => {
   try {
     const { studentName, contactNumber, email, department, jobId } = req.body;
 
-    // Create the application
+ 
     const newApplication = await Application.create({ studentName, contactNumber, email, department, jobId });
 
-    // Fetch the job details corresponding to the jobId
+    
     const jobDetails = await JobPosting.findById(jobId);
 
-    // If jobDetails are found, include them in the response along with studentInfo
+    
     if (jobDetails) {
       res.status(201).json({ newApplication, jobDetails, studentInfo: req.body.studentInfo });
     } else {
-      // If jobDetails are not found, respond only with the newApplication
+      
       res.status(201).json({ newApplication, studentInfo: req.body.studentInfo });
     }
   } catch (err) {
@@ -60,7 +60,7 @@ router.post('/jobsapply', async (req, res) => {
 });
 
 
-// Get an application by ID
+// Get by ID
 router.get('/:id', async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);

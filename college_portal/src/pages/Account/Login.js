@@ -23,24 +23,23 @@ export const Login = () => {
       const url = "http://localhost:8080/api/auth";
       const { data: res } = await axios.post(url, data);
       localStorage.setItem("token", res.data);
-      localStorage.setItem("Name", res.Name); 
-      localStorage.setItem("role", res.role); 
+      localStorage.setItem("Name", res.Name);
+      localStorage.setItem("role", res.role);
       localStorage.setItem("userId", res.data.userId);
       localStorage.setItem("AdminId", res.userId);
 
-
       if (res.role === "admin") {
-        toast.success("Login successful!", { autoClose: 3000 }); 
+        toast.success("Login successful!", { autoClose: 3000 });
         setTimeout(() => {
           // window.location = "/profile/admin";
           window.location = `/profile/admin?AdminId=${res.userId}`;
-        }, 3000); 
-      }  else {
-        toast.success("Login successful!", { autoClose: 3000 }); 
+        }, 3000);
+      } else {
+        toast.success("Login successful!", { autoClose: 3000 });
         setTimeout(() => {
           // window.location = "/profile";
           window.location = `/profile?userId=${res.data.userId}`;
-        }, 3000); 
+        }, 3000);
       }
     } catch (error) {
       if (
@@ -52,7 +51,6 @@ export const Login = () => {
       }
     }
   };
-     
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -62,7 +60,7 @@ export const Login = () => {
       setSuccess(true);
     }
   }, [location]);
-    
+
   return (
     <>
       <NavBar />
@@ -71,7 +69,9 @@ export const Login = () => {
         <div className="signup-form">
           <div className="container">
             <div className="header">
-            {success && <p className="text-success h6">User signed up successfully!</p>}
+              {success && (
+                <p className="text-success h6">User signed up successfully!</p>
+              )}
               <h1>Login to your account</h1>
               <p>Enter Below details</p>
             </div>

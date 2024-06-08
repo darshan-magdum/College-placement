@@ -23,7 +23,7 @@ router.get('/jobPostings', async (req, res) => {
   }
 });
 
-// Get a single job posting by ID
+// Get by ID
 router.get('/jobPostings/:id', async (req, res) => {
   try {
     const jobPosting = await JobPosting.findById(req.params.id);

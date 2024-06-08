@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
       req.body.password === "12345678"
     ) {
       return res.status(200).send({
-        data: "admin-auth-token", // Use a proper admin token here
+        data: "admin-auth-token", 
         message: "Logged in successfully as admin",
         role: "admin", 
         userId: ADMIN_ID,

@@ -1,11 +1,11 @@
-// routes/jobApplications.js
+
 const express = require('express');
 const router = express.Router();
 const JobApplication = require('../models/JobApplicationModel');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
-// Route for submitting a job application
+// job application Post Request
 router.post('/post', upload.single('resume'), async (req, res) => {
   try {
     const { studentName, contactNumber, email, department, jobId } = req.body;
@@ -30,7 +30,7 @@ router.post('/post', upload.single('resume'), async (req, res) => {
   }
 });
 
-// Route for getting all job applications
+// job application GetAll Request
 router.get('/Getall', async (req, res) => {
   try {
     const applications = await JobApplication.find().populate('jobId');
@@ -41,10 +41,11 @@ router.get('/Getall', async (req, res) => {
   }
 });
 
+//job application Delete Request
 router.delete('/delete/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    // Find the job application by ID and delete it
+    
     const deletedApplication = await JobApplication.findByIdAndDelete(id);
     if (!deletedApplication) {
       return res.status(404).json({ error: 'Job application not found' });
