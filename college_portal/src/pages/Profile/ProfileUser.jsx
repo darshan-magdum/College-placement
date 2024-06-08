@@ -95,7 +95,6 @@ const [formData, setFormData] = useState({
     interest: '',
     department: '',
     studyingYear: '',
-    resume: '',
     marks10th: '',
     marks12thDiploma: '',
     engineeringFirstYear: '',
@@ -746,10 +745,6 @@ info
                 <h5 className="my-3">{user.Name}</h5>
                 <p className="text-muted mb-1">{user.email}</p>
                 <p className="text-muted mb-4">{user.contact}</p>
-                {/* <div className="d-flex justify-content-center mb-2">
-                    <button type="button" className="btn btn-primary">Follow</button>
-                    <button type="button" className="btn btn-outline-primary ms-1">Message</button>
-                </div> */}
             </div>
         </div>
       
@@ -794,16 +789,8 @@ info
                     </div>
                 </div>
                 <hr/>
-                <div className="row">
-                    <div className="col-sm-3">
-                        <p className="mb-0">Resume</p>
-                    </div>
-                    <div className="col-sm-9">
-                        <p className="text-muted mb-0">{user.resume}</p>
-                    </div>
-
-                </div>
-                <hr />
+                
+            
 
                 <div className="row">
                     <div className="col-sm-3">
