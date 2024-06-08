@@ -584,20 +584,20 @@ style={{backgroundColor:"white"}}/>
                     >
                         <div className="mb-3">
                             <label htmlFor="studentName" className="form-label">Student Name</label>
-                            <input type="text" className="form-control" id="studentName" name="studentName" value={applyFormData.studentName} onChange={handleChangeApplyForm} />
+                            <input type="text" className="form-control" id="studentName" placeholder='Enter Your Name' required name="studentName" value={applyFormData.studentName} onChange={handleChangeApplyForm} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="contactNumber" className="form-label">Contact Number</label>
-                            <input type="text" className="form-control" id="contactNumber" name="contactNumber" value={applyFormData.contactNumber} onChange={handleChangeApplyForm} />
+                            <input type="text" className="form-control" id="contactNumber" name="contactNumber" required placeholder='Enter Your Contact Number' value={applyFormData.contactNumber} onChange={handleChangeApplyForm} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email</label>
-                            <input type="email" className="form-control" id="email" name="email" value={applyFormData.email} onChange={handleChangeApplyForm} />
+                            <input type="email" className="form-control" id="email" name="email" required placeholder='Enter Your Email' value={applyFormData.email} onChange={handleChangeApplyForm} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="department" className="form-label">Department</label>
                         
-                            <select class="form-select border-secondary text-muted" aria-label="Filter" id="department" name="department" value={applyFormData.department} onChange={handleChangeApplyForm}>
+                            <select class="form-select border-secondary text-muted" aria-label="Filter" id="department" name="department" required value={applyFormData.department} onChange={handleChangeApplyForm}>
 <option selected>Filter By : Department</option>
 <optgroup label="Engineering Departments">
 <option value="civil_engineering">Civil Engineering</option>
