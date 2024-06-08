@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { Pagination } from 'react-bootstrap';
+import * as XLSX from 'xlsx';
 const ProfileAdmin = () => {
 
     const [home,setHome] = useState(true);
@@ -510,22 +511,33 @@ const jobsPerPage = 10;
     
     const serverUrl = 'http://localhost:8080'; // Update with your server URL
     const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
-    
+   
     const handleSaveRecords = () => {
-      const recordsText = currentJobs.map(application => {
-        return `${application.studentName}, ${application.department}, ${application.email}, ${application.contactNumber}, ${application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}, ${application.resume ? application.resume : 'N/A'}\n`;
-      }).join('');
+      // Extracting only the desired fields from currentJobs
+      const data = currentJobs.map(application => ([
+        application.studentName,
+        application.department,
+        application.email,
+        application.contactNumber,
+        application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A',
+        application.resume ? `http://localhost:8080/${application.resume}` : 'N/A'
+      ]));
     
-      const blob = new Blob([recordsText], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
+      // Add headers
+      const headers = ['Student Name', 'Department', 'Email', 'Contact Number', 'Company Name', 'Resume'];
+      const dataArray = [headers, ...data];
     
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'job_records.txt';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      // Create a new workbook
+      const wb = XLSX.utils.book_new();
+    
+      // Convert data to a worksheet
+      const ws = XLSX.utils.aoa_to_sheet(dataArray);
+    
+      // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Job Records');
+    
+      // Save the workbook as an Excel file
+      XLSX.writeFile(wb, 'job_records.xlsx');
     };
 
     return (
