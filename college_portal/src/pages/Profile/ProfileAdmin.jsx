@@ -221,7 +221,7 @@ const ProfileAdmin = () => {
    
     const [infoformData, setinfoFormData] = useState({
       Title: '',
-      Category: 'JobPreparation',
+      Category: '',
       PostedDate: '',
       Description: '',
     });

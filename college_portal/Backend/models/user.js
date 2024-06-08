@@ -14,7 +14,6 @@ const userSchema = new mongoose.Schema({
     interest: { type: String }, 
     department: { type: String }, 
     studyingYear: { type: String }, 
-    resume: { type: String }, 
     marks10th: { type: String }, 
     marks12thDiploma: { type: String }, 
     engineeringFirstYear: { type: String }, 
