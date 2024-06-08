@@ -430,17 +430,24 @@ const ProfileAdmin = () => {
     
 
     const [jobapplication, setjobapplication] = useState([]);
-  
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedDepartment, setSelectedDepartment] = useState('');
     const jobsPerPage = 10;
+
+    const handleDepartmentChange = (e) => {
+      setSelectedDepartment(e.target.value);
+      setCurrentPage(1); // Reset pagination when department filter changes
+    };
+  
+    const filteredJobs = selectedDepartment
+      ? jobapplication.filter((application) => application.department === selectedDepartment)
+      : jobapplication;
   
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = jobapplication.slice(indexOfFirstJob, indexOfLastJob);
-
+    const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob);
   
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
   
    
     const getAllJobPostings = async () => {
@@ -486,10 +493,6 @@ const ProfileAdmin = () => {
     const serverUrl = 'http://localhost:8080'; // Update with your server URL
     const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
     
-console.log("fileUrls",fileUrls)   
-
-console.log("Job Applications:", jobapplication);
-console.log("Current Jobs:", currentJobs);
 
     return (
         <>
@@ -582,106 +585,95 @@ work
 
  
 <>
-<div className="row">
-  <h3 className="mb-2"><b>Job Application</b></h3>
-  <div className="col">
-    <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <select class="form-select border-secondary text-muted" aria-label="Filter">
-              <option selected>Filter By: Department</option>
-              <optgroup label="Engineering Departments">
-                <option value="civil_engineering">Civil Engineering</option>
-                <option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
-                <option value="information_technology">Information Technology</option>
-                <option value="computer_science">Computer Science</option>
-                <option value="mechanical_engineering">Mechanical Engineering</option>
-                <option value="artificial_intelligence">Artificial Intelligence</option>
-              </optgroup>
-            </select>
-          </div>
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <div class="input-group">
-              <input type="text" class="form-control border border-secondary" placeholder="Search by Student name" style={{ backgroundColor: "white" }} />
-            </div>
+      <div className="row">
+        <h3 className="mb-2"><b>Job Application</b></h3>
+        <div className="col">
+          <select
+            className="form-select border-secondary text-muted"
+            aria-label="Filter"
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+          >
+            <option value="">Filter By: Department</option>
+            <optgroup label="Engineering Departments">
+              <option value="civil_engineering">Civil Engineering</option>
+              <option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
+              <option value="information_technology">Information Technology</option>
+              <option value="computer_science">Computer Science</option>
+              <option value="mechanical_engineering">Mechanical Engineering</option>
+              <option value="artificial_intelligence">Artificial Intelligence</option>
+            </optgroup>
+          </select>
+        </div>
+        <div className="col-md-4"></div>
+        <div className="col-md-4">
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control border border-secondary"
+              placeholder="Search by Student name"
+              style={{ backgroundColor: "white" }}
+            />
           </div>
         </div>
       </div>
-    </nav>
-  </div>
-</div>
 
-<br></br>
-<div>
-     
+      <br />
 
-
-<div className="table-responsive">
-      <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
-          <tr>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
-            <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentJobs.map((application, index) => (
-            <tr key={index}>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
-                {application.resume ? (
-                  <div>
-                    <a href={`http://localhost:8080/${application.resume}`} download={`${application.studentName}_Resume`} target="_blank" rel="noopener noreferrer">Download Resume</a>
-                  </div>
-                ) : (
-                  <span>N/A</span>
-                )}
-              </td>
-              <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
-                <button type="button" className="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-          {currentJobs.length === 0 && (
+      <div className="table-responsive">
+        <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+          <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
             <tr>
-              <td colSpan="7" style={{ padding: '8px', textAlign: 'center', border: '1px solid #dee2e6' }}>Nobody has applied yet</td>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
+              <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
-  
-      <Pagination className="justify-content-end mt-2">
-  <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
-  {Array.from({ length: Math.ceil(jobapplication.length / jobsPerPage) }, (_, i) => (
-    <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
-      {i + 1}
-    </Pagination.Item>
-  ))}
-  <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === Math.ceil(jobapplication.length / jobsPerPage)} />
-</Pagination>
+          </thead>
+          <tbody>
+            {currentJobs.map((application, index) => (
+              <tr key={index}>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+                  {application.resume ? (
+                    <div>
+                      <a href={`http://localhost:8080/${application.resume}`} download={`${application.studentName}_Resume`} target="_blank" rel="noopener noreferrer">Download Resume</a>
+                    </div>
+                  ) : (
+                    <span>N/A</span>
+                  )}
+                </td>
+                <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+                  <button type="button" className="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+            {currentJobs.length === 0 && (
+              <tr>
+                <td colSpan="7" style={{ padding: '8px', textAlign: 'center', border: '1px solid #dee2e6' }}>Nobody has applied yet</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-    </div>
-
-
-
-
-
-    </div>
-
-
-
-</>
+        <Pagination className="justify-content-end mt-2">
+          <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+          {Array.from({ length: Math.ceil(filteredJobs.length / jobsPerPage) }, (_, i) => (
+            <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
+              {i + 1}
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === Math.ceil(filteredJobs.length / jobsPerPage)} />
+        </Pagination>
+      </div>
+    </>
 : JobUpdates ? 
 <>
 <h3 className="mb-2"><b>Add New Job</b></h3>
