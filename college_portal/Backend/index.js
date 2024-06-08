@@ -21,6 +21,8 @@ app.use(express.urlencoded({ limit: '400mb', extended: true }));
 
 app.use(cors());
 
+app.use('/uploads', express.static('uploads'));
+
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);

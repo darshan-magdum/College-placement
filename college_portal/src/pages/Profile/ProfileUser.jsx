@@ -295,8 +295,9 @@ const [applyFormData, setApplyFormData] = useState({
     contactNumber: '',
     email: '',
     department: '',
-    post: ''
+    resume: null
 });
+
 
 const handleOpenApplyEventModal = () => {
     setApplyShowModal(true);
@@ -315,6 +316,72 @@ const handleChangeApplyForm = (e) => {
 };
 
 
+const handleResumeChange = (e) => {
+  // Add validation for file type (Word or PDF)
+  const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+  const selectedFile = e.target.files[0];
+
+  if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+      setApplyFormData({
+          ...applyFormData,
+          resume: selectedFile
+      });
+  } else {
+      // Handle invalid file type error
+      alert('Please upload a Word (.doc, .docx) or PDF (.pdf) file.');
+      // Clear the file input
+      e.target.value = null;
+  }
+};
+
+// const handleApplyFormSubmit = async (e, jobId) => {
+//   e.preventDefault(); // Prevent default form submission
+  
+//   try {
+//     // Fetch job details based on jobId asynchronously
+//     const jobDetailsPromise = axios.get(`http://localhost:8080/api/jobPostings/${jobId}`);
+
+//     // Wait for job details retrieval to complete
+//     const jobDetailsResponse = await jobDetailsPromise;
+//     const jobDetails = jobDetailsResponse.data;
+    
+//     // Extract data from applyFormData
+//     const { studentName, contactNumber, email, department ,resume } = applyFormData;
+
+//     // Check if required fields are provided
+//     if (!studentName || !contactNumber || !email || !department || !resume) {
+//       console.error('All fields are required');
+//       return; // Exit the function if any required field is missing
+//     }
+
+//     // Make the POST request
+//     const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', {
+//       studentName,
+//       contactNumber,
+//       email,
+//       resume,
+//       department,
+//       jobId,
+//       jobDetails 
+
+//     });
+
+//     // If the request is successful, reset form data and close the modal
+//     if (response.status === 201) { // Assuming 201 for created
+//       setApplyShowModal(false);
+//       toast.success("Job Application Sent successfully!", { autoClose: 2000 });
+//       // Optionally, you can handle success message or other actions here
+//       console.log('Application submitted successfully!');
+//     }
+//   } catch (error) {
+//     console.error('Error sending application:', error);
+//     // Optionally, you can handle error messages or other actions here
+//   }
+// };
+
+
+
+
 const handleApplyFormSubmit = async (e, jobId) => {
   e.preventDefault(); // Prevent default form submission
   
@@ -327,29 +394,37 @@ const handleApplyFormSubmit = async (e, jobId) => {
     const jobDetails = jobDetailsResponse.data;
     
     // Extract data from applyFormData
-    const { studentName, contactNumber, email, department } = applyFormData;
+    const { studentName, contactNumber, email, department, resume } = applyFormData;
 
     // Check if required fields are provided
-    if (!studentName || !contactNumber || !email || !department) {
+    if (!studentName || !contactNumber || !email || !department || !jobDetails || !jobDetails._id) {
       console.error('All fields are required');
       return; // Exit the function if any required field is missing
     }
 
-    // Make the POST request
-    const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', {
-      studentName,
-      contactNumber,
-      email,
-      department,
-      jobId,
-      jobDetails // Include job details in the payload
+    // Create FormData object to send resume file and form data
+    const formData = new FormData();
+    formData.append('studentName', studentName);
+    formData.append('contactNumber', contactNumber);
+    formData.append('email', email);
+    formData.append('department', department);
+    formData.append('jobId', jobId);
+    formData.append('resume', resume);
+
+    // Append job details to formData
+    formData.append('jobDetails', JSON.stringify(jobDetails));
+
+    // Make the POST request to submit job application with resume and job details
+    const response = await axios.post('http://localhost:8080/api/JobApplicationRoutes/post', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
 
     // If the request is successful, reset form data and close the modal
-    if (response.status === 201) { // Assuming 201 for created
+    if (response.status === 201) {
       setApplyShowModal(false);
       toast.success("Job Application Sent successfully!", { autoClose: 2000 });
-      // Optionally, you can handle success message or other actions here
       console.log('Application submitted successfully!');
     }
   } catch (error) {
@@ -609,6 +684,11 @@ style={{backgroundColor:"white"}}/>
 </optgroup>
 </select>
                         </div>
+
+                        <div className="mb-3">
+                        <label htmlFor="resume" className="form-label">Resume (Word or PDF)</label>
+                        <input type="file" className="form-control" id="resume" name="resume" accept=".pdf,.doc,.docx" onChange={handleResumeChange} required />
+                    </div>
                       
                         <button type="submit" className="btn btn-primary" >Submit</button>
                     </form>

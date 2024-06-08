@@ -2,13 +2,27 @@
 const express = require('express');
 const router = express.Router();
 const JobApplication = require('../models/JobApplicationModel');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 // Route for submitting a job application
-router.post('/post', async (req, res) => {
+router.post('/post', upload.single('resume'), async (req, res) => {
   try {
     const { studentName, contactNumber, email, department, jobId } = req.body;
-    const application = new JobApplication({ studentName, contactNumber, email, department, jobId });
+    let resumeFilePath = ''; // Initialize resume file path variable
+
+    // Check if a resume file was included in the request
+    if (req.file) {
+      resumeFilePath = req.file.path; // Get the file path of the uploaded resume
+    }
+
+    // Create a new job application instance
+    const application = new JobApplication({ studentName, contactNumber, email, department, jobId, resume: resumeFilePath });
+    
+    // Save the job application to the database
     await application.save();
+
+    // Send response indicating success
     res.status(201).json(application);
   } catch (error) {
     console.error('Error submitting job application:', error);

@@ -429,6 +429,7 @@ const ProfileAdmin = () => {
     
 
     const [jobapplication, setjobapplication] = useState([]);
+    console.log("jobapplication",jobapplication)
     const getAllJobPostings = async () => {
       try {
         // Make the GET request
@@ -468,7 +469,10 @@ const ProfileAdmin = () => {
       }
     };
     
-
+    const serverUrl = 'http://localhost:8080'; // Update with your server URL
+    const fileUrls = jobapplication.map(application => `${serverUrl}/${application.resume}`);
+    
+console.log("fileUrls",fileUrls)    
     return (
         <>
             <NavBar  profile={profile} setProfile={setProfile} 
@@ -594,7 +598,7 @@ work
 <br></br>
 <div>
      
-<div className="table-responsive">
+{/* <div className="table-responsive">
   <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
     <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
       <tr>
@@ -603,10 +607,16 @@ work
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
+        <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
         <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
       </tr>
     </thead>
     <tbody>
+    {fileUrls.map((fileUrl, index) => (
+    <div key={index}>
+        <a href={fileUrl} download>Download Resume {index + 1}</a>
+    </div>
+))}
       {jobapplication.map((application, index) => (
         <tr key={index}>
           <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
@@ -614,6 +624,18 @@ work
           <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
           <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
           <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.resume}</td>
+          <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+          {application.resume ? (
+    <a href={application.resume} download>Download Resume</a>
+) : (
+    <span>{application.resume ? application.resume.split('\\').pop() : 'N/A'}</span>
+)}
+
+</td>
+
+
+
           <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
           <button type="button" class="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
            
@@ -622,7 +644,55 @@ work
       ))}
     </tbody>
   </table>
-</div>
+</div> */}
+
+
+<div className="table-responsive">
+    <table style={{ borderCollapse: 'collapse', width: '100%', borderRadius: '10px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
+      <thead style={{ backgroundColor: '#343a40', color: '#fff', fontWeight: 'bold' }}>
+        <tr>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Student Name</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email Id</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Contact No</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Company Name</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Resume</th>
+          <th style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {jobapplication.map((application, index) => (
+          <tr key={index}>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.studentName}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.department}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.email}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.contactNumber}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>{application.jobId && application.jobId.companyName ? application.jobId.companyName : 'N/A'}</td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              {application.resume ? (
+                <div>
+                  {/* Display a link to download or view the resume */}
+                  <a href={`http://localhost:8080/${application.resume}`} download={`${application.studentName}_Resume`} target="_blank" rel="noopener noreferrer">Download Resume</a>
+                </div>
+              ) : (
+                <span>N/A</span>
+              )}
+            </td>
+            <td style={{ padding: '8px', textAlign: 'left', border: '1px solid #dee2e6' }}>
+              <button type="button" className="btn btn-danger" onClick={() => handleDelete(application._id)}>Delete</button>
+            </td>
+          </tr>
+        ))}
+        {jobapplication.length === 0 && (
+          <tr>
+            <td colSpan="7" style={{ padding: '8px', textAlign: 'center', border: '1px solid #dee2e6' }}>Nobody has applied yet</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+
+
 
 
 
