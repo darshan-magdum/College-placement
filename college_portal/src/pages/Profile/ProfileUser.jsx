@@ -11,8 +11,8 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const ProfileUser = () => {
 
-    const [home,setHome] = useState(true);
-  const [JobUpdates,setJobUpdates] = useState(false); 
+    const [home,setHome] = useState(false);
+  const [JobUpdates,setJobUpdates] = useState(true); 
   const [OtherInfo,setToOtherInfo] = useState(false); 
   const [profile, setProfile] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -461,7 +461,7 @@ const handleApplyFormSubmit = async (e, jobId) => {
                             </p>
                             <hr />
                             <ul className="nav nav-pills flex-column mb-auto">
-                            <li className="nav-item" onClick={GoToHome}>
+                            {/* <li className="nav-item" onClick={GoToHome}>
 
     <a href="#" className={"nav-link " + (home ? "active" : "link-dark")}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -470,7 +470,7 @@ const handleApplyFormSubmit = async (e, jobId) => {
             <span>Home</span>
         </div>
     </a>
-</li>
+</li> */}
 <li className="nav-item" onClick={GoToJobUpdates}>
     <a href="#" className={"nav-link " + (JobUpdates ? "active" : "link-dark")}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -502,59 +502,12 @@ info
                     <div className="col-lg-9">
                     <section style={{ backgroundColor: '#eee' }}>
                     <div className="container py-3">
-{home ?
+
 
  
-    <>
-         <div className="row">
-         <h3 className="mb-2"><b>Home</b></h3>
-             <div className="col">
-                 <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-               
-               
-                 <div class="container">
-<div class="row">
-<div class="col-md-4">
+  
 
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Department</option>
-<optgroup label="Engineering Departments">
-<option value="civil_engineering">Civil Engineering</option>
-<option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
-<option value="information_technology">Information Technology</option>
-<option value="computer_science">Computer Science</option>
-<option value="mechanical_engineering">Mechanical Engineering</option>
-<option value="artificial_intelligence">Artificial Intelligence</option>
-</optgroup>
-</select>
-
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-<div class="input-group">
-<input type="text" class="form-control border border-secondary" placeholder="Search by Student name"
-style={{backgroundColor:"white"}}/>
-</div>
-</div>
-</div>
-</div>
-                 </nav>
-             </div>
-         </div>
-
-       {/* <Stdsplace_Info/> */}
-         <br></br>
-     
-    
-     
-
-         </>
-
-: JobUpdates ? 
+{ JobUpdates ? 
 <>
       <h3 className="mb-2"><b>Job Updates</b></h3>
       <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
@@ -768,40 +721,7 @@ style={{backgroundColor:"white"}}/>
 <div className="row">
 <h3 className="mb-2"><b>Your Profile</b></h3>
     <div className="col">
-        <nav aria-label="breadcrumb" className="bg-body-tertiary rounded-3 p-3 mb-4">
-      
-      
-        <div class="container">
-<div class="row">
-<div class="col-md-4">
-
-<select class="form-select border-secondary text-muted" aria-label="Filter">
-<option selected>Filter By : Department</option>
-<optgroup label="Engineering Departments">
-<option value="civil_engineering">Civil Engineering</option>
-<option value="entc">Electronics and Telecommunication Engineering (ENTC)</option>
-<option value="information_technology">Information Technology</option>
-<option value="computer_science">Computer Science</option>
-<option value="mechanical_engineering">Mechanical Engineering</option>
-<option value="artificial_intelligence">Artificial Intelligence</option>
-</optgroup>
-</select>
-
-</div>
-<div class="col-md-4">
-
-</div>
-
-<div class="col-md-4">
-
-<div class="input-group">
-<input type="text" class="form-control border border-secondary" placeholder="Search by Student name"
-style={{backgroundColor:"white"}}/>
-</div>
-</div>
-</div>
-</div>
-        </nav>
+        
     </div>
     
 </div>
