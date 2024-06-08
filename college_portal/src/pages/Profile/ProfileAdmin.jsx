@@ -1131,8 +1131,8 @@ setViewinfo ?
         >
           <option value="Info">Filter By : Info</option>
           <optgroup label="More Info">
-            <option value="JobPrepation">Job Preparation</option>
-            <option value="Others">Others</option>
+            <option value="JobPreparation">Job Preparation</option>
+            <option value="others">Others</option>
           </optgroup>
 
          
