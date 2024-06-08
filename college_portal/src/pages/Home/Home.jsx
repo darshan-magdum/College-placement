@@ -47,41 +47,28 @@ function Home() {
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
-            <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-12 ">
-          <div className="mt-4 mb-4">
-            <h2 className="text-center mb-4"><b>Welcome to our college placement portal!</b></h2>
-            <hr />
-            <p>
-              Designed to empower students in their career journey, our platform serves as a comprehensive hub for all things related to professional development and job placement.
-              Through our portal, students gain access to a wide range of resources, including job listings from top recruiters, career guidance materials, skill-building workshops, and networking opportunities with industry professionals.
-
-            </p>
-        
-            
-            <p>
-              Our user-friendly interface makes it easy for students to explore job opportunities, submit applications, and track their progress throughout the recruitment process. Additionally, personalized recommendations help students discover roles that align with their interests and qualifications.
-          
-
-              With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
-            
-            </p>
-
-            <p>
-
-Our college placement portal is designed to empower students in their career journey, serving as a comprehensive hub for professional development and job placement. It offers a wide range of resources, including exclusive job listings from top recruiters, career guidance materials, skill-building workshops, and networking opportunities with industry professionals. The user-friendly interface makes it easy for students to explore job opportunities, submit applications, and track their progress throughout the recruitment process. Personalized recommendations help students discover roles that align with their interests and qualifications. Additionally, the portal features a comprehensive resource library with resume templates, cover letter guides, interview tips, and career planning articles. Students can participate in online workshops and webinars to develop essential skills such as communication, leadership, and technical proficiency, all led by experienced professionals and industry experts.
-            </p>
-            <p>
-            The application tracking system allows students to manage their job search efficiently, with updates on application statuses and deadlines. Networking opportunities within the portal enable students to connect with industry professionals, enhancing their career prospects. With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
-
-            </p>
-          </div>
-          <hr />
-        </div>
+            <div className="container mt-5" style={{ backgroundColor: '#f8f9fa', borderRadius: '10px', padding: '20px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+  <div className="row">
+    <div className="col-md-12">
+      <div className="mt-4 mb-4" style={{ textAlign: 'center' }}>
+        <h2 className="text-center mb-4" style={{ color: '#007bff', fontWeight: 'bold', fontSize: '2rem', textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>Welcome to our Find My Placement !</h2>
+        <hr style={{ borderTop: '2px solid #007bff', width: '40%', margin: 'auto' }} />
+        <br></br>
+        <p style={{ textAlign: 'left', fontSize: '1rem', lineHeight: '1.6', color: '#555', marginBottom: '20px' }}>
+          Designed to empower students in their career journey, our platform serves as a comprehensive hub for all things related to professional development and job placement. Through our portal, students gain access to a wide range of resources, including job listings from top recruiters, career guidance materials, skill-building workshops, and networking opportunities with industry professionals.
+        </p>
+        <p style={{ textAlign: 'left', fontSize: '1rem', lineHeight: '1.6', color: '#555', marginBottom: '20px' }}>
+          Our user-friendly interface makes it easy for students to explore job opportunities, submit applications, and track their progress throughout the recruitment process. Additionally, personalized recommendations help students discover roles that align with their interests and qualifications.
+        </p>
+        <p style={{ textAlign: 'left', fontSize: '1rem', lineHeight: '1.6', color: '#555', marginBottom: '20px' }}>
+          The application tracking system allows students to manage their job search efficiently, with updates on application statuses and deadlines. Networking opportunities within the portal enable students to connect with industry professionals, enhancing their career prospects. With the support of our dedicated team and robust features, our college placement portal is committed to helping students achieve their career aspirations and embark on fulfilling professional paths.
+        </p>
       </div>
-   
+      <hr style={{ borderTop: '2px solid #007bff', width: '40%', margin: 'auto' }} />
     </div>
+  </div>
+</div>
+
     
 
 

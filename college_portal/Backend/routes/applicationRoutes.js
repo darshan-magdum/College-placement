@@ -12,7 +12,7 @@ router.get('/GetallAppliedJobs', async (req, res) => {
   try {
     const applications = await Application.find()
       .populate({
-        path: 'jobId', // Populate the associated job details
+        path: 'jobId', // Populate the associated job detailsaa
         select: '-__v' // Exclude the __v field from the job details
       })
       .populate({
