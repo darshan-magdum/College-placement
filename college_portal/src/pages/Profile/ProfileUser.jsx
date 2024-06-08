@@ -220,27 +220,32 @@ const [formData, setFormData] = useState({
     setFilter(filteredInfo); 
   };
 
- 
+ console.log("jobPostings",jobPostings)
 
 
   const checkEligibility = () => {
     const user10thMarks = parseInt(formData.marks10th);
     const user12thMarks = parseInt(formData.marks12thDiploma); 
     const engineeringMarks = parseInt(formData.engineeringLastYear); 
-    
+   
+
     const eligibleJobPostings = jobPostings.filter(job => {
         const job10thMarks = parseInt(job.criteria10th);
-        const job12thMarks = parseInt(job.criteria12th);
-        const jobEngineeringMarks = parseInt(job.criteriaEngineering);
-        
+        const job12thMarks = parseInt(job.criteria12thDiploma);
+        const jobEngineeringMarks = parseInt(job.criteriaEngineering);        
         return user10thMarks >= job10thMarks &&
                user12thMarks >= job12thMarks &&
                engineeringMarks >= jobEngineeringMarks;
     });
     
+    console.log("Eligible Job Postings:", eligibleJobPostings);
+    
     const allCriteriaMet = eligibleJobPostings.length > 0;
+    console.log("All Criteria Met:", allCriteriaMet);
+    
     return allCriteriaMet;
 };
+
 
   
   
@@ -565,30 +570,28 @@ info
             <p className="text-muted">{job.description}</p>
             <bold>Last Date to Apply: {new Date(job.applyTill).toLocaleDateString()}</bold>
             <div className="d-flex justify-content-end">
-              {job.status === "Active"  ? (
-                <>
-                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-                 {job.status}
-               </button>
-                 <button
-                 type="button"
-                 className="btn btn-info ms-2"
-                 onClick={() => {
-                   handleOpenApplyEventModal();
-                 }}
-               >
-                 Apply
-               </button>
-               </>
-              ) : (
-                <>
-                  <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
-                    {job.status}
-                  </button>
-                 
-                </>
-              )}
-            </div>
+  {job.status === "Active" && checkEligibility() ? (
+    <>
+      <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+        {job.status}
+      </button>
+      <button
+        type="button"
+        className="btn btn-info ms-2"
+        onClick={() => {
+          handleOpenApplyEventModal();
+        }}
+      >
+        Apply
+      </button>
+    </>
+  ) : (
+    <button type="button" className={`btn ${job.status === 'Active' ? 'btn-success' : 'btn-danger'}`}>
+      {job.status}
+    </button>
+  )}
+</div>
+
           </div>
         </div>
         <Modal show={applyShowModal} onHide={handleCloseApplyModal} size="lg">
